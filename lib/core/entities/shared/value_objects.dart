@@ -14,3 +14,9 @@ class GroupId{
   GroupId(this.groupId);
 }
 
+
+class UserId{
+  final String id;
+
+  UserId(this.id);
+}
