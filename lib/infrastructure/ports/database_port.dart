@@ -5,14 +5,14 @@ enum OptionsMetadata {
   path,
   id,
   hasMany,
-  fullPath,
+  fullPath, nestedId,
 }
 
 enum DatabaseCollection{
   groups,
   users,
   teachers,
-  schools
+  schools, teacherGroups, groupStudents
 }
 
 abstract class DatabaseHandlerOptions {}
@@ -31,7 +31,7 @@ class UpdateEntityOptions extends DatabaseHandlerOptions {
   UpdateEntityOptions(this.entity, this.metadata);
   }
 
-class DeleteEntityOptions<T> extends DatabaseHandlerOptions {
+class DeleteEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
 
   DeleteEntityOptions(this.metadata);

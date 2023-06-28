@@ -6,7 +6,7 @@ typedef RegisterSchoolResponse = SchoolServiceResponse<void>;
 typedef UpdateSchoolResponse = SchoolServiceResponse<void>;
 typedef DeleteSchoolResponse = SchoolServiceResponse<void>;
 
-abstract class SchoolServiceResponse<T> {
+class SchoolServiceResponse<T> {
   final String? message;
   final bool success;
   final T data;

@@ -6,30 +6,54 @@ import 'package:zawya_islamic/core/ports/school_service_port.dart';
 import 'package:zawya_islamic/core/ports/services_provider_port.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
+import 'package:zawya_islamic/infrastructure/helpers/firebase/export.dart';
+
+import 'group_service.dart';
+import 'school_service.dart';
+import 'student_service.dart';
+import 'teacher_service.dart';
 
 class ServicesProvider implements ServiceProviderPort{
-  @override
-  // TODO: implement authService
-  AuthServicePort get authService => throw UnimplementedError();
+
+  static final ServicesProvider? _instance;
+  ServicesProvider._internal();
+
+  factory ServicesProvider.instance() {
+    if (_instance == null) {
+      return ServicesProvider._internal();
+    }
+    return _instance!;
+  }
+
+  Future<void> init() async{
+    final app =  MyFirebaseApp();
+    await app.init();
+
+    final firestoreService = FirestoreService(app.firestore);
+    // final firebaseDatabase = FirebaseDatabaseService(app.firebaseDatabase);
+
+    groupService = GroupService(firestoreService);
+    schoolService = SchoolService(firestoreService);
+    studentService = StudentService(firestoreService);
+    teacherService = TeacherService(firestoreService);
+    
+  }
+
 
   @override
-  // TODO: implement groupService
-  GroupServicePort get groupService => throw UnimplementedError();
+  late AuthServicePort authService ;
 
   @override
-  // TODO: implement instance
-  ServiceProviderPort get instance => throw UnimplementedError();
+  late GroupServicePort  groupService ;
+
 
   @override
-  // TODO: implement schoolService
-  SchoolServicePort get schoolService => throw UnimplementedError();
+  late SchoolServicePort  schoolService ;
 
   @override
-  // TODO: implement studentService
-  StudentServicePort get studentService => throw UnimplementedError();
+  late StudentServicePort  studentService ;
 
   @override
-  // TODO: implement teacherService
-  TeacherServicePort get teacherService => throw UnimplementedError();
+  late TeacherServicePort  teacherService ;
 
 }

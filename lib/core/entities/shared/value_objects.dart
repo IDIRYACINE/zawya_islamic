@@ -1,6 +1,9 @@
 
 
 class BirthDate{
+  final DateTime date;
+
+  BirthDate(this.date);
 
 }
 

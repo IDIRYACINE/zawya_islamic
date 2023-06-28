@@ -9,8 +9,6 @@ import 'teacher_service_port.dart';
 
 abstract class ServiceProviderPort{
 
-  ServiceProviderPort get instance;
-
   AuthServicePort get authService;
 
   StudentServicePort get studentService;

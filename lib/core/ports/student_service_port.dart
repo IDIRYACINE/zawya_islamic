@@ -8,7 +8,7 @@ typedef RegisterStudentResponse = StudentServiceResponse<void>;
 typedef UpdateStudentResponse = StudentServiceResponse<void>;
 typedef DeleteStudentResponse = StudentServiceResponse<void>;
 
-abstract class StudentServiceResponse<T>{
+ class StudentServiceResponse<T>{
   final String? message;
   final bool success;
   final T data;

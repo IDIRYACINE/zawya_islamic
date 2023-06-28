@@ -24,6 +24,7 @@ class GroupService implements GroupServicePort {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.groups.name,
       OptionsMetadata.id: options.groupId.groupId,
+      OptionsMetadata.nestedId: options.schoolId.id,
       OptionsMetadata.hasMany: false,
     }, Group.fromMap);
 
@@ -33,9 +34,18 @@ class GroupService implements GroupServicePort {
   }
 
   @override
-  Future<TeacherGroupsResponse> getTeacherGroups(LoadGroupsOptions options) {
-    // TODO: implement getTeacherGroups
-    throw UnimplementedError();
+  Future<TeacherGroupsResponse> getTeacherGroups(LoadGroupsOptions options) async{
+
+    final dbOptions = ReadEntityOptions({
+      OptionsMetadata.path: DatabaseCollection.teacherGroups.name,
+      OptionsMetadata.id: options.schoolId.id,
+      OptionsMetadata.nestedId: options.teacherId.id,
+      OptionsMetadata.hasMany: true,
+    }, Group.fromMap);
+
+    final response = await _databaseService.read<Group>(dbOptions);
+    
+    return TeacherGroupsResponse(data: response.data);
   }
 
   @override
@@ -45,20 +55,45 @@ class GroupService implements GroupServicePort {
   }
 
   @override
-  Future<LoadGroupsResponse> loadGroups(LoadGroupOptions options) {
-    // TODO: implement loadGroups
-    throw UnimplementedError();
+  Future<LoadGroupsResponse> loadGroups(LoadGroupOptions options) async {
+    final dbOptions = ReadEntityOptions({
+      OptionsMetadata.path: DatabaseCollection.groups.name,
+      OptionsMetadata.id: options.schoolId.id,
+      OptionsMetadata.hasMany: true,
+    }, Group.fromMap);
+
+    final response = await _databaseService.read<Group>(dbOptions);
+
+    return LoadGroupsResponse(data: response.data);
   }
 
   @override
-  Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options) {
-    // TODO: implement registerGroup
-    throw UnimplementedError();
+  Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options) async {
+    final dbOptions = CreateEntityOptions(
+      options.group.toMap()
+      ,{
+      OptionsMetadata.path: DatabaseCollection.groups.name,
+      OptionsMetadata.id: options.group.id.groupId,
+      OptionsMetadata.nestedId: options.schoolId.id,
+    });
+
+    await _databaseService.create(dbOptions);
+
+    return RegisterGroupResponse(data: null);
   }
 
   @override
-  Future<UpdateGroupResponse> updateGroup(UpdateGroupOptions options) {
-    // TODO: implement updateGroup
-    throw UnimplementedError();
+  Future<UpdateGroupResponse> updateGroup(UpdateGroupOptions options) async{
+    final dbOptions = UpdateEntityOptions(
+      options.group.toMap()
+      ,{
+      OptionsMetadata.path: DatabaseCollection.groups.name,
+      OptionsMetadata.id: options.group.id.groupId,
+      OptionsMetadata.nestedId: options.schoolId.id,
+    });
+
+    await _databaseService.update(dbOptions);
+
+    return UpdateGroupResponse(data: null);
   }
 }

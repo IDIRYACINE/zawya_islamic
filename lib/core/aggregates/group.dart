@@ -1,16 +1,29 @@
 import 'package:zawya_islamic/core/entities/export.dart';
 
+enum GroupAttributes{
+  id,
+  name,
+
+}
+
 class Group {
-  final GroupId group;
+  final GroupId id;
 
   final Name name;
 
-  Group({required this.group, required this.name});
+  Group({required this.id, required this.name});
+
+  Map<String,dynamic> toMap(){
+    return {
+      GroupAttributes.id.name : id.groupId,
+      GroupAttributes.name.name : name.name,
+    };
+  }
 
 
   factory Group.fromMap(Map<String,dynamic> json){
     return Group(
-      group: GroupId(json['group']),
+      id: GroupId(json['group']),
       name: Name(json['name']),
     );
   }

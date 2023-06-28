@@ -12,7 +12,7 @@ typedef UpdateTeacherResponse = TeacherServiceResponse<void>;
 typedef DeleteTeacherResponse = TeacherServiceResponse<void>;
 
 
-abstract class TeacherServiceResponse<T> {
+class TeacherServiceResponse<T> {
   final String? message;
   final bool success;
   final T data;
