@@ -1,4 +1,5 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 typedef TeacherGroupsResponse = GroupServiceResponse<List<GroupId>>;
@@ -9,7 +10,7 @@ typedef UpdateGroupResponse = GroupServiceResponse<void>;
 typedef DeleteGroupResponse = GroupServiceResponse<void>;
 typedef LoadGroupIdsResponse = GroupServiceResponse<List<GroupId>>;
 
-abstract class GroupServiceResponse<T> {
+class GroupServiceResponse<T> {
   final String? message;
   final bool success;
   final T data;
@@ -28,8 +29,9 @@ class LoadGroupsOptions extends GroupServiceOptions {
 
 class LoadGroupOptions extends GroupServiceOptions {
   final GroupId groupId;
+  final SchoolId schoolId;
 
-  LoadGroupOptions({required this.groupId});
+  LoadGroupOptions({required this.groupId,required this.schoolId});
 }
 
 class RegisterGroupOptions extends GroupServiceOptions {
