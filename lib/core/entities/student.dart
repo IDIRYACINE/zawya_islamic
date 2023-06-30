@@ -32,7 +32,7 @@ class Student{
   Map<String,dynamic> toMap(){
     return {
       StudentAttributes.id.name : id.value,
-      StudentAttributes.name.name : name.name,
+      StudentAttributes.name.name : name.value,
       StudentAttributes.birthDate.name : birthDate.date,
     };
   }

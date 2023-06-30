@@ -32,7 +32,7 @@ class Teacher{
   Map<String,dynamic> toMap(){
     return {
       TeacherAttributes.id.name : id.id,
-      TeacherAttributes.name.name : name.name,
+      TeacherAttributes.name.name : name.value,
       TeacherAttributes.groups.name : List<dynamic>.from(groups.map((x) => x.groupId)),
     };
   }

@@ -24,7 +24,7 @@ class GroupService implements GroupServicePort {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.groups.name,
       OptionsMetadata.id: options.groupId.groupId,
-      OptionsMetadata.nestedId: options.schoolId.id,
+      OptionsMetadata.nestedId: options.schoolId.value,
       OptionsMetadata.hasMany: false,
     }, Group.fromMap);
 
@@ -38,7 +38,7 @@ class GroupService implements GroupServicePort {
 
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.teacherGroups.name,
-      OptionsMetadata.id: options.schoolId.id,
+      OptionsMetadata.id: options.schoolId.value,
       OptionsMetadata.nestedId: options.teacherId.id,
       OptionsMetadata.hasMany: true,
     }, Group.fromMap);
@@ -58,7 +58,7 @@ class GroupService implements GroupServicePort {
   Future<LoadGroupsResponse> loadGroups(LoadGroupOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.groups.name,
-      OptionsMetadata.id: options.schoolId.id,
+      OptionsMetadata.id: options.schoolId.value,
       OptionsMetadata.hasMany: true,
     }, Group.fromMap);
 
@@ -74,7 +74,7 @@ class GroupService implements GroupServicePort {
       ,{
       OptionsMetadata.path: DatabaseCollection.groups.name,
       OptionsMetadata.id: options.group.id.groupId,
-      OptionsMetadata.nestedId: options.schoolId.id,
+      OptionsMetadata.nestedId: options.schoolId.value,
     });
 
     await _databaseService.create(dbOptions);
@@ -89,7 +89,7 @@ class GroupService implements GroupServicePort {
       ,{
       OptionsMetadata.path: DatabaseCollection.groups.name,
       OptionsMetadata.id: options.group.id.groupId,
-      OptionsMetadata.nestedId: options.schoolId.id,
+      OptionsMetadata.nestedId: options.schoolId.value,
     });
 
     await _databaseService.update(dbOptions);

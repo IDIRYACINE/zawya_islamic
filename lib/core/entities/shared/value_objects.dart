@@ -8,9 +8,9 @@ class BirthDate{
 }
 
 class Name{
-  final String name;
+  final String value;
 
-  Name(this.name);
+  Name(this.value);
 
 }
 

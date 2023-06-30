@@ -23,7 +23,7 @@ class SchoolService implements SchoolServicePort {
   Future<LoadSchoolResponse> getSchool(LoadSchoolOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.schools.name,
-      OptionsMetadata.id: options.schoolId.id,
+      OptionsMetadata.id: options.schoolId.value,
       OptionsMetadata.hasMany: false,
     }, School.fromMap);
 
@@ -49,7 +49,7 @@ class SchoolService implements SchoolServicePort {
       RegisterSchoolOptions options) async {
     final dbOptions = CreateEntityOptions(options.school.toMap(), {
       OptionsMetadata.path: DatabaseCollection.schools.name,
-      OptionsMetadata.id: options.school.id.id,
+      OptionsMetadata.id: options.school.id.value,
     });
 
      _databaseService.create(dbOptions);
@@ -61,7 +61,7 @@ class SchoolService implements SchoolServicePort {
   Future<UpdateSchoolResponse> updateSchool(UpdateSchoolOptions options) async {
     final dbOptions = UpdateEntityOptions(options.school.toMap(), {
       OptionsMetadata.path: DatabaseCollection.schools.name,
-      OptionsMetadata.id: options.school.id.id,
+      OptionsMetadata.id: options.school.id.value,
     });
 
     _databaseService.update(dbOptions);

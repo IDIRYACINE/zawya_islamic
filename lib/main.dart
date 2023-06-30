@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/state/bloc.dart';
 import 'package:zawya_islamic/resources/metadata.dart';
 import 'package:zawya_islamic/resources/themes.dart';
 
@@ -7,7 +9,16 @@ import 'application/navigation/navigation_service.dart';
 import 'resources/l10n/l10n.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<SchoolsBloc>(
+          create: (context) => SchoolsBloc(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

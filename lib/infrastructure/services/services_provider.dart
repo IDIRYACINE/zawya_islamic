@@ -30,7 +30,6 @@ class ServicesProvider implements ServiceProviderPort{
     await app.init();
 
     final firestoreService = FirestoreService(app.firestore);
-    // final firebaseDatabase = FirebaseDatabaseService(app.firebaseDatabase);
 
     groupService = GroupService(firestoreService);
     schoolService = SchoolService(firestoreService);
