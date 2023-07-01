@@ -41,7 +41,7 @@ class StudentEditorController {
   }
 
   void _updateStudent(Student student) {
-    final updatedStudent = student.copyWith(name: Name(studentName));
+    final updatedStudent = student.copyWith(name: Name(studentName),birthDate: BirthDate(birthDate));
 
     final event = UpdateStudentEvent(student: updatedStudent);
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);

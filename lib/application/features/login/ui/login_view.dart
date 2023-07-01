@@ -14,33 +14,36 @@ class LoginView extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Logo(),
-            Form(
-              key:  LoginController.key,
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: localizations.loginUsernameLabel),
-                    onChanged: (value) => controller.identifier = value,
-                  ),
-                  const SizedBox(height: AppMeasures.space),
-                  TextFormField(
+        child: Padding(
+          padding: const EdgeInsets.all(AppMeasures.paddingsLarge),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Logo(),
+              Form(
+                key:  LoginController.key,
+                child: Column(
+                  children: [
+                    TextFormField(
                       decoration: InputDecoration(
-                          hintText: localizations.loginPasswordLabel),
-                      onChanged: (value) => controller.password = value),
-                  const SizedBox(height: AppMeasures.space),
-                  MaterialButton(
-                    onPressed: () => controller.login(context),
-                    child: Text(localizations.loginButtonLabel),
-                  )
-                ],
-              ),
-            )
-          ],
+                          hintText: localizations.loginUsernameLabel),
+                      onChanged: (value) => controller.identifier = value,
+                    ),
+                    const SizedBox(height: AppMeasures.space),
+                    TextFormField(
+                        decoration: InputDecoration(
+                            hintText: localizations.loginPasswordLabel),
+                        onChanged: (value) => controller.password = value),
+                    const SizedBox(height: AppMeasures.space),
+                    MaterialButton(
+                      onPressed: () => controller.login(context),
+                      child: Text(localizations.loginButtonLabel),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

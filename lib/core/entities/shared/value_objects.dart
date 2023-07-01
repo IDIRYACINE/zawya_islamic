@@ -15,9 +15,13 @@ class Name{
 }
 
 class GroupId{
-  final int groupId;
+  final String groupId;
 
   GroupId(this.groupId);
+
+  bool equals(GroupId id) {
+    return groupId == id.groupId;
+  }
 }
 
 

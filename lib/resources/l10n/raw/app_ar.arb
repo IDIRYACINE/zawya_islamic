@@ -34,7 +34,10 @@
     "permanentActionWarning" : "هذا الإجراء دائم ، هل أنت متأكد أنك تريد المتابعة؟",
     "addLabel" : "إضافة",
     "teacherListLabel" : "قائمة المعلمين",
-    "groupsListLabel" : "قائمة المجموعات"
+    "groupsListLabel" : "قائمة المجموعات",
+    "teachersLabel" : "المعلمين",
+    "studentsLabel" : "الطلاب",
+    "groupsLabel" : "المجموعات"
 
 
 

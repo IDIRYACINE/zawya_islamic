@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/admin_app/students/ui/students_view.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/ui/teacher_view.dart';
+import 'package:zawya_islamic/application/features/groups/ui/group_view.dart';
 
 import 'components.dart';
 
@@ -21,8 +22,13 @@ class _AdminAppLayoutState extends State<AdminAppLayout> {
           displayAppBar: false,
         );
 
-      default:
+      case 1:
         return const TeachersView(
+          displayAppBar: false,
+        );
+
+      default:
+        return const GroupsView(
           displayAppBar: false,
         );
     }

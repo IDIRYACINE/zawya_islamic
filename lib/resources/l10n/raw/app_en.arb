@@ -34,7 +34,10 @@
     "permanentActionWarning" : "This action is permanant, are you sure you want to continue?",
     "addLabel" : "Add",
     "teacherListLabel" : "Teachers List",
-    "groupsListLabel" : "Groups List"
+    "groupsListLabel" : "Groups List",
+    "teachersLabel" : "Teachers",
+    "studentsLabel" : "Students",
+    "groupsLabel" : "Groups"
    
 
 }

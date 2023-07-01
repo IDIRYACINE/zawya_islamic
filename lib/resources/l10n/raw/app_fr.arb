@@ -34,7 +34,10 @@
     "permanentActionWarning" : "Cette action est permanente, êtes-vous sûr de vouloir continuer?",
     "addLabel" : "Ajouter",
     "teacherListLabel" : "Liste des enseignants",
-    "groupsListLabel" : "Liste des groupes"
+    "groupsListLabel" : "Liste des groupes",
+    "teachersLabel" : "Enseignants",
+    "studentsLabel" : "Etudiants",
+    "groupsLabel" : "Groupes"
 
 
 

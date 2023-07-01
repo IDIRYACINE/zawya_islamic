@@ -1,74 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/navigation/navigation_service.dart';
-import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/utility/validators.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
-import 'package:zawya_islamic/widgets/fields.dart';
 
-import '../logic/student_editor_controller.dart';
+import '../logic/group_editor_controller.dart';
 
-class StudentEditor extends StatelessWidget {
-  const StudentEditor({
-    super.key,
-    this.student,
-    required this.controller,
-  });
+class GroupEditor extends StatelessWidget {
+  const GroupEditor({super.key, this.group, required this.controller});
 
-  final Student? student;
+  final Group? group;
 
-  final StudentEditorController controller;
+  final GroupEditorController controller;
 
   @override
   Widget build(BuildContext context) {
+    final initialValue = group?.name.value ?? controller.groupName;
     final localizations = AppLocalizations.of(context)!;
-
+    final isEditing = group != null;
 
     return Form(
-      key: StudentEditorController.key,
+      key: GroupEditorController.key,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            decoration: InputDecoration(labelText: localizations.nameLabel),
-            initialValue: controller.studentName,
-            validator: (value) => studentNameValidator(value, localizations),
+            decoration: InputDecoration(
+                labelText: isEditing
+                    ? localizations.editLabel
+                    : localizations.addLabel),
+            initialValue: initialValue,
+            validator: (value) => groupNameValidator(value, localizations),
             onChanged: controller.updateName,
           ),
-          BirthDateField(
-            onChanged: controller.updateBirthDate,
-            initialValue: controller.birthDate
-          )
         ],
       ),
     );
   }
 }
 
-class StudentEditorDialog extends StatelessWidget {
-  const StudentEditorDialog({super.key, this.student});
+class GroupEditorDialog extends StatelessWidget {
+  const GroupEditorDialog({super.key, this.group});
 
-  final Student? student;
+  final Group? group;
 
   void onCancel() {
     NavigationService.pop();
   }
 
-  void onConfirm(StudentEditorController controller) {
-    controller.createOrUpdate(student);
+  void onConfirm(GroupEditorController controller) {
+    controller.createOrUpdate(group);
     NavigationService.pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = StudentEditorController(student);
+    final controller = GroupEditorController();
     final localizations = AppLocalizations.of(context)!;
+    final isEditing = group != null;
 
     return AlertDialog(
-      title: Text(localizations.addSchoolLabel),
-      content: StudentEditor(
+      title: Text(isEditing ? localizations.editLabel : localizations.addLabel),
+      content: GroupEditor(
         controller: controller,
-        student: student,
+        group: group,
       ),
       actions: [
         TextButton(

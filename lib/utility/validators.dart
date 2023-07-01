@@ -55,3 +55,18 @@ String? teacherNameValidator(String? value, AppLocalizations localizations) {
 
   return null;
 }
+
+
+String? groupNameValidator(String? value, AppLocalizations localizations) {
+  if (value == null) {
+    return localizations.emptyFieldError;
+  }
+
+  RegExp regExp = RegExp(r'^[A-Za-z\s]+$');
+
+  if (!regExp.hasMatch(value)) {
+    return localizations.onlyCharactersAllowed;
+  }
+
+  return null;
+}

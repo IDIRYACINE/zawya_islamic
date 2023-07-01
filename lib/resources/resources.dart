@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
 abstract class AppResources {
-
   static const logoAssetPath = 'assets/images/logo.png';
   static const noPreviewImage = 'assets/images/no_image_found.png';
 
@@ -19,5 +16,5 @@ abstract class AppResources {
 
   static const teacherIcon = Icons.abc;
 
-
+  static const groupIcon = Icons.abc;
 }
