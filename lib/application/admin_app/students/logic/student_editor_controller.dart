@@ -11,8 +11,9 @@ import '../state/events.dart';
 class StudentEditorController {
   static final key = GlobalKey<FormState>();
 
-  StudentEditorController([String? studentName]) {
-    this.studentName = studentName ?? "";
+  StudentEditorController([Student? student]) {
+    studentName = student?.name.value ?? "";
+    birthDate = student?.birthDate.date ?? DateTime.now();
   }
 
   late String studentName;
@@ -20,6 +21,10 @@ class StudentEditorController {
 
   void updateName(String value) {
     studentName = value;
+  }
+
+  void updateBirthDate(DateTime value) {
+    birthDate = value;
   }
 
   void createOrUpdate(Student? student) {
@@ -56,9 +61,5 @@ class StudentEditorController {
     final event = CreateStudentEvent(student: student);
 
     bloc.add(event);
-  }
-
-  void updateBirthDate(String value) {
-    birthDate = DateTime.parse(value);
   }
 }

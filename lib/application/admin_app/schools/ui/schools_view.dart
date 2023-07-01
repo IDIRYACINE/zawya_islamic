@@ -21,14 +21,19 @@ class SchoolCard extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<SchoolsBloc>(context);
 
-    final SchoolCardController controller = SchoolCardController(school,bloc);
+    final SchoolCardController controller = SchoolCardController(school, bloc);
 
-    return InkWell(
-      onTap: controller.onClick,
-      child: ListTile(
-        leading: Text(school.name.value),
-        trailing: OptionsButton(
-            onClick: () => controller.onMoreActions(localizations)),
+    return SizedBox(
+      height: 75,
+      child: InkWell(
+        onTap: controller.onClick,
+        child: Center(
+          child: ListTile(
+            leading: Text(school.name.value),
+            trailing: OptionsButton(
+                onClick: () => controller.onMoreActions(localizations)),
+          ),
+        ),
       ),
     );
   }
@@ -46,6 +51,11 @@ class SchoolsView extends StatelessWidget {
     NavigationService.displayDialog(dialog);
   }
 
+
+  Widget _seperatorBuilder(BuildContext context, int index) {
+    return const SizedBox(height: 20,);
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -54,26 +64,24 @@ class SchoolsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(localizations.schoolListLabel),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: BlocBuilder<SchoolsBloc, SchoolState>(
-              builder: (context, state) {
-                return ListView.builder(
-                    itemCount: state.schools.length,
-                    itemBuilder: (context, index) =>
-                        _buildItems(context, state.schools[index]));
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(AppMeasures.paddings),
-            child: ElevatedButton(
-              onPressed: _onAddSchool,
-              child: const Icon(AppResources.addIcon),
-            ),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(AppMeasures.paddings),
+        child: BlocBuilder<SchoolsBloc, SchoolState>(
+          builder: (context, state) {
+            return ListView.separated(
+              separatorBuilder: _seperatorBuilder,
+                itemCount: state.schools.length,
+                itemBuilder: (context, index) =>
+                    _buildItems(context, state.schools[index]));
+          },
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(AppMeasures.paddings),
+        child: ElevatedButton(
+          onPressed: _onAddSchool,
+          child: const Icon(AppResources.addIcon),
+        ),
       ),
     );
   }

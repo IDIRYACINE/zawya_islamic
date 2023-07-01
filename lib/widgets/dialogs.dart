@@ -50,11 +50,17 @@ class OptionsAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return AlertDialog(
-      content: ListView.separated(
-        itemBuilder: _buildItem,
-        separatorBuilder: _buildSeperator,
-        itemCount: options.length,
+      content: SizedBox(
+        height: size.height / 2,
+        width: size.width / 2,
+        child: ListView.separated(
+          itemBuilder: _buildItem,
+          separatorBuilder: _buildSeperator,
+          itemCount: options.length,
+        ),
       ),
     );
   }
@@ -62,11 +68,14 @@ class OptionsAlertDialog extends StatelessWidget {
 
 class ConfirmationDialog extends StatelessWidget {
   const ConfirmationDialog(
-      {super.key, required this.onConfirm, required this.content, required this.title});
+      {super.key,
+      required this.onConfirm,
+      required this.content,
+      required this.title});
 
   final VoidCallback onConfirm;
   final String content;
-final String title;
+  final String title;
 
   void _onCancel() {
     NavigationService.pop();

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zawya_islamic/application/admin_app/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
 import 'package:zawya_islamic/application/features/splash/feature.dart';
@@ -12,6 +13,9 @@ abstract class AppRouter {
     switch (settings.name) {
       case Routes.adminAppRoute:
         return getPageRoute(settings: settings, view: const SchoolsView());
+
+      case Routes.adminDashboardRoute:
+        return getPageRoute(settings: settings, view: const AdminAppLayout());
 
       case Routes.loginRoute:
         return getPageRoute(settings: settings, view: const LoginView());

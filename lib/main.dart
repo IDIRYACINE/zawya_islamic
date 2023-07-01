@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/state/bloc.dart';
+import 'package:zawya_islamic/application/admin_app/students/state/bloc.dart';
+import 'package:zawya_islamic/application/admin_app/teachers/state/bloc.dart';
 import 'package:zawya_islamic/resources/metadata.dart';
 import 'package:zawya_islamic/resources/themes.dart';
 
@@ -14,6 +16,12 @@ void main() {
       providers: [
         BlocProvider<SchoolsBloc>(
           create: (context) => SchoolsBloc(),
+        ),
+         BlocProvider<StudentsBloc>(
+          create: (context) => StudentsBloc(),
+        ),
+         BlocProvider<TeachersBloc>(
+          create: (context) => TeachersBloc(),
         ),
       ],
       child: const MyApp(),

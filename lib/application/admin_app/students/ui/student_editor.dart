@@ -8,9 +8,12 @@ import 'package:zawya_islamic/widgets/fields.dart';
 
 import '../logic/student_editor_controller.dart';
 
-
 class StudentEditor extends StatelessWidget {
-  const StudentEditor({super.key, this.student, required this.controller,});
+  const StudentEditor({
+    super.key,
+    this.student,
+    required this.controller,
+  });
 
   final Student? student;
 
@@ -18,23 +21,22 @@ class StudentEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initialValue = student?.name.value ?? "";
-    final controller = StudentEditorController();
     final localizations = AppLocalizations.of(context)!;
 
     return Form(
       key: StudentEditorController.key,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            decoration:
-                InputDecoration(labelText: localizations.addSchoolLabel),
-            initialValue: initialValue,
+            decoration: InputDecoration(labelText: localizations.nameLabel),
+            initialValue: controller.studentName,
             validator: (value) => studentNameValidator(value, localizations),
             onChanged: controller.updateName,
           ),
           BirthDateField(
             onChanged: controller.updateBirthDate,
+            initialValue: controller.birthDate
           )
         ],
       ),
@@ -58,11 +60,11 @@ class StudentEditorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = StudentEditorController();
+    final controller = StudentEditorController(student);
     final localizations = AppLocalizations.of(context)!;
 
     return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.addSchoolLabel),
+      title: Text(localizations.addSchoolLabel),
       content: StudentEditor(
         controller: controller,
         student: student,

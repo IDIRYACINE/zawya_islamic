@@ -15,5 +15,9 @@ abstract class AppResources {
 
   static const optionsIcon = Icons.more_vert;
 
+  static const studentIcon = Icons.home;
+
+  static const teacherIcon = Icons.abc;
+
 
 }

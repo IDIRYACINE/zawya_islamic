@@ -47,6 +47,7 @@ class SchoolEditorController {
   }
 
   void _createSchool(){
+    print(schoolName);
     final school = School(name: Name(schoolName), id: SchoolId(const Uuid().v4())) ;
     final bloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
 
