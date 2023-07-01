@@ -26,7 +26,12 @@
     "settings" : "Settings",
     "appVersion" : "App Version",
     "onlyCharactersAllowed" : "Only characters allowed",
-    "emptyFieldError" : "Empty field"
+    "emptyFieldError" : "Empty field",
+    "invalidDateFormat" : "Invalid Date",
+    "studentListLabel" : "Students List",
+    "deleteLabel" : "Delete",
+    "editLabel" : "Edit",
+    "permanentActionWarning" : "This action is permanant, are you sure you want to continue?"
    
 
 }

@@ -26,6 +26,13 @@
     "settings": "Paramètres",
     "appVersion": "Version de l'application",
     "onlyCharactersAllowed" : "Seuls les caractères sont autorisés",
-    "emptyFieldError" : "Ce champ ne peut pas être vide"
+    "emptyFieldError" : "Ce champ ne peut pas être vide",
+    "invalidDateFormat" : "Format de date invalide",
+    "studentListLabel" : "Liste des etudiants",
+    "deleteLabel" : "Supprimer",
+    "editLabel" : "Modifier",
+    "permanentActionWarning" : "Cette action est permanente, êtes-vous sûr de vouloir continuer?"
+
+
 
 }

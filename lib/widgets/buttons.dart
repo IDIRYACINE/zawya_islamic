@@ -2,7 +2,8 @@ import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class ButtonPrimary extends StatelessWidget {
-  const ButtonPrimary({Key? key, required this.onPressed,this.width, required this.text})
+  const ButtonPrimary(
+      {Key? key, required this.onPressed, this.width, required this.text})
       : super(key: key);
 
   final VoidCallback onPressed;
@@ -55,4 +56,11 @@ class GenericFormActions extends StatelessWidget {
       ],
     );
   }
+}
+
+class OptionsButtonData {
+  final VoidCallback callback;
+  final String title;
+
+  OptionsButtonData({required this.callback, required this.title});
 }

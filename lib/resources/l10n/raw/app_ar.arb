@@ -26,6 +26,14 @@
     "settings": "الإعدادات",
     "appVersion": "نسخة التطبيق",
     "onlyCharactersAllowed" : "يسمح فقط بالحروف",
-    "emptyFieldError" : "الرجاء ملء الحقل"
+    "emptyFieldError" : "الرجاء ملء الحقل",
+    "invalidDateFormat" : "تنسيق التاريخ غير صالح",
+    "studentListLabel" : "قائمة الطلاب",
+    "deleteLabel" : "حذف",
+    "editLabel" : "تحرير",
+    "permanentActionWarning" : "هذا الإجراء دائم ، هل أنت متأكد أنك تريد المتابعة؟"
+
+
+
 
 }

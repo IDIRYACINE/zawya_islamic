@@ -19,6 +19,7 @@ class LoginView extends StatelessWidget {
           children: [
             const Logo(),
             Form(
+              key:  LoginController.key,
               child: Column(
                 children: [
                   TextFormField(

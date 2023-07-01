@@ -8,9 +8,13 @@ enum StudentAttributes{
   birthDate,}
 
 class StudentId{
-  final int value;
+  final String value;
 
   StudentId(this.value);
+  
+  bool equals(StudentId id) {
+    return value == id.value;
+  }
   
 }
 
@@ -35,6 +39,22 @@ class Student{
       StudentAttributes.name.name : name.value,
       StudentAttributes.birthDate.name : birthDate.date,
     };
+  }
+
+  Student copyWith({
+    StudentId? id,
+    Name? name,
+    BirthDate? birthDate,
+  }) {
+    return Student(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      birthDate: birthDate ?? this.birthDate,
+    );
+  }
+
+  bool equals(Student student) {
+    return id.equals(student.id);
   }
 
 }
