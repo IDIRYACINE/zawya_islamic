@@ -1,23 +1,22 @@
 
-import 'package:zawya_islamic/application/admin_app/students/state/bloc.dart';
-import 'package:zawya_islamic/application/admin_app/students/state/events.dart';
+import 'package:zawya_islamic/application/admin_app/teachers/state/events.dart';
 import 'package:zawya_islamic/application/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
-import '../ui/student_editor.dart';
+import '../state/bloc.dart';
+import '../ui/teacher_editor.dart';
 
+class TeacherCardController {
+  const TeacherCardController(this.teacher, this.bloc);
 
-class StudentCardController {
-  const StudentCardController(this.student, this.bloc);
-
-  final Student student;
-  final StudentsBloc bloc;
+  final Teacher teacher;
+  final TeachersBloc bloc;
 
   void onClick() {
-
+    
     // NavigationService.pushNamedReplacement(Routes.adminDashboardRoute);
   }
 
@@ -35,7 +34,7 @@ class StudentCardController {
   void _onDelete(String content,String title) {
     final dialog = ConfirmationDialog(
       onConfirm:(){
-        final event = DeleteStudentEvent(student: student);
+        final event = DeleteTeacherEvent(teacher: teacher);
         bloc.add(event);
         NavigationService.pop();
       },
@@ -48,8 +47,8 @@ class StudentCardController {
 
   void _onEdit() {
 
-    final dialog = StudentEditorDialog(
-      student:student, 
+    final dialog = TeacherEditorDialog(
+      teacher:teacher, 
     );
 
     NavigationService.replaceDialog(dialog);

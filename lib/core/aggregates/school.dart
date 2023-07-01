@@ -42,6 +42,10 @@ class School {
   bool equals(School school) {
     return id.equals(school.id);
   }
+
+  static School empty() {
+    return School(id: SchoolId(''), name: Name(''));
+  }
 }
 
 class SchoolsAggregate {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/admin_app/students/ui/students_view.dart';
-import 'package:zawya_islamic/application/admin_app/teachers/ui/teachers_view.dart';
+import 'package:zawya_islamic/application/admin_app/teachers/ui/teacher_view.dart';
 
 import 'components.dart';
 
@@ -22,7 +22,9 @@ class _AdminAppLayoutState extends State<AdminAppLayout> {
         );
 
       default:
-        return const TeachersView();
+        return const TeachersView(
+          displayAppBar: false,
+        );
     }
   }
 
@@ -35,13 +37,14 @@ class _AdminAppLayoutState extends State<AdminAppLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-        ),
-        body: _buildBody(),
-        bottomNavigationBar: AdminBottomNavigationBar(
-          onSelect: _updateIndex,
-          selectedIndex: pageIndex,
-        ));
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
+      body: _buildBody(),
+      bottomNavigationBar: AdminBottomNavigationBar(
+        onSelect: _updateIndex,
+        selectedIndex: pageIndex,
+      ),
+    );
   }
 }

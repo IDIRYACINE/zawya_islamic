@@ -17,12 +17,6 @@ class StudentCard extends StatelessWidget {
 
   const StudentCard({super.key, required this.student});
 
-  void _onClick() {
-    final dialog = StudentEditorDialog(
-      student: student,
-    );
-    NavigationService.displayDialog(dialog);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +81,14 @@ class StudentsView extends StatelessWidget {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(AppMeasures.paddings),
-              child: ElevatedButton(
-                onPressed: _onAddStudent,
-                child: const Icon(AppResources.addIcon),
-              ),
-            ),
           ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(AppMeasures.paddings),
+        child: ElevatedButton(
+          onPressed: _onAddStudent,
+          child: const Icon(AppResources.addIcon),
         ),
       ),
     );

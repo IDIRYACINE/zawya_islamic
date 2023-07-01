@@ -31,7 +31,13 @@
     "studentListLabel" : "Liste des etudiants",
     "deleteLabel" : "Supprimer",
     "editLabel" : "Modifier",
-    "permanentActionWarning" : "Cette action est permanente, êtes-vous sûr de vouloir continuer?"
+    "permanentActionWarning" : "Cette action est permanente, êtes-vous sûr de vouloir continuer?",
+    "addLabel" : "Ajouter",
+    "teacherListLabel" : "Liste des enseignants",
+    "groupsListLabel" : "Liste des groupes"
+
+
+
 
 
 

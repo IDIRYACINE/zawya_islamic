@@ -31,7 +31,10 @@
     "studentListLabel" : "Students List",
     "deleteLabel" : "Delete",
     "editLabel" : "Edit",
-    "permanentActionWarning" : "This action is permanant, are you sure you want to continue?"
+    "permanentActionWarning" : "This action is permanant, are you sure you want to continue?",
+    "addLabel" : "Add",
+    "teacherListLabel" : "Teachers List",
+    "groupsListLabel" : "Groups List"
    
 
 }

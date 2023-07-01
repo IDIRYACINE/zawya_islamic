@@ -31,7 +31,13 @@
     "studentListLabel" : "قائمة الطلاب",
     "deleteLabel" : "حذف",
     "editLabel" : "تحرير",
-    "permanentActionWarning" : "هذا الإجراء دائم ، هل أنت متأكد أنك تريد المتابعة؟"
+    "permanentActionWarning" : "هذا الإجراء دائم ، هل أنت متأكد أنك تريد المتابعة؟",
+    "addLabel" : "إضافة",
+    "teacherListLabel" : "قائمة المعلمين",
+    "groupsListLabel" : "قائمة المجموعات"
+
+
+
 
 
 

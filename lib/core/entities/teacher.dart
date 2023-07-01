@@ -8,9 +8,13 @@ enum TeacherAttributes{
 }
 
 class TeacherId{
-  final int id;
+  final String id;
 
   TeacherId(this.id);
+  
+  bool equals(TeacherId id) {
+    return this.id == id.id;
+  }
 
 }
 
@@ -35,6 +39,18 @@ class Teacher{
       TeacherAttributes.name.name : name.value,
       TeacherAttributes.groups.name : List<dynamic>.from(groups.map((x) => x.groupId)),
     };
+  }
+
+  Teacher copyWith({ Name? name , List<GroupId>? groups}) {
+    return Teacher(
+      id: id,
+      name: name ?? this.name,
+      groups: groups ?? this.groups,
+    );
+  }
+
+  bool equals(Teacher teacher) {
+    return id.equals(teacher.id);
   }
 
   
