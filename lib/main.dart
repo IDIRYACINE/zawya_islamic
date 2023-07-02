@@ -9,7 +9,7 @@ import 'package:zawya_islamic/resources/themes.dart';
 
 import 'application/features/login/feature.dart';
 import 'application/features/settings/feature.dart';
-import 'application/navigation/navigation_service.dart';
+import 'application/features/navigation/navigation_service.dart';
 import 'resources/l10n/l10n.dart';
 
 void main() {

@@ -1,5 +1,5 @@
 import 'package:zawya_islamic/application/features/groups/state/events.dart';
-import 'package:zawya_islamic/application/navigation/feature.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';

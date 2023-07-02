@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:zawya_islamic/application/navigation/feature.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 
 import '../state/livemodel.dart';
 import '../ui/developer_contacts.dart';

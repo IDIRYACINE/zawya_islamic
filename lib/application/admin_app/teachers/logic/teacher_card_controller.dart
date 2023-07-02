@@ -1,6 +1,6 @@
 
 import 'package:zawya_islamic/application/admin_app/teachers/state/events.dart';
-import 'package:zawya_islamic/application/navigation/feature.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';

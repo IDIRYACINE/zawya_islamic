@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zawya_islamic/application/navigation/navigation_service.dart';
+import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/utility/validators.dart';
