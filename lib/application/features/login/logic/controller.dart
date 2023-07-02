@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/auth_service_port.dart';
-import 'package:zawya_islamic/infrastructure/exports.dart';
 
 import '../feature.dart';
 
@@ -14,17 +13,25 @@ class LoginController {
   String password = "";
 
   void login(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
+    final authBloc = BlocProvider.of<AppBloc>(context);
 
     if (key.currentState!.validate()) {
-      ServicesProvider.instance()
-          .authService
-          .login(identifier: identifier, password: password)
-          .then((response) => _handleLoginResponse(response, authBloc));
+      // ServicesProvider.instance()
+      //     .authService
+      //     .login(identifier: identifier, password: password)
+      //     .then((response) => _handleLoginResponse(response, authBloc));
+
+      _handleLoginResponse(
+          AuthResponse(
+              data: User(
+                  id: UserId("test"),
+                  name: Name("test"),
+                  role: UserRoles.teacher)),
+          authBloc);
     }
   }
 
-  _handleLoginResponse(AuthResponse response, AuthBloc bloc) {
+  _handleLoginResponse(AuthResponse response, AppBloc bloc) {
     if (response.success && response.data != null) {
       final event = LoginUserEvent(user: response.data!);
       bloc.add(event);
@@ -34,9 +41,7 @@ class LoginController {
   }
 
   void _navigateToPathBasedOnUser(User user) {
-
     switch (user.role) {
-
       case UserRoles.admin:
         NavigationService.pushNamedReplacement(Routes.adminAppRoute);
         break;
@@ -55,6 +60,5 @@ class LoginController {
 
         break;
     }
-    
   }
 }

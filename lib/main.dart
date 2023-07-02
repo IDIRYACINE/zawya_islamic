@@ -7,6 +7,7 @@ import 'package:zawya_islamic/application/features/groups/state/bloc.dart';
 import 'package:zawya_islamic/resources/metadata.dart';
 import 'package:zawya_islamic/resources/themes.dart';
 
+import 'application/features/login/feature.dart';
 import 'application/features/settings/feature.dart';
 import 'application/navigation/navigation_service.dart';
 import 'resources/l10n/l10n.dart';
@@ -26,6 +27,9 @@ void main() {
         ),
         BlocProvider<GroupsBloc>(
           create: (context) => GroupsBloc(),
+        ),
+         BlocProvider<AppBloc>(
+          create: (context) => AppBloc(),
         ),
       ],
       child: const MyApp(),

@@ -24,7 +24,7 @@ class MyFirebaseApp {
     firebaseDatabase = FirebaseDatabase.instanceFor(app: firebaseApp);
 
     if (isTestMode) {
-      const emulatorHost = 'http://localhost';
+      const emulatorHost = '127.0.0.1';
       firebaseAuth.useAuthEmulator(emulatorHost,9099);
       firestore.useFirestoreEmulator(emulatorHost, 8080);
       firebaseDatabase.useDatabaseEmulator(emulatorHost, 9000);
