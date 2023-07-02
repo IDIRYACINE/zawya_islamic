@@ -3,9 +3,9 @@ import 'package:zawya_islamic/core/entities/export.dart';
 class AuthResponse {
   final String? message;
   final bool success;
-  final UserId data;
+  final User? data;
 
-  AuthResponse({this.message, this.success = true, required this.data});
+  AuthResponse({this.message, this.success = true,  this.data});
 }
 
 abstract class AuthServicePort {

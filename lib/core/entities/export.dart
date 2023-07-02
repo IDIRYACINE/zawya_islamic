@@ -1,4 +1,4 @@
-export "./admin.dart";
+export 'user.dart';
 export "./student.dart";
 export './teacher.dart';
 

@@ -6,15 +6,15 @@ import 'package:zawya_islamic/application/features/login/state/state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthState.initial()) {
-    on<Login>(_handleLogin);
-    on<Logout>(_handleLogout);
+    on<LoginEvent>(_handleLogin);
+    on<LogoutEvent>(_handleLogout);
   }
 
-  FutureOr<void> _handleLogin(Login event, Emitter<AuthState> emit) {
+  FutureOr<void> _handleLogin(LoginEvent event, Emitter<AuthState> emit) {
     emit(state.copyWith(isAuth: true, userId: '123'));
   }
 
-  FutureOr<void> _handleLogout(Logout event, Emitter<AuthState> emit) {
+  FutureOr<void> _handleLogout(LogoutEvent event, Emitter<AuthState> emit) {
     emit(state.copyWith(isAuth: false, userId: ''));
   }
 }

@@ -15,3 +15,19 @@ class Admin{
 
   Admin({required this.id,required this.name});
 }
+
+
+enum UserRoles{
+  admin,
+  teacher,
+  student,
+  anonymous,
+  }
+
+class User{
+  final UserId id;
+  final Name name;
+  final UserRoles role;
+
+  User({required this.id,required this.name,required this.role});
+}

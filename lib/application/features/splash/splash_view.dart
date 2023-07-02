@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/navigation/navigation_service.dart';
+import 'package:zawya_islamic/infrastructure/exports.dart';
+import 'package:zawya_islamic/widgets/app_logo.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -7,12 +9,11 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    Future.delayed(const Duration(seconds: 2), () {
-      NavigationService.pushNamedReplacement(Routes.loginRoute);
-    });
+    ServicesProvider.instance().init().then(
+        (value) => NavigationService.pushNamedReplacement(Routes.loginRoute));
 
     return const Scaffold(
-      body: Center(child: Text("Loading")),
+      body: Center(child: AppLogo()),
     );
   }
 }
