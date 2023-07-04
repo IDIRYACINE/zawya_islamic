@@ -37,7 +37,10 @@
     "groupsListLabel" : "Liste des groupes",
     "teachersLabel" : "Enseignants",
     "studentsLabel" : "Etudiants",
-    "groupsLabel" : "Groupes"
+    "groupsLabel" : "Groupes",
+    "presenceLabel" : "Presence",
+    "absenceLabel" : "Absence",
+    "evaluationLabel" : "Evaluation"
 
 
 

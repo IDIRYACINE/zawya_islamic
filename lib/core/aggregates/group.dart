@@ -61,7 +61,7 @@ class GroupsAggregate {
 
   List<Group> setGroups(List<Group> group) {
     _groups.clear();
-    _groups.setAll(0, group);
+    _groups.addAll(group);
     return _groups;
   }
 

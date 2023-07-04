@@ -16,13 +16,17 @@ abstract class AppRouter {
         return getPageRoute(settings: settings, view: const SchoolsView());
 
       case Routes.adminDashboardRoute:
-        return getPageRoute(settings: settings, view: const AdminAppLayout());
+        return getPageRoute(settings: settings, view: const AppLayout());
 
       case Routes.loginRoute:
         return getPageRoute(settings: settings, view: const LoginView());
 
       case Routes.teacherAppRoute:
-        return getPageRoute(settings: settings, view: const TeacherGroupsView());
+        return getPageRoute(
+            settings: settings, view: const TeacherGroupsView());
+
+      case Routes.teacherDashboardRoute:
+        return getPageRoute(settings: settings, view: const AppLayout());
 
       default:
         return getPageRoute(

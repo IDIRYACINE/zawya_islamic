@@ -25,11 +25,11 @@ class TeachersAggregate{
     return _teachers;
   }
 
-  List<Teacher> setTeachers(List<Teacher> Teachers) {
+  List<Teacher> setTeachers(List<Teacher> teachers) {
     _teachers.clear();
-    _teachers.setAll(0, Teachers);
+    _teachers.setAll(0, teachers);
     return _teachers;
   }
 
-  List<Teacher> get Teachers => _teachers;
+  List<Teacher> get teachers => _teachers;
 }

@@ -15,6 +15,8 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     on<DeleteStudentEvent>(_handleDeleteStudent);
     on<LoadStudentsEvent>(_handleLoadStudents);
     on<SetGroupEvent>(_handleSetGroup);
+    on<MarkStudentAbsence>(_handleMarkStudentAbsence);
+    on<MarkStudentPresence>(_handleMarkStudentPresence);
   }
 
   FutureOr<void> _handleCreateStudent(
@@ -41,7 +43,23 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     emit(state.copyWith(students: updatedStudents));
   }
 
-  FutureOr<void> _handleSetGroup(SetGroupEvent event, Emitter<StudentsState> emit) {
+  FutureOr<void> _handleSetGroup(
+      SetGroupEvent event, Emitter<StudentsState> emit) {
     emit(state.copyWith(group: event.group));
+  }
+
+  FutureOr<void> _handleMarkStudentAbsence(
+      MarkStudentAbsence event, Emitter<StudentsState> emit) {
+    final presence =
+        _studentAggregate.deleteStudent(event.student, state.presence);
+    emit(state.copyWith(presence: presence));
+  }
+
+  FutureOr<void> _handleMarkStudentPresence(
+      MarkStudentPresence event, Emitter<StudentsState> emit) {
+    final presence =
+        _studentAggregate.addStudent(event.student, state.presence);
+
+    emit(state.copyWith(presence: presence));
   }
 }

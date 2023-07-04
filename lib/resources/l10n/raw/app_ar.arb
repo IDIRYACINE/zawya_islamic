@@ -37,7 +37,10 @@
     "groupsListLabel" : "قائمة المجموعات",
     "teachersLabel" : "المعلمين",
     "studentsLabel" : "الطلاب",
-    "groupsLabel" : "المجموعات"
+    "groupsLabel" : "المجموعات",
+    "presenceLabel" : "الحضور",
+    "absenceLabel" : "الغياب",
+    "evaluationLabel" : "الحفظ"
 
 
 

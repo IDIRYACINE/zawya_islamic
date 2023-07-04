@@ -17,4 +17,10 @@ abstract class AppResources {
   static const teacherIcon = Icons.abc;
 
   static const groupIcon = Icons.abc;
+
+  static const evaluationIcon = Icons.expand_more;
+
+  static const presenceIcon = Icons.remove_red_eye_rounded;
+
+  static const settingsIcon = Icons.settings;
 }

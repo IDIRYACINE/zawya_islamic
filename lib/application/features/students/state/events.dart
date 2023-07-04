@@ -31,3 +31,16 @@ class SetGroupEvent extends StudentEvent{
   
   SetGroupEvent({required this.group});
 }
+
+
+class MarkStudentPresence extends StudentEvent{
+  final Student student;
+
+  MarkStudentPresence({required this.student});
+}
+
+class MarkStudentAbsence extends StudentEvent{
+  final Student student;
+
+  MarkStudentAbsence({required this.student});
+}

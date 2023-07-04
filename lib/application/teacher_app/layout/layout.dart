@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zawya_islamic/application/features/students/ui/students_view.dart';
-import 'package:zawya_islamic/application/admin_app/teachers/ui/teacher_view.dart';
-import 'package:zawya_islamic/application/features/groups/ui/group_view.dart';
 import 'package:zawya_islamic/application/features/layout/logic/ports.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
+import 'package:zawya_islamic/application/teacher_app/evaluation/ui/evaluation_view.dart';
+import 'package:zawya_islamic/application/teacher_app/presence/ui/presence_view.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/resources.dart';
 
 typedef OnSelect = void Function(int index, AppBloc bloc);
 
-class AdminBottomNavigationBar extends StatelessWidget {
-  const AdminBottomNavigationBar({
+class TeacherBottomNavigationBar extends StatelessWidget {
+  const TeacherBottomNavigationBar({
     super.key,
     required this.selectedIndex,
   });
@@ -32,31 +31,28 @@ class AdminBottomNavigationBar extends StatelessWidget {
       onTap: (index) => onSelect(index, bloc),
       items: [
         BottomNavigationBarItem(
-          icon: const Icon(AppResources.studentIcon),
-          label: localizations.studentsLabel,
+          icon: const Icon(AppResources.presenceIcon),
+          label: localizations.presenceLabel,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(AppResources.teacherIcon),
-          label: localizations.teachersLabel,
+          icon: const Icon(AppResources.evaluationIcon),
+          label: localizations.evaluationLabel,
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(AppResources.groupIcon),
-          label: localizations.groupsLabel,
-        ),
+       
       ],
     );
   }
 }
 
-class AdminAppSetupOptions extends AppSetupOptions {
-  const AdminAppSetupOptions()
+class TeacherAppSetupOptions extends AppSetupOptions {
+  const TeacherAppSetupOptions()
       : super(
           bodyBuilder: buildBody,
           bottomNavigationBarBuilder: buildBottomNavigationBar,
         );
 
   static Widget buildBottomNavigationBar(int index) {
-    return AdminBottomNavigationBar(
+    return TeacherBottomNavigationBar(
       selectedIndex: index,
     );
   }
@@ -64,17 +60,12 @@ class AdminAppSetupOptions extends AppSetupOptions {
   static Widget buildBody(int pageIndex) {
     switch (pageIndex) {
       case 0:
-        return const StudentsView(
-          displayAppBar: false,
-        );
-
-      case 1:
-        return const TeachersView(
+        return const PresenceView(
           displayAppBar: false,
         );
 
       default:
-        return const GroupsView(
+        return const EvaluationView(
           displayAppBar: false,
         );
     }
