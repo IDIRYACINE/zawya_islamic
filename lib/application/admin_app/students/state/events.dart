@@ -1,3 +1,4 @@
+import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 abstract class StudentEvent {}
@@ -22,4 +23,11 @@ class DeleteStudentEvent extends StudentEvent{
 class LoadStudentsEvent extends StudentEvent{
   final List<Student> students;
   LoadStudentsEvent({required this.students});
+}
+
+
+class SetGroupEvent extends StudentEvent{
+  final Group group;
+  
+  SetGroupEvent({required this.group});
 }

@@ -5,6 +5,7 @@ import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
 import 'package:zawya_islamic/application/features/splash/feature.dart';
+import 'package:zawya_islamic/application/teacher_app/export.dart';
 
 import 'routes.dart';
 
@@ -19,6 +20,9 @@ abstract class AppRouter {
 
       case Routes.loginRoute:
         return getPageRoute(settings: settings, view: const LoginView());
+
+      case Routes.teacherAppRoute:
+        return getPageRoute(settings: settings, view: const TeacherGroupsView());
 
       default:
         return getPageRoute(

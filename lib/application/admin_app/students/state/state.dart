@@ -1,24 +1,24 @@
-import 'package:zawya_islamic/core/aggregates/school.dart';
+import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 class StudentsState {
-  StudentsState({required this.students, required this.school});
+  StudentsState({required this.students, required this.group});
 
   final List<Student> students;
-  final School school;
+  final Group group;
 
   factory StudentsState.initialState() {
     return StudentsState(
-        students: [], school: School(id: SchoolId(""), name: Name("")));
+        students: [], group: Group(id: GroupId(""), name: Name("")));
   }
 
   StudentsState copyWith({
     List<Student>? students,
-    School? school,
+    Group? group,
   }) {
     return StudentsState(
       students: students ?? this.students,
-      school: school ?? this.school,
+      group: group ?? this.group,
     );
   }
 }

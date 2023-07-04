@@ -14,6 +14,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     on<UpdateStudentEvent>(_handleUpdateStudent);
     on<DeleteStudentEvent>(_handleDeleteStudent);
     on<LoadStudentsEvent>(_handleLoadStudents);
+    on<SetGroupEvent>(_handleSetGroup);
   }
 
   FutureOr<void> _handleCreateStudent(
@@ -38,5 +39,9 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
       DeleteStudentEvent event, Emitter<StudentsState> emit) {
     final updatedStudents = _studentAggregate.deleteStudent(event.student);
     emit(state.copyWith(students: updatedStudents));
+  }
+
+  FutureOr<void> _handleSetGroup(SetGroupEvent event, Emitter<StudentsState> emit) {
+    emit(state.copyWith(group: event.group));
   }
 }

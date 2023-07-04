@@ -8,31 +8,35 @@ import 'package:zawya_islamic/resources/resources.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
 import '../logic/group_card_controller.dart';
+import '../ports.dart';
 import '../state/bloc.dart';
 import '../state/state.dart';
 import 'group_editor.dart';
 
 class GroupCard extends StatelessWidget {
   final Group group;
+  final GroupCardControllerPort controllerPort;
 
-  const GroupCard({super.key, required this.group});
+  const GroupCard(
+      {super.key, required this.group, required this.controllerPort});
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final bloc = BlocProvider.of<GroupsBloc>(context);
-
-    final GroupCardController controller = GroupCardController(group, bloc);
 
     return SizedBox(
       height: 75,
       child: InkWell(
-        onTap: controller.onClick,
+        onTap: () => controllerPort.onClick(group),
         child: Center(
           child: ListTile(
             leading: Text(group.name.value),
-            trailing: OptionsButton(
-                onClick: () => controller.onMoreActions(localizations)),
+            trailing: controllerPort.displayOnMoreActions
+                ? OptionsButton(
+                    onClick: () =>
+                        controllerPort.onMoreActions(group, localizations),
+                  )
+                : null,
           ),
         ),
       ),
@@ -41,12 +45,23 @@ class GroupCard extends StatelessWidget {
 }
 
 class GroupsView extends StatelessWidget {
-  const GroupsView({super.key, this.displayAppBar = true});
+  const GroupsView({
+    super.key,
+    this.displayAppBar = true,
+    this.displayFloatingAction = true,
+    this.controllerPort,
+  });
 
   final bool displayAppBar;
+  final bool displayFloatingAction;
+  final GroupCardControllerPort? controllerPort;
 
-  Widget _buildItems(BuildContext context, Group group) {
-    return GroupCard(group: group);
+  Widget _buildItems(
+      BuildContext context, Group group, GroupCardControllerPort controller) {
+    return GroupCard(
+      group: group,
+      controllerPort: controller,
+    );
   }
 
   void _onAddGroup() {
@@ -63,6 +78,9 @@ class GroupsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final bloc = BlocProvider.of<GroupsBloc>(context);
+
+    final controller = controllerPort ?? GroupCardController(bloc);
 
     return Scaffold(
       appBar: displayAppBar
@@ -78,17 +96,19 @@ class GroupsView extends StatelessWidget {
                 separatorBuilder: _seperatorBuilder,
                 itemCount: state.groups.length,
                 itemBuilder: (context, index) =>
-                    _buildItems(context, state.groups[index]));
+                    _buildItems(context, state.groups[index], controller));
           },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddings),
-        child: ElevatedButton(
-          onPressed: _onAddGroup,
-          child: const Icon(AppResources.addIcon),
-        ),
-      ),
+      floatingActionButton: displayFloatingAction
+          ? Padding(
+              padding: const EdgeInsets.all(AppMeasures.paddings),
+              child: ElevatedButton(
+                onPressed: _onAddGroup,
+                child: const Icon(AppResources.addIcon),
+              ),
+            )
+          : null,
     );
   }
 }
