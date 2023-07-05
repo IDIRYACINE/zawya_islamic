@@ -56,7 +56,6 @@ String? teacherNameValidator(String? value, AppLocalizations localizations) {
   return null;
 }
 
-
 String? groupNameValidator(String? value, AppLocalizations localizations) {
   if (value == null) {
     return localizations.emptyFieldError;
@@ -66,6 +65,37 @@ String? groupNameValidator(String? value, AppLocalizations localizations) {
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
+  }
+
+  return null;
+}
+
+String? suratFormValidator(String? value, AppLocalizations localizations) {
+  if (value == null) {
+    return localizations.emptyFieldError;
+  }
+
+  if (int.tryParse(value) == null) {
+    return "Only Numbers";
+  }
+
+  return null;
+}
+
+String? ayatFormValidator(
+    String? value, int ayatCount, AppLocalizations localizations) {
+  if (value == null) {
+    return localizations.emptyFieldError;
+  }
+
+  final n = int.tryParse(value);
+
+  if (n == null) {
+    return "Only Numbers";
+  }
+
+  if (n < 0 || n > ayatCount) {
+    return "Ayat doesn't exists";
   }
 
   return null;

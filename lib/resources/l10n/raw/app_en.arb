@@ -40,8 +40,17 @@
     "groupsLabel" : "Groups",
     "presenceLabel" : "Presence",
     "absenceLabel" : "Absence",
-
-    "evaluationLabel" : "Evaluation"
+    "evaluationLabel" : "Evaluation",
+    "evaluatedLabel" : "Evaluated",
+    "unEvaluatedLabel" : "UnEvaluated",
+    "ayat" : "Ayat",
+    "surat" : "Surat",
+    "alSurat" : "Surat",
+    "count" : "Count",
+    "number" : "nNumber",
+    "start" : "Start",
+    "end" : "End",
+    "didntMemoreizeAnything": "Didn't Memorize"
    
 
 }

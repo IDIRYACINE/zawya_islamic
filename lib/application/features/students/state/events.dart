@@ -1,4 +1,5 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 abstract class StudentEvent {}
@@ -43,4 +44,16 @@ class MarkStudentAbsence extends StudentEvent{
   final Student student;
 
   MarkStudentAbsence({required this.student});
+}
+
+class UnMarkStudentEvaluation extends StudentEvent{
+  final StudentEvaluation evaluation;
+
+  UnMarkStudentEvaluation({required this.evaluation});
+}
+
+class MarkStudentEvaluation extends StudentEvent{
+  final StudentEvaluation evaluation;
+
+  MarkStudentEvaluation({required this.evaluation});
 }

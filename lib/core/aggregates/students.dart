@@ -1,5 +1,7 @@
 import 'package:zawya_islamic/core/entities/export.dart';
 
+import '../entities/evaluations.dart';
+
 class StudentsAggregate {
   final List<Student> _students;
 
@@ -36,6 +38,46 @@ class StudentsAggregate {
   }
 
   List<Student> get students => _students;
+
+
+}
+
+class StudentEvaluationsAggregate {
+  final List<StudentEvaluation> _evaluations;
+
+  StudentEvaluationsAggregate(this._evaluations);
+
+  List<StudentEvaluation> addStudentEvaluation(StudentEvaluation studentEvaluation, [List<StudentEvaluation>? list]) {
+    final List<StudentEvaluation> studentEvaluations = list ?? _evaluations;
+
+    studentEvaluations.add(studentEvaluation);
+
+    return studentEvaluations;
+  }
+
+  List<StudentEvaluation> updateStudentEvaluation(StudentEvaluation studentEvaluation) {
+    final index = _evaluations.indexWhere((element) => element.equals(studentEvaluation));
+    if (index != -1) {
+      _evaluations[index] = studentEvaluation;
+    }
+    return _evaluations;
+  }
+
+  List<StudentEvaluation> deleteStudentEvaluation(StudentEvaluation studentEvaluation, [List<StudentEvaluation>? list]) {
+    final List<StudentEvaluation> studentEvaluations = list ?? _evaluations;
+
+    studentEvaluations.removeWhere((element) => element.equals(studentEvaluation));
+
+    return studentEvaluations;
+  }
+
+  List<StudentEvaluation> setStudentEvaluations(List<StudentEvaluation> studentEvaluations) {
+    _evaluations.clear();
+    _evaluations.addAll(studentEvaluations);
+    return _evaluations;
+  }
+
+  List<StudentEvaluation> get studentEvaluations => _evaluations;
 
 
 }

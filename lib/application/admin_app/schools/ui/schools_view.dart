@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/state/export.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/school_editor.dart';
+import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
@@ -20,8 +21,9 @@ class SchoolCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<SchoolsBloc>(context);
+    final appBloc = BlocProvider.of<AppBloc>(context);
 
-    final SchoolCardController controller = SchoolCardController(school, bloc);
+    final SchoolCardController controller = SchoolCardController(school, bloc,appBloc);
 
     return SizedBox(
       height: 75,

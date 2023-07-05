@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/core/aggregates/students.dart';
+import 'package:zawya_islamic/core/entities/evaluations.dart';
 
 import 'events.dart';
 import 'state.dart';
 
 class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   final StudentsAggregate _studentAggregate = StudentsAggregate([]);
+  final StudentEvaluationsAggregate _evaluationAggregate =
+      StudentEvaluationsAggregate([]);
 
   StudentsBloc() : super(StudentsState.initialState()) {
     on<CreateStudentEvent>(_handleCreateStudent);
@@ -17,6 +20,8 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     on<SetGroupEvent>(_handleSetGroup);
     on<MarkStudentAbsence>(_handleMarkStudentAbsence);
     on<MarkStudentPresence>(_handleMarkStudentPresence);
+    on<MarkStudentEvaluation>(_handleMarkEvaluation);
+    on<UnMarkStudentEvaluation>(_handleUnMarkEvaluation);
   }
 
   FutureOr<void> _handleCreateStudent(
@@ -52,14 +57,53 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
       MarkStudentAbsence event, Emitter<StudentsState> emit) {
     final presence =
         _studentAggregate.deleteStudent(event.student, state.presence);
-    emit(state.copyWith(presence: presence));
+
+    final comparatorEvaluation = StudentEvaluation.zeroEvaluation(event.student);
+
+    final updatedEvaluations = _evaluationAggregate.deleteStudentEvaluation(comparatorEvaluation);
+    final updatedUnEvaluations = _evaluationAggregate.deleteStudentEvaluation(comparatorEvaluation); 
+
+    emit(state.copyWith(presence: presence,unEvaluated: updatedUnEvaluations,evaluations: updatedEvaluations));
   }
 
   FutureOr<void> _handleMarkStudentPresence(
       MarkStudentPresence event, Emitter<StudentsState> emit) {
+
     final presence =
         _studentAggregate.addStudent(event.student, state.presence);
 
-    emit(state.copyWith(presence: presence));
+
+    final zeroEvaluation = StudentEvaluation.zeroEvaluation(event.student);    
+
+    final evluations = _evaluationAggregate.addStudentEvaluation(zeroEvaluation);
+
+
+    emit(state.copyWith(presence: presence,unEvaluated: evluations));
+  }
+
+  FutureOr<void> _handleMarkEvaluation(
+      MarkStudentEvaluation event, Emitter<StudentsState> emit) {
+
+    final updatedEvaluations =
+        _evaluationAggregate.addStudentEvaluation(event.evaluation);
+
+    final updatedUnEvaluated = _evaluationAggregate.deleteStudentEvaluation(
+        event.evaluation, state.unEvaluated);
+
+    emit(state.copyWith(
+        evaluations: updatedEvaluations, unEvaluated: updatedUnEvaluated));
+  }
+
+  FutureOr<void> _handleUnMarkEvaluation(
+      UnMarkStudentEvaluation event, Emitter<StudentsState> emit) {
+
+  final updatedEvaluations =
+        _evaluationAggregate.deleteStudentEvaluation(event.evaluation,state.unEvaluated);
+        
+    final updatedUnEvaluated = _evaluationAggregate.addStudentEvaluation(
+        event.evaluation);
+
+    emit(state.copyWith(
+        evaluations: updatedEvaluations, unEvaluated: updatedUnEvaluated));
   }
 }

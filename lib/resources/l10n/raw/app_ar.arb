@@ -40,7 +40,21 @@
     "groupsLabel" : "المجموعات",
     "presenceLabel" : "الحضور",
     "absenceLabel" : "الغياب",
-    "evaluationLabel" : "الحفظ"
+    "evaluationLabel" : "الحفظ",
+    "evaluatedLabel" : "مقيم",
+    "unEvaluatedLabel" : "غير مقيم",
+    "ayat" : "اية",
+    "surat" : "سورة",
+    "alSurat" : "السورة",
+    "count" : "عدد",
+    "number" : "رقم",
+    "start" : "البداية",
+    "end" : "النهاية",
+    "didntMemoreizeAnything": "لم يحفظ"
+
+    
+
+     
 
 
 
