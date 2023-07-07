@@ -27,12 +27,29 @@ class TeacherEditor extends StatelessWidget {
         children: [
           TextFormField(
             decoration: InputDecoration(
-                labelText: isEditing
-                    ? localizations.editLabel
-                    : localizations.addLabel),
+                labelText: localizations.teachersLabel
+                   ),
             initialValue: initialValue,
             validator: (value) => teacherNameValidator(value, localizations),
             onChanged: controller.updateName,
+          ),
+          if(!isEditing)
+           TextFormField(
+            decoration: InputDecoration(
+                labelText: localizations.loginUsernameLabel
+                   ),
+            initialValue: initialValue,
+            validator: (value) => emailValidator(value, localizations),
+            onChanged: controller.updateEmail,
+          ),
+          if(!isEditing)
+           TextFormField(
+            decoration: InputDecoration(
+                labelText: localizations.loginPasswordLabel
+                   ),
+            initialValue: initialValue,
+            validator: (value) => passwordValidator(value, localizations),
+            onChanged: controller.updatePassword,
           ),
         ],
       ),
@@ -51,7 +68,6 @@ class TeacherEditorDialog extends StatelessWidget {
 
   void onConfirm(TeacherEditorController controller) {
     controller.createOrUpdate(teacher);
-    NavigationService.pop();
   }
 
   @override

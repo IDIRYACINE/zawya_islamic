@@ -38,6 +38,7 @@ class TeacherService implements TeacherServicePort{
   Future<LoadTeachersResponse> getTeachers(LoadTeachersOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.teachers.name,
+      OptionsMetadata.id : options.schoolId.value,
       OptionsMetadata.hasMany: true,
     }, Teacher.fromMap);
 

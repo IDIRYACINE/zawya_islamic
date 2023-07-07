@@ -100,3 +100,26 @@ String? ayatFormValidator(
 
   return null;
 }
+
+
+String? emailValidator(String? value, AppLocalizations localizations) {
+  if (value == null) {
+    return localizations.emptyFieldError;
+  }
+
+
+  return null;
+}
+
+
+String? passwordValidator(String? value, AppLocalizations localizations) {
+  if (value == null) {
+    return localizations.emptyFieldError;
+  }
+
+  if (value.length < 6) {
+    return "Must be more than 6 characters";
+  }
+
+  return null;
+}

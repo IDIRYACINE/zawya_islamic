@@ -2,6 +2,8 @@
 import 'package:zawya_islamic/application/admin_app/teachers/state/events.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
+import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
@@ -36,6 +38,10 @@ class TeacherCardController {
       onConfirm:(){
         final event = DeleteTeacherEvent(teacher: teacher);
         bloc.add(event);
+
+        final options = DeleteTeacherOptions(teacherId: teacher.id, schoolId: bloc.state.school.id);
+        ServicesProvider.instance().teacherService.deleteTeacher(options);
+
         NavigationService.pop();
       },
       title:title,

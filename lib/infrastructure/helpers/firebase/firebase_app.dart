@@ -14,9 +14,9 @@ class MyFirebaseApp {
   late FirebaseFirestore firestore;
   late FirebaseDatabase firebaseDatabase;
 
-  Future<void> init([bool isTestMode = true]) async {
+  Future<void> init([bool isTestMode = false]) async {
     firebaseApp = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+      options: DefaultFirebaseOptions.android,
     );
 
     firebaseAuth = FirebaseAuth.instanceFor(app: firebaseApp);
@@ -24,7 +24,7 @@ class MyFirebaseApp {
     firebaseDatabase = FirebaseDatabase.instanceFor(app: firebaseApp);
 
     if (isTestMode) {
-      const emulatorHost = '127.0.0.1';
+      const emulatorHost = '192.168.1.9';
       firebaseAuth.useAuthEmulator(emulatorHost,9099);
       firestore.useFirestoreEmulator(emulatorHost, 8080);
       firebaseDatabase.useDatabaseEmulator(emulatorHost, 9000);

@@ -33,7 +33,7 @@ class ServicesProvider implements ServiceProviderPort {
     studentService = StudentService(firestoreService);
     teacherService = TeacherService(firestoreService);
 
-    authService = UserService(fireauthService);
+    authService = UserService(fireauthService,firestoreService);
   }
 
   @override
