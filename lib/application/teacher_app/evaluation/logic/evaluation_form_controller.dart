@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
+import 'package:zawya_islamic/application/teacher_app/evaluation/ui/evaluation_form.dart';
 import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/quran.dart';
 
 class EvaluationFormController {
   static final formKey = GlobalKey<FormState>();
+
+  static final widgetKey = GlobalKey<EvaluationFormState>(); 
 
   EvaluationFormController(this.studentEvaluation, this.studentBloc);
   final StudentEvaluation studentEvaluation;
@@ -19,8 +22,11 @@ class EvaluationFormController {
 
   void onSuratNumber(String? num) {
     //TODO implement search surat
-    surat = Surat(suratNumber: 2, name: "البقرة", ayatCount: 286);
+    final invalidNum = (int.tryParse(num??"")) != null;
+    surat = invalidNum ? Surat(suratNumber: 2, name: "البقرة", ayatCount: 286) : null;
     suratNameController.text = surat?.name ?? "";
+
+    widgetKey.currentState!.updateSurat(surat);
   }
 
   void setStartAyat(String? ayatNum) {

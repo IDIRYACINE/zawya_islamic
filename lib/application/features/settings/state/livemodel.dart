@@ -14,7 +14,7 @@ class SettingsLiveDataModel with ChangeNotifier {
     return _instance!;
   }
 
-  Locale displayLanguage = AppMetadata.localeEnglish;
+  Locale displayLanguage = AppMetadata.localeArabic;
 
   void setArabicLanguage() {
     displayLanguage =  AppMetadata.localeArabic;

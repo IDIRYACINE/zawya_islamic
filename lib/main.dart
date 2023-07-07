@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
       animation: liveModel,
       builder: (context, child) {
         return MaterialApp(
+          
           title: AppMetadata.appName,
           theme: AppThemes.lighTheme,
           locale: liveModel.displayLanguage,

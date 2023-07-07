@@ -14,17 +14,23 @@ typedef FormValidator = String? Function(String?);
 typedef StringCallback = void Function(String?);
 
 class EvaluationForm extends StatefulWidget {
-  const EvaluationForm({super.key, required this.student, required this.bloc});
+  EvaluationForm({required this.student, required this.bloc})
+      : super(key: EvaluationFormController.widgetKey);
 
   final StudentEvaluation student;
   final StudentsBloc bloc;
 
   @override
-  State<EvaluationForm> createState() => _EvaluationFormState();
+  State<EvaluationForm> createState() => EvaluationFormState();
 }
 
-class _EvaluationFormState extends State<EvaluationForm> {
+class EvaluationFormState extends State<EvaluationForm> {
   Surat? surat;
+  bool init = false;
+  late AppLocalizations localizations;
+  late EvaluationFormController controller;
+
+  EvaluationFormState();
 
   void updateSurat(Surat? surat) {
     setState(() {
@@ -32,20 +38,33 @@ class _EvaluationFormState extends State<EvaluationForm> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    final controller = EvaluationFormController(widget.student, widget.bloc);
+
 
     Widget buildAyatForm() {
       if (surat == null) {
         return const SizedBox();
       }
 
-      return Column(
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          AyatFormField(onChanged: controller.setStartAyat, surat: surat!),
-          AyatFormField(onChanged: controller.setEndAyat, surat: surat!),
+          Flexible(
+            child: AyatFormField(
+              onChanged: controller.setStartAyat,
+              surat: surat!,
+              isStart: true,
+            ),
+          ),
+          const SizedBox(
+            width: AppMeasures.space,
+          ),
+          Flexible(
+            child: AyatFormField(
+                onChanged: controller.setEndAyat,
+                surat: surat!,
+                isStart: false),
+          ),
         ],
       );
     }
@@ -61,6 +80,17 @@ class _EvaluationFormState extends State<EvaluationForm> {
         text: localizations.didntMemoreizeAnything,
         onPressed: controller.registerStudentZeroMemorization,
       );
+    }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!init) {
+      localizations = AppLocalizations.of(context)!;
+      controller = EvaluationFormController(
+        widget.student,
+        widget.bloc,
+      );
+      init = true;
     }
 
     return Form(
@@ -79,6 +109,8 @@ class _EvaluationFormState extends State<EvaluationForm> {
             height: AppMeasures.space,
           ),
           Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ButtonPrimary(
                 text: localizations.cancelLabel,
