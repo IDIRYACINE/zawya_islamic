@@ -10,8 +10,8 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<DeleteSchoolResponse> deleteSchool(DeleteSchoolOptions options) async {
     final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.fullPath:
-          '${DatabaseCollection.schools.name}/${options.schoolId}',
+      OptionsMetadata.id: options.schoolId.value,
+      OptionsMetadata.path: DatabaseCollection.schools.name
     });
 
     _databaseService.delete(dbOptions);
@@ -52,7 +52,7 @@ class SchoolService implements SchoolServicePort {
       OptionsMetadata.id: options.school.id.value,
     });
 
-     _databaseService.create(dbOptions);
+    _databaseService.create(dbOptions);
 
     return RegisterSchoolResponse(data: null);
   }

@@ -8,9 +8,10 @@ class FirebaseDatabaseService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
-    final fullPath = options.metadata['fullPath'];
+    final path = options.metadata[OptionsMetadata.path.name];
+    final id = options.metadata[OptionsMetadata.id.name];
 
-    _firebaseDatabase.ref().child(fullPath).push().set(options.entity);
+    _firebaseDatabase.ref().child(path).child(id).set(options.entity);
     return DatabaseResponse(data: []);
   }
 

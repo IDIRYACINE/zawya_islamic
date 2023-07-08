@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/export.dart';
 import 'package:zawya_islamic/application/features/students/ui/students_view.dart';
 import 'package:zawya_islamic/application/features/groups/ui/group_view.dart';
 import 'package:zawya_islamic/application/features/layout/logic/ports.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
-import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
+import 'package:zawya_islamic/core/ports/school_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/resources.dart';
@@ -58,12 +59,15 @@ class AdminAppSetupOptions extends AppSetupOptions {
         );
 
   static void adminDataLoader(BuildContext context) {
-    final teachersBloc = BlocProvider.of<TeachersBloc>(context);
-    final options = LoadTeachersOptions(schoolId: teachersBloc.state.school.id);
-    ServicesProvider.instance()
-        .teacherService
-        .getTeachers(options)
-        .then((res) => teachersBloc.add(LoadTeachersEvent(teachers: res.data)));
+    final servicesProvider = ServicesProvider.instance();
+
+    final schoolsBloc = BlocProvider.of<SchoolsBloc>(context);
+
+    final schoolsOptions = LoadSchoolsOptions();
+    servicesProvider.schoolService
+        .getSchools(schoolsOptions)
+        .then((res) => schoolsBloc.add(LoadSchoolsEvent(schools: res.data)));
+    
   }
 
   static Widget buildBottomNavigationBar(int index) {

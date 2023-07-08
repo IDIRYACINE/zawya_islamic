@@ -74,7 +74,7 @@ class SchoolsAggregate {
 
   List<School> setSchools(List<School> schools) {
     _schools.clear();
-    _schools.setAll(0, schools);
+    _schools.addAll(schools);
     return _schools;
   }
 

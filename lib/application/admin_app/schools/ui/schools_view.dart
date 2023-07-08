@@ -5,6 +5,8 @@ import 'package:zawya_islamic/application/admin_app/schools/ui/school_editor.dar
 import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
+import 'package:zawya_islamic/core/ports/school_service_port.dart';
+import 'package:zawya_islamic/infrastructure/exports.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
@@ -23,7 +25,8 @@ class SchoolCard extends StatelessWidget {
     final bloc = BlocProvider.of<SchoolsBloc>(context);
     final appBloc = BlocProvider.of<AppBloc>(context);
 
-    final SchoolCardController controller = SchoolCardController(school, bloc,appBloc);
+    final SchoolCardController controller =
+        SchoolCardController(school, bloc, appBloc);
 
     return SizedBox(
       height: 75,
@@ -53,14 +56,27 @@ class SchoolsView extends StatelessWidget {
     NavigationService.displayDialog(dialog);
   }
 
+  void _loadSchools(BuildContext context) {
+    final schoolsBloc = BlocProvider.of<SchoolsBloc>(context);
+
+    final schoolOptions =
+        LoadSchoolsOptions();
+    ServicesProvider.instance()
+        .schoolService
+        .getSchools(schoolOptions)
+        .then((res) => schoolsBloc.add(LoadSchoolsEvent(schools: res.data)));
+  }
 
   Widget _seperatorBuilder(BuildContext context, int index) {
-    return const SizedBox(height: 20,);
+    return const SizedBox(
+      height: 20,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    _loadSchools(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -72,9 +88,10 @@ class SchoolsView extends StatelessWidget {
           builder: (context, state) {
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,
-                itemCount: state.schools.length,
-                itemBuilder: (context, index) =>
-                    _buildItems(context, state.schools[index]));
+              itemCount: state.schools.length,
+              itemBuilder: (context, index) =>
+                  _buildItems(context, state.schools[index]),
+            );
           },
         ),
       ),

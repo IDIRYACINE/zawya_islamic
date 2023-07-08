@@ -9,8 +9,13 @@ class FirestoreService implements DatabasePort {
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
     final path = options.metadata[OptionsMetadata.path];
+    final id = options.metadata[OptionsMetadata.id];
 
-    _firestore.collection(path).add(options.entity);
+    if (id != null) {
+      _firestore.collection(path).doc(id).set(options.entity);
+    } else {
+      _firestore.collection(path).add(options.entity);
+    }
 
     return DatabaseResponse(data: []);
   }
@@ -45,10 +50,10 @@ class FirestoreService implements DatabasePort {
           .collection(options.metadata[OptionsMetadata.path])
           .get();
 
-      final data =
-          rawSnapshot.docs.map((e) => options.mapper(e.data())).toList();
+      final List<T> data =
+          rawSnapshot.docs.map((e) => options.mapper(e.data()) as T).toList();
 
-      parsedData.addAll(data as Iterable<T>);
+      parsedData.addAll(data);
     }
 
     return DatabaseResponse(data: parsedData);

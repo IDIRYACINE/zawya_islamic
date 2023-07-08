@@ -5,8 +5,8 @@ import 'package:zawya_islamic/application/admin_app/schools/state/events.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
-
-//TODO : make call to infrastructure
+import 'package:zawya_islamic/core/ports/school_service_port.dart';
+import 'package:zawya_islamic/infrastructure/exports.dart';
 
 class SchoolEditorController {
   static final key = GlobalKey<FormState>();
@@ -34,25 +34,33 @@ class SchoolEditorController {
     }
   }
 
-
-  void _updateSchool(School school){
-    final updatedSchool = school.copyWith(
-      name: Name(schoolName)
-    );
-
-    final event = UpdateSchoolEvent(school: updatedSchool);
+  void _updateSchool(School school) {
+    final updatedSchool = school.copyWith(name: Name(schoolName));
     final bloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
-    
-    bloc.add(event);
+
+    final options = UpdateSchoolOptions(school: updatedSchool);
+    ServicesProvider.instance().schoolService.updateSchool(options).then(
+          (res) => bloc.add(
+            UpdateSchoolEvent(school: updatedSchool),
+          ),
+        );
   }
 
-  void _createSchool(){
-    final school = School(name: Name(schoolName), id: SchoolId(const Uuid().v4())) ;
+  void _createSchool() {
     final bloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
 
-    final event = CreateSchoolEvent(school: school);
+    final school = School(
+      name: Name(schoolName),
+      id: SchoolId(
+        const Uuid().v4(),
+      ),
+    );
 
-    bloc.add(event);
-
+    final options = RegisterSchoolOptions(school: school);
+    ServicesProvider.instance().schoolService.registerSchool(options).then(
+          (res) => bloc.add(
+            CreateSchoolEvent(school: school),
+          ),
+        );
   }
 }

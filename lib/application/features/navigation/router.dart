@@ -31,7 +31,7 @@ abstract class AppRouter {
       default:
         return getPageRoute(
           settings: settings,
-          view: const SplashView(),
+          view: SplashView(callback: settings.arguments as VoidCallback? ,),
         );
     }
   }

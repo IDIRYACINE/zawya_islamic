@@ -11,5 +11,7 @@ abstract class Routes {
   static const anonymousAppRoute = "/anonymous";
   static const adminDashboardRoute = "/admin/dashbaord";
   static const teacherDashboardRoute = "/teacher/dashbaord";
+
+  static const splashRoute = "/splash";
   
 }

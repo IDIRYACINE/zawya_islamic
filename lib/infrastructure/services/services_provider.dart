@@ -16,12 +16,18 @@ class ServicesProvider implements ServiceProviderPort {
   static ServicesProvider? _instance;
   ServicesProvider._internal();
 
+  bool _isInit = false;
+
   factory ServicesProvider.instance() {
     _instance ??= ServicesProvider._internal();
     return _instance!;
   }
 
   Future<void> init() async {
+    if(_isInit) {
+      return;
+    }
+
     final app = MyFirebaseApp();
     await app.init();
 
@@ -34,6 +40,8 @@ class ServicesProvider implements ServiceProviderPort {
     teacherService = TeacherService(firestoreService);
 
     authService = UserService(fireauthService,firestoreService);
+
+    _isInit = true;
   }
 
   @override
