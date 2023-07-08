@@ -50,7 +50,6 @@ class GroupService implements GroupServicePort {
 
   @override
   Future<LoadGroupIdsResponse> loadGroupIds() {
-    // TODO: implement loadGroupIds
     throw UnimplementedError();
   }
 
@@ -69,6 +68,7 @@ class GroupService implements GroupServicePort {
 
   @override
   Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options) async {
+
     final dbOptions = CreateEntityOptions(
       options.group.toMap()
       ,{

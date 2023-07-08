@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/students/logic/student_card_controller.dart';
 import 'package:zawya_islamic/application/features/students/state/bloc.dart';
 import 'package:zawya_islamic/application/features/students/ui/student_editor.dart';
@@ -17,14 +18,16 @@ class StudentCard extends StatelessWidget {
 
   const StudentCard({super.key, required this.student});
 
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<StudentsBloc>(context);
+    
+    final schoolId =
+        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
 
     final StudentCardController controller =
-        StudentCardController(student, bloc);
+        StudentCardController(student, bloc, schoolId);
 
     return SizedBox(
       height: 75,

@@ -71,7 +71,6 @@ class TeacherEditorController {
     servicesProvider.authService
         .registerUser(options: registerUserOption)
         .then((response) {
-      print(response.data?.id.id);
 
       final teacher = Teacher(
         name: Name(teacherName),

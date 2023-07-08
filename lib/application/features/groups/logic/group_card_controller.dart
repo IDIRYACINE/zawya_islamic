@@ -1,6 +1,8 @@
 import 'package:zawya_islamic/application/features/groups/state/events.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/ports/groups_service_port.dart';
+import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
@@ -21,21 +23,28 @@ class GroupCardController implements GroupCardControllerPort {
   void onMoreActions(Group group, AppLocalizations localizations) {
     final options = [
       OptionsButtonData(
-          callback: () => _onDelete(
-              localizations.permanentActionWarning, localizations.deleteLabel,group),
+          callback: () => _onDelete(localizations.permanentActionWarning,
+              localizations.deleteLabel, group),
           title: localizations.deleteLabel),
-      OptionsButtonData(callback: () => _onEdit(group), title: localizations.editLabel)
+      OptionsButtonData(
+          callback: () => _onEdit(group), title: localizations.editLabel)
     ];
 
     final dialog = OptionsAlertDialog(options: options);
     NavigationService.displayDialog(dialog);
   }
 
-  void _onDelete(String content, String title,Group group) {
+  void _onDelete(String content, String title, Group group) {
     final dialog = ConfirmationDialog(
         onConfirm: () {
-          final event = DeleteGroupEvent(group: group);
-          bloc.add(event);
+          final options = DeleteGroupOptions(groupId: group.id);
+
+          ServicesProvider.instance().groupService.deleteGroup(options).then(
+                (value) => bloc.add(
+                  DeleteGroupEvent(group: group),
+                ),
+              );
+              
           NavigationService.pop();
         },
         title: title,

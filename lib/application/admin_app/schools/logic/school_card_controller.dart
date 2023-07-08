@@ -20,7 +20,12 @@ class SchoolCardController {
   final AppBloc appBloc;
 
   void onClick() {
-    appBloc.add(SetupAppEvent(const AdminAppSetupOptions()));
+    appBloc.add(
+      SetupAppEvent(
+        const AdminAppSetupOptions(),
+      ),
+    );
+    bloc.add(SelectSchoolEvent(school: school));
 
     NavigationService.pushNamedReplacement(Routes.adminDashboardRoute);
   }

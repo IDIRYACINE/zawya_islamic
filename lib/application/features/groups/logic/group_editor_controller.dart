@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
+import 'package:zawya_islamic/core/ports/groups_service_port.dart';
+import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 
 import '../state/bloc.dart';
 import '../state/events.dart';
-
-//TODO : make call to infrastructure
 
 class GroupEditorController {
   static final key = GlobalKey<FormState>();
@@ -35,25 +35,30 @@ class GroupEditorController {
     }
   }
 
-
-  void _updateGroup(Group group){
-    final updatedGroup = group.copyWith(
-      name: Name(groupName)
-    );
-
-    final event = UpdateGroupEvent(group: updatedGroup);
+  void _updateGroup(Group group) {
+    final updatedGroup = group.copyWith(name: Name(groupName));
     final bloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
-    
-    bloc.add(event);
+
+    final options =
+        UpdateGroupOptions(group: group, schoolId: bloc.state.school.id);
+
+    ServicesProvider.instance()
+        .groupService
+        .updateGroup(options)
+        .then((value) => bloc.add(UpdateGroupEvent(group: updatedGroup)));
   }
 
-  void _createGroup(){
-    final group = Group(name: Name(groupName), id: GroupId(const Uuid().v4())) ;
+  void _createGroup() {
     final bloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
 
-    final event = CreateGroupEvent(group: group);
+    final group = Group(name: Name(groupName), id: GroupId(const Uuid().v4()));
 
-    bloc.add(event);
+    final options =
+        RegisterGroupOptions(group: group, schoolId: bloc.state.school.id);
 
+    ServicesProvider.instance()
+        .groupService
+        .registerGroup(options)
+        .then((value) => bloc.add(CreateGroupEvent(group: group)));
   }
 }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
+import 'package:zawya_islamic/core/ports/student_service_port.dart';
+import 'package:zawya_islamic/infrastructure/exports.dart';
 
 import '../state/bloc.dart';
 import '../state/events.dart';
-
-//TODO : make call to infrastructure
 
 class StudentEditorController {
   static final key = GlobalKey<FormState>();
@@ -41,12 +41,17 @@ class StudentEditorController {
   }
 
   void _updateStudent(Student student) {
-    final updatedStudent = student.copyWith(name: Name(studentName),birthDate: BirthDate(birthDate));
+    final updatedStudent = student.copyWith(
+        name: Name(studentName), birthDate: BirthDate(birthDate));
 
-    final event = UpdateStudentEvent(student: updatedStudent);
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
 
-    bloc.add(event);
+    final options = UpdateStudentOptions(student: updatedStudent);
+    ServicesProvider.instance().studentService.updateStudent(options).then(
+          (value) => bloc.add(
+            UpdateStudentEvent(student: updatedStudent),
+          ),
+        );
   }
 
   void _createStudent() {
@@ -55,11 +60,13 @@ class StudentEditorController {
       id: StudentId(const Uuid().v4()),
       birthDate: BirthDate(birthDate),
     );
-
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
 
-    final event = CreateStudentEvent(student: student);
-
-    bloc.add(event);
+    final options = RegisterStudentOptions(student: student);
+    ServicesProvider.instance().studentService.registerStudent(options).then(
+          (value) => bloc.add(
+            CreateStudentEvent(student: student),
+          ),
+        );
   }
 }

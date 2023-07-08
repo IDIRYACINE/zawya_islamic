@@ -1,19 +1,19 @@
-
-
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 
-class StudentService implements StudentServicePort{
-    final DatabasePort _databaseService;
+class StudentService implements StudentServicePort {
+  final DatabasePort _databaseService;
 
   StudentService(this._databaseService);
 
   @override
-  Future<DeleteStudentResponse> deleteStudent(DeleteStudentOptions options) async {
-      final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.fullPath:
-          '${DatabaseCollection.groupStudents.name}/${options.studentId}',
+  Future<DeleteStudentResponse> deleteStudent(
+      DeleteStudentOptions options) async {
+    final dbOptions = DeleteEntityOptions({
+      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
+      OptionsMetadata.id: options.schoolId.value,
+      OptionsMetadata.nestedId: options.studentId.value,
     });
 
     _databaseService.delete(dbOptions);
@@ -23,7 +23,6 @@ class StudentService implements StudentServicePort{
 
   @override
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options) async {
-
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.groupStudents.name,
       OptionsMetadata.id: options.studentId.value,
@@ -39,6 +38,7 @@ class StudentService implements StudentServicePort{
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.path: DatabaseCollection.groupStudents.name,
+      OptionsMetadata.id: options.schoolId.value,
       OptionsMetadata.hasMany: true,
     }, Student.fromMap);
 
@@ -48,22 +48,24 @@ class StudentService implements StudentServicePort{
   }
 
   @override
-  Future<RegisterStudentResponse> registerStudent(RegisterStudentOptions options) async {
+  Future<RegisterStudentResponse> registerStudent(
+      RegisterStudentOptions options) async {
     final dbOptions = CreateEntityOptions(options.student.toMap(), {
       OptionsMetadata.path: DatabaseCollection.groupStudents.name,
       OptionsMetadata.id: options.student.id.value,
     });
 
-     _databaseService.create(dbOptions);
+    _databaseService.create(dbOptions);
 
     return RegisterStudentResponse(data: null);
   }
 
   @override
-  Future<UpdateStudentResponse> updateStudent(UpdateStudentOptions options) async {
+  Future<UpdateStudentResponse> updateStudent(
+      UpdateStudentOptions options) async {
     final dbOptions = UpdateEntityOptions(options.student.toMap(), {
-      OptionsMetadata.fullPath:
-          '${DatabaseCollection.groupStudents.name}/${options.student.id.value}',
+      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
+      OptionsMetadata.id: options.student.id.value,
     });
 
     _databaseService.update(dbOptions);

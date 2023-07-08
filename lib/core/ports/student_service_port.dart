@@ -1,5 +1,6 @@
 
 
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 typedef LoadStudentsResponse = StudentServiceResponse<List<Student>>;
@@ -21,14 +22,16 @@ abstract class StudentServiceOptions{}
 
 class LoadStudentsOptions extends StudentServiceOptions{
   final List<String> studentIds;
+  final SchoolId schoolId;
 
-  LoadStudentsOptions({ this.studentIds = const []});
+  LoadStudentsOptions( {required this.schoolId, this.studentIds = const []});
 }
 
 class LoadStudentOptions extends StudentServiceOptions{
   final StudentId studentId;
+  final SchoolId schoolId;
 
-  LoadStudentOptions({required this.studentId});
+  LoadStudentOptions({required this.schoolId,required this.studentId});
 }
 
 class RegisterStudentOptions extends StudentServiceOptions{
@@ -45,8 +48,9 @@ class UpdateStudentOptions extends StudentServiceOptions{
 
 class DeleteStudentOptions extends StudentServiceOptions{
   final StudentId studentId;
+  final SchoolId schoolId;
 
-  DeleteStudentOptions({required this.studentId});
+  DeleteStudentOptions( {required this.schoolId,required this.studentId});
 }
 
 abstract class StudentServicePort{

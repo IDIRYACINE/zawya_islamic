@@ -13,6 +13,7 @@ class SchoolsBloc extends Bloc<SchoolEvent, SchoolState> {
     on<UpdateSchoolEvent>(_handleUpdateSchool);
     on<DeleteSchoolEvent>(_handleDeleteSchool);
     on<LoadSchoolsEvent>(_handleLoadSchools);
+    on<SelectSchoolEvent>(_handleSelectSchool);
   }
 
   FutureOr<void> _handleCreateSchool(
@@ -37,5 +38,10 @@ class SchoolsBloc extends Bloc<SchoolEvent, SchoolState> {
       DeleteSchoolEvent event, Emitter<SchoolState> emit) {
     final schools = _aggreagate.deleteSchool(event.school);
     emit(state.copyWith(schools: schools));
+  }
+
+  FutureOr<void> _handleSelectSchool(
+      SelectSchoolEvent event, Emitter<SchoolState> emit) {
+    emit(state.copyWith(selectedSchool: event.school));
   }
 }

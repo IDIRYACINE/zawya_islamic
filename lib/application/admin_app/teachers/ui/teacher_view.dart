@@ -11,9 +11,6 @@ import 'package:zawya_islamic/resources/resources.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
 import '../logic/teacher_card_controller.dart';
-import '../state/bloc.dart';
-import '../state/state.dart';
-import 'teacher_editor.dart';
 
 class TeacherCard extends StatelessWidget {
   final Teacher teacher;

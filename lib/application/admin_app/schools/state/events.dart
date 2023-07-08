@@ -23,3 +23,9 @@ class LoadSchoolsEvent extends SchoolEvent{
   final List<School> schools;
   LoadSchoolsEvent({required this.schools});
 }
+
+class SelectSchoolEvent extends SchoolEvent{
+   final School school;
+
+  SelectSchoolEvent({required this.school});
+}
