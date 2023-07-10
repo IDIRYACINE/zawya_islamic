@@ -18,7 +18,6 @@ class GroupEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final initialValue = group?.name.value ?? controller.groupName;
     final localizations = AppLocalizations.of(context)!;
-    final isEditing = group != null;
 
     return Form(
       key: GroupEditorController.key,
@@ -27,9 +26,7 @@ class GroupEditor extends StatelessWidget {
         children: [
           TextFormField(
             decoration: InputDecoration(
-                labelText: isEditing
-                    ? localizations.editLabel
-                    : localizations.addLabel),
+                labelText:localizations.nameLabel),
             initialValue: initialValue,
             validator: (value) => groupNameValidator(value, localizations),
             onChanged: controller.updateName,

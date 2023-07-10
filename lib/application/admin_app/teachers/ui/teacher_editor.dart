@@ -27,7 +27,7 @@ class TeacherEditor extends StatelessWidget {
         children: [
           TextFormField(
             decoration: InputDecoration(
-                labelText: localizations.teachersLabel
+                labelText: localizations.nameLabel
                    ),
             initialValue: initialValue,
             validator: (value) => teacherNameValidator(value, localizations),
@@ -36,7 +36,7 @@ class TeacherEditor extends StatelessWidget {
           if(!isEditing)
            TextFormField(
             decoration: InputDecoration(
-                labelText: localizations.loginUsernameLabel
+                labelText: localizations.emailLabel
                    ),
             initialValue: initialValue,
             validator: (value) => emailValidator(value, localizations),

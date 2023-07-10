@@ -9,14 +9,12 @@ class AppLayout extends StatelessWidget {
   final bool displayAppBar;
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    final bloc = BlocProvider.of<AppBloc>(context);
 
     return AppBar(
       leading: InkWell(
         onTap: () {
-          bloc.add(LogoutEvent());
 
-          NavigationService.pushNamedReplacement(Routes.loginRoute);
+          NavigationService.pop();
         },
         child: const Icon(
           Icons.arrow_back_ios,

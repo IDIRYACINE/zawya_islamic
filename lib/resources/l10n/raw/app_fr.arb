@@ -50,7 +50,9 @@
     "number" : "number",
     "start" : "start",
     "end" : "end",
-    "didntMemoreizeAnything": "Didn't Memorize"
+    "didntMemoreizeAnything": "Didn't Memorize",
+    "emailLabel" : "Email"
+
 
 
 

@@ -19,7 +19,6 @@ class SchoolEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final initialValue = school?.name.value ?? controller.schoolName;
     final localizations = AppLocalizations.of(context)!;
-    final isEditing = school != null;
 
 
     return Form(
@@ -29,9 +28,7 @@ class SchoolEditor extends StatelessWidget {
         children: [
           TextFormField(
             decoration: InputDecoration(
-                labelText: isEditing
-                    ? localizations.editLabel
-                    : localizations.addSchoolLabel),
+                labelText: localizations.nameLabel),
             initialValue: initialValue,
             validator: (value) => schoolNameValidator(value, localizations),
             onChanged: controller.updateName,
@@ -64,7 +61,7 @@ class SchoolEditorDialog extends StatelessWidget {
 
     return AlertDialog(
       title: Text(
-          isEditing ? localizations.editLabel : localizations.addSchoolLabel),
+          isEditing ? localizations.editLabel : localizations.addLabel),
       content: SchoolEditor(
         controller: controller,
         school: school,

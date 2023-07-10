@@ -59,8 +59,7 @@ class SchoolsView extends StatelessWidget {
   void _loadSchools(BuildContext context) {
     final schoolsBloc = BlocProvider.of<SchoolsBloc>(context);
 
-    final schoolOptions =
-        LoadSchoolsOptions();
+    final schoolOptions = LoadSchoolsOptions();
     ServicesProvider.instance()
         .schoolService
         .getSchools(schoolOptions)
@@ -80,6 +79,18 @@ class SchoolsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+             
+            BlocProvider.of<AppBloc>(context).add(LogoutEvent());
+
+            NavigationService.pushNamedReplacement(Routes.loginRoute);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         title: Text(localizations.schoolListLabel),
       ),
       body: Padding(

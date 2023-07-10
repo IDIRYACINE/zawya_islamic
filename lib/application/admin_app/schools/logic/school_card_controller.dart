@@ -28,7 +28,7 @@ class SchoolCardController {
 
     schoolBloc.add(SelectSchoolEvent(school: school));
 
-    NavigationService.pushNamedReplacement(Routes.adminDashboardRoute);
+    NavigationService.pushNamed(Routes.adminDashboardRoute);
   }
 
   void onMoreActions(AppLocalizations localizations) {

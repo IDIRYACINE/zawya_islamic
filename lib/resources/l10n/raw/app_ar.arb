@@ -50,7 +50,9 @@
     "number" : "رقم",
     "start" : "البداية",
     "end" : "النهاية",
-    "didntMemoreizeAnything": "لم يحفظ"
+    "didntMemoreizeAnything": "لم يحفظ",
+    "emailLabel" : "الايمايل"
+
 
     
 

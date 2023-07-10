@@ -48,12 +48,14 @@ class GroupCard extends StatelessWidget {
 class GroupsView extends StatelessWidget {
   const GroupsView({
     super.key,
+    this.onReturn,
     this.displayAppBar = true,
     this.displayFloatingAction = true,
     this.controllerPort,
   });
 
   final bool displayAppBar;
+  final VoidCallback? onReturn;
   final bool displayFloatingAction;
   final GroupCardControllerPort? controllerPort;
 
@@ -76,20 +78,35 @@ class GroupsView extends StatelessWidget {
     );
   }
 
+  PreferredSizeWidget? _buildAppBar(AppLocalizations localizations) {
+    return displayAppBar
+        ? AppBar(
+            leading: onReturn != null
+                ? InkWell(
+                    onTap: () {
+                      onReturn!.call();
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    ),
+                  )
+                : null,
+            title: Text(localizations.groupsListLabel),
+          )
+        : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<GroupsBloc>(context);
     final schoolBloc = BlocProvider.of<SchoolsBloc>(context);
 
-    final controller = controllerPort ?? GroupCardController(bloc,schoolBloc);
+    final controller = controllerPort ?? GroupCardController(bloc, schoolBloc);
 
     return Scaffold(
-      appBar: displayAppBar
-          ? AppBar(
-              title: Text(localizations.groupsListLabel),
-            )
-          : null,
+      appBar: _buildAppBar(localizations),
       body: Padding(
         padding: const EdgeInsets.all(AppMeasures.paddings),
         child: BlocBuilder<GroupsBloc, GroupsState>(
