@@ -1,6 +1,7 @@
 
 import 'package:zawya_islamic/application/admin_app/teachers/state/events.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
@@ -12,10 +13,12 @@ import '../state/bloc.dart';
 import '../ui/teacher_editor.dart';
 
 class TeacherCardController {
-  const TeacherCardController(this.teacher, this.bloc);
+  const TeacherCardController(this.teacher, this.bloc, this.schoolId);
 
   final Teacher teacher;
   final TeachersBloc bloc;
+        final SchoolId schoolId ;
+
 
   void onClick() {
     
@@ -39,7 +42,7 @@ class TeacherCardController {
         final event = DeleteTeacherEvent(teacher: teacher);
         bloc.add(event);
 
-        final options = DeleteTeacherOptions(teacherId: teacher.id, schoolId: bloc.state.school.id);
+        final options = DeleteTeacherOptions(teacherId: teacher.id, schoolId: schoolId);
         ServicesProvider.instance().teacherService.deleteTeacher(options);
 
         NavigationService.pop();

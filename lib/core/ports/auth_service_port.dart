@@ -1,3 +1,4 @@
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 class AuthResponse {
@@ -27,8 +28,10 @@ class RegisterUserOptions {
   final UserRoles role;
   final String name;
 
-  RegisterUserOptions(
-      {required this.email,required this.name, required this.password, required this.role});
+  final SchoolId schoolId;
+
+  RegisterUserOptions( 
+      {required this.schoolId, required this.email,required this.name, required this.password, required this.role});
 }
 
 abstract class AuthServicePort {

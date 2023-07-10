@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
@@ -37,28 +38,32 @@ class GroupEditorController {
 
   void _updateGroup(Group group) {
     final updatedGroup = group.copyWith(name: Name(groupName));
-    final bloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
+    final groupBloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
+    final schoolBloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
 
     final options =
-        UpdateGroupOptions(group: group, schoolId: bloc.state.school.id);
+        UpdateGroupOptions(group: group, schoolId: schoolBloc.state.selectedSchool!.id);
 
     ServicesProvider.instance()
         .groupService
         .updateGroup(options)
-        .then((value) => bloc.add(UpdateGroupEvent(group: updatedGroup)));
+        .then((value) => groupBloc.add(UpdateGroupEvent(group: updatedGroup)));
   }
 
   void _createGroup() {
-    final bloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
+    final schoolBloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
 
     final group = Group(name: Name(groupName), id: GroupId(const Uuid().v4()));
 
     final options =
-        RegisterGroupOptions(group: group, schoolId: bloc.state.school.id);
+        RegisterGroupOptions(group: group, schoolId: schoolBloc.state.selectedSchool!.id);
+
+    final groupBloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
+
 
     ServicesProvider.instance()
         .groupService
         .registerGroup(options)
-        .then((value) => bloc.add(CreateGroupEvent(group: group)));
+        .then((value) => groupBloc.add(CreateGroupEvent(group: group)));
   }
 }

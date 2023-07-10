@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
@@ -45,9 +46,11 @@ class TeacherEditorController {
 
     final event = UpdateTeacherEvent(teacher: updatedTeacher);
     final bloc = BlocProvider.of<TeachersBloc>(key.currentContext!);
+    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!).state.selectedSchool!.id;
+
 
     final updatedTeacherOption =
-        UpdateTeacherOptions(teacher: teacher, schoolId: bloc.state.school.id);
+        UpdateTeacherOptions(teacher: teacher, schoolId: schoolId);
     ServicesProvider.instance()
         .teacherService
         .updateTeacher(updatedTeacherOption);
@@ -56,7 +59,12 @@ class TeacherEditorController {
   }
 
   void _createTeacher() {
+    
+    final bloc = BlocProvider.of<TeachersBloc>(key.currentContext!);
+
+    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!).state.selectedSchool!.id;
     final registerUserOption = RegisterUserOptions(
+      schoolId:schoolId,
         name: teacherName,
         email: email,
         password: password,
@@ -64,9 +72,6 @@ class TeacherEditorController {
 
     final servicesProvider = ServicesProvider.instance();
 
-    final bloc = BlocProvider.of<TeachersBloc>(key.currentContext!);
-
-    final schoolId = bloc.state.school.id;
 
     servicesProvider.authService
         .registerUser(options: registerUserOption)

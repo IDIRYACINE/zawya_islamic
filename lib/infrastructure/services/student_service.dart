@@ -11,9 +11,9 @@ class StudentService implements StudentServicePort {
   Future<DeleteStudentResponse> deleteStudent(
       DeleteStudentOptions options) async {
     final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
-      OptionsMetadata.id: options.schoolId.value,
-      OptionsMetadata.nestedId: options.studentId.value,
+      OptionsMetadata.rootCollection:
+          _generateStudentGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.studentId.value,
     });
 
     _databaseService.delete(dbOptions);
@@ -24,8 +24,9 @@ class StudentService implements StudentServicePort {
   @override
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
-      OptionsMetadata.id: options.studentId.value,
+      OptionsMetadata.rootCollection:
+          _generateStudentGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.studentId.value,
       OptionsMetadata.hasMany: false,
     }, Student.fromMap);
 
@@ -37,8 +38,8 @@ class StudentService implements StudentServicePort {
   @override
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
-      OptionsMetadata.id: options.schoolId.value,
+      OptionsMetadata.rootCollection:
+          _generateStudentGroupCode(options.schoolId.value),
       OptionsMetadata.hasMany: true,
     }, Student.fromMap);
 
@@ -51,8 +52,9 @@ class StudentService implements StudentServicePort {
   Future<RegisterStudentResponse> registerStudent(
       RegisterStudentOptions options) async {
     final dbOptions = CreateEntityOptions(options.student.toMap(), {
-      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
-      OptionsMetadata.id: options.student.id.value,
+      OptionsMetadata.rootCollection:
+          _generateStudentGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.student.id.value,
     });
 
     _databaseService.create(dbOptions);
@@ -64,12 +66,17 @@ class StudentService implements StudentServicePort {
   Future<UpdateStudentResponse> updateStudent(
       UpdateStudentOptions options) async {
     final dbOptions = UpdateEntityOptions(options.student.toMap(), {
-      OptionsMetadata.path: DatabaseCollection.groupStudents.name,
-      OptionsMetadata.id: options.student.id.value,
+      OptionsMetadata.rootCollection:
+          _generateStudentGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.student.id.value,
     });
 
     _databaseService.update(dbOptions);
 
     return UpdateStudentResponse(data: null);
+  }
+
+  String _generateStudentGroupCode(String schoolId) {
+    return "${DatabaseCollection.groupStudents.code}-$schoolId";
   }
 }

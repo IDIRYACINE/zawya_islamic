@@ -54,8 +54,9 @@ class UpdateGroupOptions extends GroupServiceOptions {
 
 class DeleteGroupOptions extends GroupServiceOptions {
   final GroupId groupId;
+  final SchoolId schoolId;
 
-  DeleteGroupOptions({required this.groupId});
+  DeleteGroupOptions( {required this.schoolId,required this.groupId});
 }
 
 abstract class GroupServicePort {

@@ -1,18 +1,40 @@
 typedef EntityMapper<T> = T Function(Map<String, dynamic> data);
 
-
 enum OptionsMetadata {
-  path,
-  id,
+  rootCollection,
+  lastId,
   hasMany,
-  fullPath, nestedId,
+  fullPath,
+  firstId,
+  lastCollection,
 }
 
-enum DatabaseCollection{
+enum DatabaseCollection {
   groups,
   users,
   teachers,
-  schools, teacherGroups, groupStudents
+  schools,
+  teacherGroups,
+  groupStudents
+}
+
+extension DatabaseCollectionExtension on DatabaseCollection {
+  String get code {
+    switch (this) {
+      case DatabaseCollection.groups:
+        return "g";
+      case DatabaseCollection.teacherGroups:
+        return "tg";
+      case DatabaseCollection.groupStudents:
+        return "sg";
+
+      case DatabaseCollection.teachers:
+        return "t";
+
+      default:
+        return "s";
+    }
+  }
 }
 
 abstract class DatabaseHandlerOptions {}
@@ -29,7 +51,7 @@ class UpdateEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
 
   UpdateEntityOptions(this.entity, this.metadata);
-  }
+}
 
 class DeleteEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
@@ -41,8 +63,7 @@ class ReadEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
   final EntityMapper mapper;
 
-
-  ReadEntityOptions(this.metadata,this.mapper);
+  ReadEntityOptions(this.metadata, this.mapper);
 }
 
 class DatabaseResponse<T> {

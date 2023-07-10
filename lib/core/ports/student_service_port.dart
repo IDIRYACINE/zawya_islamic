@@ -36,14 +36,16 @@ class LoadStudentOptions extends StudentServiceOptions{
 
 class RegisterStudentOptions extends StudentServiceOptions{
   final Student student;
+  final SchoolId schoolId;
 
-  RegisterStudentOptions({required this.student});
+  RegisterStudentOptions({required this.student,required this.schoolId});
 }
 
 class UpdateStudentOptions extends StudentServiceOptions{
   final Student student;
+  final SchoolId schoolId;
 
-  UpdateStudentOptions({required this.student});
+  UpdateStudentOptions({required this.student,required this.schoolId});
 }
 
 class DeleteStudentOptions extends StudentServiceOptions{

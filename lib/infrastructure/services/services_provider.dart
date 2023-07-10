@@ -39,7 +39,7 @@ class ServicesProvider implements ServiceProviderPort {
     studentService = StudentService(firestoreService);
     teacherService = TeacherService(firestoreService);
 
-    authService = UserService(fireauthService,firestoreService);
+    authService = UserService(fireauthService,firestoreService,teacherService);
 
     _isInit = true;
   }

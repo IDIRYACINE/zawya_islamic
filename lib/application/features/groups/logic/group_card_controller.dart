@@ -1,3 +1,4 @@
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/groups/state/events.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
@@ -12,9 +13,10 @@ import '../state/bloc.dart';
 import '../ui/group_editor.dart';
 
 class GroupCardController implements GroupCardControllerPort {
-  const GroupCardController(this.bloc);
+  const GroupCardController(this.groupsBloc, this.schoolBloc);
 
-  final GroupsBloc bloc;
+  final GroupsBloc groupsBloc;
+  final SchoolsBloc schoolBloc;
 
   @override
   void onClick(Group group) {}
@@ -37,10 +39,10 @@ class GroupCardController implements GroupCardControllerPort {
   void _onDelete(String content, String title, Group group) {
     final dialog = ConfirmationDialog(
         onConfirm: () {
-          final options = DeleteGroupOptions(groupId: group.id);
+          final options = DeleteGroupOptions(groupId: group.id,schoolId: schoolBloc.state.selectedSchool!.id);
 
           ServicesProvider.instance().groupService.deleteGroup(options).then(
-                (value) => bloc.add(
+                (value) => groupsBloc.add(
                   DeleteGroupEvent(group: group),
                 ),
               );

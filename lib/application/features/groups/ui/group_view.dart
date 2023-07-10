@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
@@ -79,8 +80,9 @@ class GroupsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<GroupsBloc>(context);
+    final schoolBloc = BlocProvider.of<SchoolsBloc>(context);
 
-    final controller = controllerPort ?? GroupCardController(bloc);
+    final controller = controllerPort ?? GroupCardController(bloc,schoolBloc);
 
     return Scaffold(
       appBar: displayAppBar

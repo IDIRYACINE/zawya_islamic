@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
@@ -22,8 +23,11 @@ class TeacherCard extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<TeachersBloc>(context);
 
+    final schoolId =
+        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+
     final TeacherCardController controller =
-        TeacherCardController(teacher, bloc);
+        TeacherCardController(teacher, bloc, schoolId);
 
     return SizedBox(
       height: 75,
@@ -64,8 +68,10 @@ class TeachersView extends StatelessWidget {
   void _loadTeachers(BuildContext context) {
     final teachersBloc = BlocProvider.of<TeachersBloc>(context);
 
-    final teacheroptions =
-        LoadTeachersOptions(schoolId: teachersBloc.state.school.id);
+    final schoolId =
+        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+
+    final teacheroptions = LoadTeachersOptions(schoolId: schoolId);
     ServicesProvider.instance()
         .teacherService
         .getTeachers(teacheroptions)

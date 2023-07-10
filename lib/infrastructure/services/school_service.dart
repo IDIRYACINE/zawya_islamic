@@ -10,8 +10,8 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<DeleteSchoolResponse> deleteSchool(DeleteSchoolOptions options) async {
     final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.id: options.schoolId.value,
-      OptionsMetadata.path: DatabaseCollection.schools.name
+      OptionsMetadata.lastId: options.schoolId.value,
+      OptionsMetadata.rootCollection: DatabaseCollection.schools.name
     });
 
     _databaseService.delete(dbOptions);
@@ -22,8 +22,8 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<LoadSchoolResponse> getSchool(LoadSchoolOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.schools.name,
-      OptionsMetadata.id: options.schoolId.value,
+      OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
+      OptionsMetadata.lastId: options.schoolId.value,
       OptionsMetadata.hasMany: false,
     }, School.fromMap);
 
@@ -35,7 +35,7 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<LoadSchoolsResponse> getSchools(LoadSchoolsOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.schools.name,
+      OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
       OptionsMetadata.hasMany: true,
     }, School.fromMap);
 
@@ -48,8 +48,8 @@ class SchoolService implements SchoolServicePort {
   Future<RegisterSchoolResponse> registerSchool(
       RegisterSchoolOptions options) async {
     final dbOptions = CreateEntityOptions(options.school.toMap(), {
-      OptionsMetadata.path: DatabaseCollection.schools.name,
-      OptionsMetadata.id: options.school.id.value,
+      OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
+      OptionsMetadata.lastId: options.school.id.value,
     });
 
     _databaseService.create(dbOptions);
@@ -60,8 +60,8 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<UpdateSchoolResponse> updateSchool(UpdateSchoolOptions options) async {
     final dbOptions = UpdateEntityOptions(options.school.toMap(), {
-      OptionsMetadata.path: DatabaseCollection.schools.name,
-      OptionsMetadata.id: options.school.id.value,
+      OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
+      OptionsMetadata.lastId: options.school.id.value,
     });
 
     _databaseService.update(dbOptions);

@@ -8,11 +8,11 @@ class FirestoreService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final firstId = options.metadata[OptionsMetadata.lastId];
 
-    if (id != null) {
-      _firestore.collection(path).doc(id).set(options.entity);
+    if (firstId != null) {
+      _firestore.collection(path).doc(firstId).set(options.entity);
     } else {
       _firestore.collection(path).add(options.entity);
     }
@@ -22,8 +22,8 @@ class FirestoreService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> delete(DeleteEntityOptions options) async {
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final id = options.metadata[OptionsMetadata.lastId];
 
     _firestore.collection(path).doc(id).delete();
     return DatabaseResponse(data: []);
@@ -32,8 +32,8 @@ class FirestoreService implements DatabasePort {
   @override
   Future<DatabaseResponse<T>> read<T>(ReadEntityOptions options) async {
     final hasMany = options.metadata[OptionsMetadata.hasMany] ?? false;
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final id = options.metadata[OptionsMetadata.lastId];
 
     final parsedData = <T>[];
 
@@ -47,7 +47,7 @@ class FirestoreService implements DatabasePort {
       }
     } else {
       final rawSnapshot = await _firestore
-          .collection(options.metadata[OptionsMetadata.path])
+          .collection(options.metadata[OptionsMetadata.rootCollection])
           .get();
 
       final List<T> data =
@@ -61,8 +61,8 @@ class FirestoreService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> update(UpdateEntityOptions options) async {
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final id = options.metadata[OptionsMetadata.lastId];
 
     _firestore.collection(path).doc(id).update(options.entity);
 

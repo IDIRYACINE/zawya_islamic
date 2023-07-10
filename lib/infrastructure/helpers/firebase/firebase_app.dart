@@ -29,5 +29,6 @@ class MyFirebaseApp {
       firestore.useFirestoreEmulator(emulatorHost, 8080);
       firebaseDatabase.useDatabaseEmulator(emulatorHost, 9000);
     }
+    
   }
 }

@@ -8,8 +8,8 @@ class FirebaseDatabaseService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
-    final path = options.metadata[OptionsMetadata.path.name];
-    final id = options.metadata[OptionsMetadata.id.name];
+    final path = options.metadata[OptionsMetadata.rootCollection.name];
+    final id = options.metadata[OptionsMetadata.lastId.name];
 
     _firebaseDatabase.ref().child(path).child(id).set(options.entity);
     return DatabaseResponse(data: []);
@@ -17,8 +17,8 @@ class FirebaseDatabaseService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> delete(DeleteEntityOptions options) async {
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final id = options.metadata[OptionsMetadata.lastId];
 
     _firebaseDatabase.ref().child(path).child(id).remove();
     return DatabaseResponse(data: []);
@@ -27,8 +27,8 @@ class FirebaseDatabaseService implements DatabasePort {
   @override
   Future<DatabaseResponse<T>> read<T>(ReadEntityOptions options) async {
     final parsedData = <T>[];
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final id = options.metadata[OptionsMetadata.lastId];
     final hasMany = options.metadata[OptionsMetadata.hasMany] ?? false;
 
     if (!hasMany) {
@@ -55,8 +55,8 @@ class FirebaseDatabaseService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> update(UpdateEntityOptions options) async {
-    final path = options.metadata[OptionsMetadata.path];
-    final id = options.metadata[OptionsMetadata.id];
+    final path = options.metadata[OptionsMetadata.rootCollection];
+    final id = options.metadata[OptionsMetadata.lastId];
 
     _firebaseDatabase.ref().child(path).child(id).update(options.entity);
     return DatabaseResponse(data: []);

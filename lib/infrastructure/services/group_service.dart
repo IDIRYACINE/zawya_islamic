@@ -10,8 +10,9 @@ class GroupService implements GroupServicePort {
   @override
   Future<DeleteGroupResponse> deleteGroup(DeleteGroupOptions options) async {
     final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.groups.name,
-      OptionsMetadata.id: options.groupId.groupId
+      OptionsMetadata.rootCollection:
+          _generateGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.groupId.groupId
     });
 
     _databaseService.delete(dbOptions);
@@ -22,9 +23,9 @@ class GroupService implements GroupServicePort {
   @override
   Future<LoadGroupResponse> getGroup(LoadGroupOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.groups.name,
-      OptionsMetadata.id: options.groupId.groupId,
-      OptionsMetadata.nestedId: options.schoolId.value,
+      OptionsMetadata.rootCollection:
+          _generateGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.groupId.groupId,
       OptionsMetadata.hasMany: false,
     }, Group.fromMap);
 
@@ -34,17 +35,16 @@ class GroupService implements GroupServicePort {
   }
 
   @override
-  Future<TeacherGroupsResponse> getTeacherGroups(LoadGroupsOptions options) async{
-
+  Future<TeacherGroupsResponse> getTeacherGroups(
+      LoadGroupsOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.teacherGroups.name,
-      OptionsMetadata.id: options.schoolId.value,
-      OptionsMetadata.nestedId: options.teacherId.id,
+      OptionsMetadata.rootCollection: _generateTeacherGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.teacherId.id,
       OptionsMetadata.hasMany: true,
     }, Group.fromMap);
 
     final response = await _databaseService.read<Group>(dbOptions);
-    
+
     return TeacherGroupsResponse(data: response.data);
   }
 
@@ -56,8 +56,9 @@ class GroupService implements GroupServicePort {
   @override
   Future<LoadGroupsResponse> loadGroups(LoadGroupOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.groups.name,
-      OptionsMetadata.id: options.schoolId.value,
+      OptionsMetadata.rootCollection:
+          _generateGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.groupId.groupId,
       OptionsMetadata.hasMany: true,
     }, Group.fromMap);
 
@@ -67,14 +68,12 @@ class GroupService implements GroupServicePort {
   }
 
   @override
-  Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options) async {
-
-    final dbOptions = CreateEntityOptions(
-      options.group.toMap()
-      ,{
-      OptionsMetadata.path: DatabaseCollection.groups.name,
-      OptionsMetadata.id: options.group.id.groupId,
-      OptionsMetadata.nestedId: options.schoolId.value,
+  Future<RegisterGroupResponse> registerGroup(
+      RegisterGroupOptions options) async {
+    final dbOptions = CreateEntityOptions(options.group.toMap(), {
+      OptionsMetadata.rootCollection:
+          _generateGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.group.id.groupId,
     });
 
     await _databaseService.create(dbOptions);
@@ -83,17 +82,24 @@ class GroupService implements GroupServicePort {
   }
 
   @override
-  Future<UpdateGroupResponse> updateGroup(UpdateGroupOptions options) async{
-    final dbOptions = UpdateEntityOptions(
-      options.group.toMap()
-      ,{
-      OptionsMetadata.path: DatabaseCollection.groups.name,
-      OptionsMetadata.id: options.group.id.groupId,
-      OptionsMetadata.nestedId: options.schoolId.value,
+  Future<UpdateGroupResponse> updateGroup(UpdateGroupOptions options) async {
+    final dbOptions = UpdateEntityOptions(options.group.toMap(), {
+      OptionsMetadata.rootCollection:
+          _generateGroupCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.schoolId.value,
     });
 
     await _databaseService.update(dbOptions);
 
     return UpdateGroupResponse(data: null);
+  }
+
+  String _generateGroupCode(String schoolId) {
+    return "${DatabaseCollection.groups.code}-$schoolId";
+  }
+
+  String _generateTeacherGroupCode(String schoolId){
+        return "${DatabaseCollection.teacherGroups.code}-$schoolId";
+
   }
 }

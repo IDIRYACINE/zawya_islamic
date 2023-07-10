@@ -13,10 +13,10 @@ import '../../../features/layout/state/bloc.dart';
 import '../ui/school_editor.dart';
 
 class SchoolCardController {
-  const SchoolCardController(this.school, this.bloc, this.appBloc);
+  const SchoolCardController(this.school, this.schoolBloc, this.appBloc);
 
   final School school;
-  final SchoolsBloc bloc;
+  final SchoolsBloc schoolBloc;
   final AppBloc appBloc;
 
   void onClick() {
@@ -25,7 +25,8 @@ class SchoolCardController {
         const AdminAppSetupOptions(),
       ),
     );
-    bloc.add(SelectSchoolEvent(school: school));
+
+    schoolBloc.add(SelectSchoolEvent(school: school));
 
     NavigationService.pushNamedReplacement(Routes.adminDashboardRoute);
   }
@@ -52,7 +53,7 @@ class SchoolCardController {
               .schoolService
               .deleteSchool(options)
               .then((res) {
-            bloc.add(DeleteSchoolEvent(school: school));
+            schoolBloc.add(DeleteSchoolEvent(school: school));
             NavigationService.pop();
           });
         },

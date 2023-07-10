@@ -1,19 +1,18 @@
-
-
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 
-class TeacherService implements TeacherServicePort{
-    final DatabasePort _databaseService;
+class TeacherService implements TeacherServicePort {
+  final DatabasePort _databaseService;
 
   TeacherService(this._databaseService);
 
   @override
-  Future<DeleteTeacherResponse> deleteTeacher(DeleteTeacherOptions options) async {
-      final dbOptions = DeleteEntityOptions({
+  Future<DeleteTeacherResponse> deleteTeacher(
+      DeleteTeacherOptions options) async {
+    final dbOptions = DeleteEntityOptions({
       OptionsMetadata.fullPath:
-          '${DatabaseCollection.teachers.name}/${options.teacherId}',
+          '${_generateTeacherCollectionCode(options.schoolId.value)}/${options.teacherId}',
     });
 
     _databaseService.delete(dbOptions);
@@ -24,8 +23,9 @@ class TeacherService implements TeacherServicePort{
   @override
   Future<LoadTeacherResponse> getTeacher(LoadTeacherOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.teachers.name,
-      OptionsMetadata.id: options.teacherId.id,
+      OptionsMetadata.rootCollection:
+          _generateTeacherCollectionCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.teacherId.id,
       OptionsMetadata.hasMany: false,
     }, Teacher.fromMap);
 
@@ -37,8 +37,9 @@ class TeacherService implements TeacherServicePort{
   @override
   Future<LoadTeachersResponse> getTeachers(LoadTeachersOptions options) async {
     final dbOptions = ReadEntityOptions({
-      OptionsMetadata.path: DatabaseCollection.teachers.name,
-      OptionsMetadata.id : options.schoolId.value,
+      OptionsMetadata.rootCollection:
+          _generateTeacherCollectionCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.schoolId.value,
       OptionsMetadata.hasMany: true,
     }, Teacher.fromMap);
 
@@ -53,26 +54,34 @@ class TeacherService implements TeacherServicePort{
   }
 
   @override
-  Future<RegisterTeacherResponse> registerTeacher(RegisterTeacherOptions options) async {
-    final dbOptions = CreateEntityOptions(options.teacher.toMap(),{
-      OptionsMetadata.path: DatabaseCollection.teachers.name,
-      OptionsMetadata.id: options.teacher.id.id,
+  Future<RegisterTeacherResponse> registerTeacher(
+      RegisterTeacherOptions options) async {
+    final dbOptions = CreateEntityOptions(options.teacher.toMap(), {
+      OptionsMetadata.rootCollection:
+          _generateTeacherCollectionCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.teacher.id.id,
     });
 
-     await _databaseService.create(dbOptions);
+    await _databaseService.create(dbOptions);
 
     return RegisterTeacherResponse(data: null);
   }
 
   @override
-  Future<UpdateTeacherResponse> updateTeacher(UpdateTeacherOptions options) async {
+  Future<UpdateTeacherResponse> updateTeacher(
+      UpdateTeacherOptions options) async {
     final dbOptions = UpdateEntityOptions(options.teacher.toMap(), {
-      OptionsMetadata.fullPath:
-          '${DatabaseCollection.teachers.name}/${options.teacher.id.id}',
+      OptionsMetadata.rootCollection:
+          _generateTeacherCollectionCode(options.schoolId.value),
+      OptionsMetadata.lastId: options.teacher.id.id,
     });
 
     await _databaseService.update(dbOptions);
 
     return UpdateTeacherResponse(data: null);
+  }
+
+  String _generateTeacherCollectionCode(String schoolId) {
+    return "${DatabaseCollection.teachers.code}-$schoolId";
   }
 }
