@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
+import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
@@ -19,6 +20,7 @@ class StudentEditorController {
 
   late String studentName;
   late DateTime birthDate;
+  Group? group;
 
   void updateName(String value) {
     studentName = value;
@@ -72,5 +74,9 @@ class StudentEditorController {
             CreateStudentEvent(student: student),
           ),
         );
+  }
+
+  void updateGroup(Group? value) {
+    group = value;
   }
 }

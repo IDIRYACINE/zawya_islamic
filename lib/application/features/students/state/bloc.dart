@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/core/aggregates/students.dart';
-import 'package:zawya_islamic/core/entities/evaluations.dart';
 
 import 'events.dart';
 import 'state.dart';
@@ -58,12 +57,8 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     final presence =
         _studentAggregate.deleteStudent(event.student, state.presence);
 
-    final comparatorEvaluation = StudentEvaluation.zeroEvaluation(event.student);
 
-    final updatedEvaluations = _evaluationAggregate.deleteStudentEvaluation(comparatorEvaluation);
-    final updatedUnEvaluations = _evaluationAggregate.deleteStudentEvaluation(comparatorEvaluation); 
-
-    emit(state.copyWith(presence: presence,unEvaluated: updatedUnEvaluations,evaluations: updatedEvaluations));
+    emit(state.copyWith(presence: presence,));
   }
 
   FutureOr<void> _handleMarkStudentPresence(
@@ -73,12 +68,9 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
         _studentAggregate.addStudent(event.student, state.presence);
 
 
-    final zeroEvaluation = StudentEvaluation.zeroEvaluation(event.student);    
-
-    final evluations = _evaluationAggregate.addStudentEvaluation(zeroEvaluation);
 
 
-    emit(state.copyWith(presence: presence,unEvaluated: evluations));
+    emit(state.copyWith(presence: presence));
   }
 
   FutureOr<void> _handleMarkEvaluation(

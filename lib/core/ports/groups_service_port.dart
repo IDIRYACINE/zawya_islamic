@@ -20,15 +20,24 @@ class GroupServiceResponse<T> {
 
 abstract class GroupServiceOptions {}
 
-class LoadGroupsOptions extends GroupServiceOptions {
+class LoadTeacherGroupsOptions extends GroupServiceOptions {
   final List<GroupId> groupIds;
   final SchoolId schoolId;
-  final TeacherId teacherId;
+  final TeacherId? teacherId;
 
-  LoadGroupsOptions(
+  LoadTeacherGroupsOptions(
       {required this.schoolId,
       required this.teacherId,
       this.groupIds = const []});
+}
+
+
+class LoadGroupsOptions extends GroupServiceOptions {
+  final SchoolId schoolId;
+
+  LoadGroupsOptions(
+      {required this.schoolId,
+      });
 }
 
 class LoadGroupOptions extends GroupServiceOptions {
@@ -61,10 +70,11 @@ class DeleteGroupOptions extends GroupServiceOptions {
 
 abstract class GroupServicePort {
   Future<LoadGroupIdsResponse> loadGroupIds();
-  Future<TeacherGroupsResponse> getTeacherGroups(LoadGroupsOptions options);
+  Future<TeacherGroupsResponse> getTeacherGroups(LoadTeacherGroupsOptions options);
   Future<LoadGroupResponse> getGroup(LoadGroupOptions options);
-  Future<LoadGroupsResponse> loadGroups(LoadGroupOptions options);
+  Future<LoadGroupsResponse> loadGroups(LoadGroupsOptions options);
   Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options);
   Future<UpdateGroupResponse> updateGroup(UpdateGroupOptions options);
   Future<DeleteGroupResponse> deleteGroup(DeleteGroupOptions options);
+
 }

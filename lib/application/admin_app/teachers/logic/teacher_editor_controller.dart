@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
+import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
 import 'package:zawya_islamic/core/ports/auth_service_port.dart';
@@ -102,5 +103,8 @@ class TeacherEditorController {
 
   void updatePassword(String value) {
     password = value;
+  }
+
+  void updateGroup(Group? group) {
   }
 }

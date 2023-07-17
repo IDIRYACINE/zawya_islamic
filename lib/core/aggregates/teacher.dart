@@ -27,7 +27,7 @@ class TeachersAggregate{
 
   List<Teacher> setTeachers(List<Teacher> teachers) {
     _teachers.clear();
-    _teachers.setAll(0, teachers);
+    _teachers.addAll( teachers);
     return _teachers;
   }
 

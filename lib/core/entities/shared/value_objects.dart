@@ -1,9 +1,16 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class BirthDate{
   final DateTime date;
 
   BirthDate(this.date);
+
+  static BirthDate fromTimestamp(Timestamp rawDate) {
+    final date = rawDate.toDate();
+    return BirthDate(date);
+  }
 
 }
 

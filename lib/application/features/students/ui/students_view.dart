@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
+import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/features/students/logic/student_card_controller.dart';
-import 'package:zawya_islamic/application/features/students/state/bloc.dart';
-import 'package:zawya_islamic/application/features/students/ui/student_editor.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
-import '../state/state.dart';
 
 class StudentCard extends StatelessWidget {
   final Student student;
@@ -46,9 +45,10 @@ class StudentCard extends StatelessWidget {
 }
 
 class StudentsView extends StatelessWidget {
-  const StudentsView({super.key, this.displayAppBar = true});
+  const StudentsView({super.key, this.displayAppBar = true, required this.dataLoader});
 
   final bool displayAppBar;
+  final DataLoaderCallback dataLoader;
 
   Widget _buildItems(BuildContext context, Student student) {
     return StudentCard(student: student);
@@ -59,9 +59,13 @@ class StudentsView extends StatelessWidget {
     NavigationService.displayDialog(dialog);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+
+    dataLoader(context);
 
     return Scaffold(
       appBar: displayAppBar

@@ -29,7 +29,7 @@ class Student{
     return Student(
       id: StudentId(json[StudentAttributes.id.name]),
       name: Name(json[StudentAttributes.name.name]),
-      birthDate: BirthDate(json[StudentAttributes.birthDate.name]),
+      birthDate: BirthDate.fromTimestamp(json[StudentAttributes.birthDate.name]),
     );
   }
 

@@ -36,10 +36,10 @@ class GroupService implements GroupServicePort {
 
   @override
   Future<TeacherGroupsResponse> getTeacherGroups(
-      LoadGroupsOptions options) async {
+      LoadTeacherGroupsOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection: _generateTeacherGroupCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.teacherId.id,
+      OptionsMetadata.lastId: options.teacherId!.id,
       OptionsMetadata.hasMany: true,
     }, Group.fromMap);
 
@@ -54,11 +54,10 @@ class GroupService implements GroupServicePort {
   }
 
   @override
-  Future<LoadGroupsResponse> loadGroups(LoadGroupOptions options) async {
+  Future<LoadGroupsResponse> loadGroups(LoadGroupsOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.groupId.groupId,
       OptionsMetadata.hasMany: true,
     }, Group.fromMap);
 

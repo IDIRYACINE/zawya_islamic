@@ -107,3 +107,38 @@ class EvaluationTabView extends StatelessWidget {
         itemCount: students.length);
   }
 }
+
+class MonthyEvaluationTab extends StatelessWidget {
+  const MonthyEvaluationTab({super.key});
+
+  Widget _buildItem(BuildContext context, StudentEvaluation student,
+      EvaluationCardController evaluationCardController) {
+    return EvaluationCard(
+      evaluation: student,
+      isEvaluated: true,
+      controller: evaluationCardController,
+    );
+  }
+
+  Widget _speperatorBuilder(BuildContext context, int index) {
+    return const SizedBox(
+      height: 20,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<StudentsBloc>(context);
+    final evaluationCardController = EvaluationCardController(bloc);
+
+    return BlocBuilder<StudentsBloc, StudentsState>(builder: (context, state) {
+      final studentsEvaluations = state.evaluations;
+
+      return ListView.separated(
+          itemBuilder: (context, index) => _buildItem(
+              context, studentsEvaluations[index], evaluationCardController),
+          separatorBuilder: _speperatorBuilder,
+          itemCount: studentsEvaluations.length);
+    });
+  }
+}

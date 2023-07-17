@@ -21,7 +21,7 @@ class Group {
 
   factory Group.fromMap(Map<String, dynamic> json) {
     return Group(
-      id: GroupId(json['group']),
+      id: GroupId(json['id']),
       name: Name(json['name']),
     );
   }

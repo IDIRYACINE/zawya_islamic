@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
@@ -51,13 +52,14 @@ class GroupsView extends StatelessWidget {
     this.onReturn,
     this.displayAppBar = true,
     this.displayFloatingAction = true,
-    this.controllerPort,
+    this.controllerPort, required this.dataLoader,
   });
 
   final bool displayAppBar;
   final VoidCallback? onReturn;
   final bool displayFloatingAction;
   final GroupCardControllerPort? controllerPort;
+  final DataLoaderCallback dataLoader;
 
   Widget _buildItems(
       BuildContext context, Group group, GroupCardControllerPort controller) {
@@ -104,6 +106,7 @@ class GroupsView extends StatelessWidget {
     final schoolBloc = BlocProvider.of<SchoolsBloc>(context);
 
     final controller = controllerPort ?? GroupCardController(bloc, schoolBloc);
+    dataLoader(context);
 
     return Scaffold(
       appBar: _buildAppBar(localizations),

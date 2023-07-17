@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/export.dart';
-import 'package:zawya_islamic/application/features/students/ui/students_view.dart';
-import 'package:zawya_islamic/application/features/groups/ui/group_view.dart';
+import 'package:zawya_islamic/application/features/groups/export.dart';
+import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/features/layout/logic/ports.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
+import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/core/ports/school_service_port.dart';
+import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/resources.dart';
@@ -67,7 +69,6 @@ class AdminAppSetupOptions extends AppSetupOptions {
     servicesProvider.schoolService
         .getSchools(schoolsOptions)
         .then((res) => schoolsBloc.add(LoadSchoolsEvent(schools: res.data)));
-    
   }
 
   static Widget buildBottomNavigationBar(int index) {
@@ -81,6 +82,7 @@ class AdminAppSetupOptions extends AppSetupOptions {
       case 0:
         return const StudentsView(
           displayAppBar: false,
+          dataLoader: _loadStudents,
         );
 
       case 1:
@@ -91,7 +93,36 @@ class AdminAppSetupOptions extends AppSetupOptions {
       default:
         return const GroupsView(
           displayAppBar: false,
+          dataLoader: _loadGroups,
         );
     }
   }
+}
+
+void _loadStudents(BuildContext context) {
+  final studentsBloc = BlocProvider.of<StudentsBloc>(context);
+
+  final schoolId =
+      BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+
+  final studentOptions = LoadStudentsOptions(schoolId: schoolId);
+  ServicesProvider.instance().studentService.getStudents(studentOptions).then(
+        (res) => studentsBloc.add(
+          LoadStudentsEvent(students: res.data),
+        ),
+      );
+}
+
+void _loadGroups(BuildContext context) {
+  final groupsBloc = BlocProvider.of<GroupsBloc>(context);
+
+  final schoolId =
+      BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+
+  final groupOptions = LoadGroupsOptions(schoolId: schoolId);
+  ServicesProvider.instance().groupService.loadGroups(groupOptions).then(
+        (res) => groupsBloc.add(
+          LoadGroupsEvent(groups: res.data),
+        ),
+      );
 }
