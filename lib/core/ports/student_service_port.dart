@@ -1,6 +1,3 @@
-
-
-import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 typedef LoadStudentsResponse = StudentServiceResponse<List<Student>>;
@@ -9,56 +6,57 @@ typedef RegisterStudentResponse = StudentServiceResponse<void>;
 typedef UpdateStudentResponse = StudentServiceResponse<void>;
 typedef DeleteStudentResponse = StudentServiceResponse<void>;
 
- class StudentServiceResponse<T>{
+class StudentServiceResponse<T> {
   final String? message;
   final bool success;
   final T data;
 
-  StudentServiceResponse({this.message, this.success = true, required this.data});
+  StudentServiceResponse(
+      {this.message, this.success = true, required this.data});
 }
 
+abstract class StudentServiceOptions {}
 
-abstract class StudentServiceOptions{}
-
-class LoadStudentsOptions extends StudentServiceOptions{
+class LoadStudentsOptions extends StudentServiceOptions {
   final List<String> studentIds;
-  final SchoolId schoolId;
+  final GroupId groupId;
 
-  LoadStudentsOptions( {required this.schoolId, this.studentIds = const []});
+  LoadStudentsOptions({required this.groupId, this.studentIds = const []});
 }
 
-class LoadStudentOptions extends StudentServiceOptions{
+class LoadStudentOptions extends StudentServiceOptions {
   final StudentId studentId;
-  final SchoolId schoolId;
+  final GroupId groupId;
 
-  LoadStudentOptions({required this.schoolId,required this.studentId});
+  LoadStudentOptions({required this.groupId, required this.studentId});
 }
 
-class RegisterStudentOptions extends StudentServiceOptions{
+class RegisterStudentOptions extends StudentServiceOptions {
   final Student student;
-  final SchoolId schoolId;
+  final GroupId groupId;
 
-  RegisterStudentOptions({required this.student,required this.schoolId});
+  RegisterStudentOptions({required this.student, required this.groupId});
 }
 
-class UpdateStudentOptions extends StudentServiceOptions{
+class UpdateStudentOptions extends StudentServiceOptions {
   final Student student;
-  final SchoolId schoolId;
+  final GroupId groupId;
 
-  UpdateStudentOptions({required this.student,required this.schoolId});
+  UpdateStudentOptions({required this.student, required this.groupId});
 }
 
-class DeleteStudentOptions extends StudentServiceOptions{
+class DeleteStudentOptions extends StudentServiceOptions {
   final StudentId studentId;
-  final SchoolId schoolId;
+  final GroupId groupId;
 
-  DeleteStudentOptions( {required this.schoolId,required this.studentId});
+  DeleteStudentOptions({required this.groupId, required this.studentId});
 }
 
-abstract class StudentServicePort{
+abstract class StudentServicePort {
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options);
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options);
-  Future<RegisterStudentResponse> registerStudent(RegisterStudentOptions options);
+  Future<RegisterStudentResponse> registerStudent(
+      RegisterStudentOptions options);
   Future<UpdateStudentResponse> updateStudent(UpdateStudentOptions options);
   Future<DeleteStudentResponse> deleteStudent(DeleteStudentOptions options);
 }

@@ -51,7 +51,8 @@
     "start" : "Start",
     "end" : "End",
     "didntMemoreizeAnything": "Didn't Memorize",
-    "emailLabel" : "Email"
+    "emailLabel" : "Email",
+    "createSessionLabel" : "Start session"
    
 
 }

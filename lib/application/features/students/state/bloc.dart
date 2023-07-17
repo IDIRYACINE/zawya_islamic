@@ -21,6 +21,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     on<MarkStudentPresence>(_handleMarkStudentPresence);
     on<MarkStudentEvaluation>(_handleMarkEvaluation);
     on<UnMarkStudentEvaluation>(_handleUnMarkEvaluation);
+    on<SetSession>(_handleSession);
   }
 
   FutureOr<void> _handleCreateStudent(
@@ -97,5 +98,9 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
 
     emit(state.copyWith(
         evaluations: updatedEvaluations, unEvaluated: updatedUnEvaluated));
+  }
+
+  FutureOr<void> _handleSession(SetSession event, Emitter<StudentsState> emit) {
+    emit(state.copyWith(session: event.session));
   }
 }

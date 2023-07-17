@@ -37,7 +37,7 @@ class Teacher{
     return {
       TeacherAttributes.id.name : id.id,
       TeacherAttributes.name.name : name.value,
-      TeacherAttributes.groups.name : List<dynamic>.from(groups.map((x) => x.groupId)),
+      TeacherAttributes.groups.name : List<dynamic>.from(groups.map((x) => x.value)),
     };
   }
 

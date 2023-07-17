@@ -1,4 +1,4 @@
-import 'package:zawya_islamic/core/entities/shared/value_objects.dart';
+import 'package:zawya_islamic/core/entities/export.dart';
 
 class AdminId {
   final int value;
@@ -41,4 +41,8 @@ class User {
   final UserRoles role;
 
   User({required this.id, required this.name, required this.role});
+
+  TeacherId toTeacherId() {
+    return TeacherId(id.id);
+  }
 }

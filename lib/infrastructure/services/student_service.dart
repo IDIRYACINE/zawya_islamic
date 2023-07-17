@@ -12,7 +12,7 @@ class StudentService implements StudentServicePort {
       DeleteStudentOptions options) async {
     final dbOptions = DeleteEntityOptions({
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.schoolId.value),
+          _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.lastId: options.studentId.value,
     });
 
@@ -25,7 +25,7 @@ class StudentService implements StudentServicePort {
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.schoolId.value),
+          _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.lastId: options.studentId.value,
       OptionsMetadata.hasMany: false,
     }, Student.fromMap);
@@ -39,7 +39,7 @@ class StudentService implements StudentServicePort {
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options) async {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.schoolId.value),
+          _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.hasMany: true,
     }, Student.fromMap);
 
@@ -53,7 +53,7 @@ class StudentService implements StudentServicePort {
       RegisterStudentOptions options) async {
     final dbOptions = CreateEntityOptions(options.student.toMap(), {
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.schoolId.value),
+          _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.lastId: options.student.id.value,
     });
 
@@ -67,7 +67,7 @@ class StudentService implements StudentServicePort {
       UpdateStudentOptions options) async {
     final dbOptions = UpdateEntityOptions(options.student.toMap(), {
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.schoolId.value),
+          _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.lastId: options.student.id.value,
     });
 
@@ -76,7 +76,7 @@ class StudentService implements StudentServicePort {
     return UpdateStudentResponse(data: null);
   }
 
-  String _generateStudentGroupCode(String schoolId) {
-    return "${DatabaseCollection.groupStudents.code}-$schoolId";
+  String _generateStudentGroupCode(String groupId) {
+    return "${DatabaseCollection.groupStudents.code}-$groupId";
   }
 }

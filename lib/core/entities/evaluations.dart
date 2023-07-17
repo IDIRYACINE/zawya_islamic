@@ -9,6 +9,7 @@ enum EvaluationType {
   hazeb,
 }
 
+
 extension EvaluationExtension on EvaluationType {
   String get arabic {
     switch (this) {

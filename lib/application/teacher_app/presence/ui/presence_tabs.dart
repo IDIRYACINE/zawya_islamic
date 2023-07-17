@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/state.dart';
+import 'package:zawya_islamic/application/teacher_app/presence/ui/presence_view.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 
@@ -20,6 +21,10 @@ class _StudentPresenceTabState extends State<StudentPresenceTab> {
     final localizations = AppLocalizations.of(context)!;
 
     return BlocBuilder<StudentsBloc, StudentsState>(builder: (context, state) {
+      if (state.session == null) {
+        return const NoSessionView();
+      }
+
       return DefaultTabController(
         length: 2,
         child: Scaffold(

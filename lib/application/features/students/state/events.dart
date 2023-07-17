@@ -1,6 +1,7 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/session.dart';
 
 abstract class StudentEvent {}
 
@@ -56,4 +57,11 @@ class MarkStudentEvaluation extends StudentEvent{
   final StudentEvaluation evaluation;
 
   MarkStudentEvaluation({required this.evaluation});
+}
+
+
+class SetSession extends StudentEvent{
+  final Session? session;
+
+  SetSession({ this.session});
 }

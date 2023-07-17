@@ -12,7 +12,7 @@ class GroupService implements GroupServicePort {
     final dbOptions = DeleteEntityOptions({
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.groupId.groupId
+      OptionsMetadata.lastId: options.groupId.value
     });
 
     _databaseService.delete(dbOptions);
@@ -25,7 +25,7 @@ class GroupService implements GroupServicePort {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.groupId.groupId,
+      OptionsMetadata.lastId: options.groupId.value,
       OptionsMetadata.hasMany: false,
     }, Group.fromMap);
 
@@ -72,7 +72,7 @@ class GroupService implements GroupServicePort {
     final dbOptions = CreateEntityOptions(options.group.toMap(), {
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.group.id.groupId,
+      OptionsMetadata.lastId: options.group.id.value,
     });
 
     await _databaseService.create(dbOptions);

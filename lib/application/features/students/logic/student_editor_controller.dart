@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
@@ -48,9 +47,10 @@ class StudentEditorController {
         name: Name(studentName), birthDate: BirthDate(birthDate));
 
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
-    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!).state.selectedSchool!.id;
+final groupId =
+      BlocProvider.of<StudentsBloc>(key.currentContext!).state.group.id;
 
-    final options = UpdateStudentOptions(student: updatedStudent,schoolId: schoolId);
+    final options = UpdateStudentOptions(student: updatedStudent,groupId: groupId);
     ServicesProvider.instance().studentService.updateStudent(options).then(
           (value) => bloc.add(
             UpdateStudentEvent(student: updatedStudent),
@@ -66,9 +66,10 @@ class StudentEditorController {
     );
 
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
-    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!).state.selectedSchool!.id;
+final groupId =
+      BlocProvider.of<StudentsBloc>(key.currentContext!).state.group.id;
 
-    final options = RegisterStudentOptions(student: student, schoolId: schoolId);
+    final options = RegisterStudentOptions(student: student, groupId: groupId);
     ServicesProvider.instance().studentService.registerStudent(options).then(
           (value) => bloc.add(
             CreateStudentEvent(student: student),

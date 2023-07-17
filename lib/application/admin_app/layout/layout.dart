@@ -102,10 +102,10 @@ class AdminAppSetupOptions extends AppSetupOptions {
 void _loadStudents(BuildContext context) {
   final studentsBloc = BlocProvider.of<StudentsBloc>(context);
 
-  final schoolId =
-      BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+  final groupId =
+      BlocProvider.of<StudentsBloc>(context).state.group.id;
 
-  final studentOptions = LoadStudentsOptions(schoolId: schoolId);
+  final studentOptions = LoadStudentsOptions(groupId: groupId);
   ServicesProvider.instance().studentService.getStudents(studentOptions).then(
         (res) => studentsBloc.add(
           LoadStudentsEvent(students: res.data),

@@ -14,7 +14,7 @@ class Group {
 
   Map<String, dynamic> toMap() {
     return {
-      GroupAttributes.id.name: id.groupId,
+      GroupAttributes.id.name: id.value,
       GroupAttributes.name.name: name.value,
     };
   }

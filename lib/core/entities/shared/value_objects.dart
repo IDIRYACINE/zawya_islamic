@@ -22,12 +22,12 @@ class Name{
 }
 
 class GroupId{
-  final String groupId;
+  final String value;
 
-  GroupId(this.groupId);
+  GroupId(this.value);
 
   bool equals(GroupId id) {
-    return groupId == id.groupId;
+    return value == id.value;
   }
 }
 
