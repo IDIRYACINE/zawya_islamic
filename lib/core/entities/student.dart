@@ -1,11 +1,8 @@
 
 
 import 'package:zawya_islamic/core/entities/shared/value_objects.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
-enum StudentAttributes{
-  id,
-  name,
-  birthDate,}
 
 class StudentId{
   final String value;
@@ -24,20 +21,19 @@ class Student{
   final BirthDate birthDate;
 
   Student({required this.id,required  this.name,required  this.birthDate});
-
   factory Student.fromMap(Map<String,dynamic> json){
     return Student(
-      id: StudentId(json[StudentAttributes.id.name]),
-      name: Name(json[StudentAttributes.name.name]),
-      birthDate: BirthDate.fromTimestamp(json[StudentAttributes.birthDate.name]),
+      id: StudentId(json[UserTable.userId.name]),
+      name: Name(json[UserTable.userName.name]),
+      birthDate: BirthDate.fromTimestamp(json[UserTable.birthDate.name]),
     );
   }
 
   Map<String,dynamic> toMap(){
     return {
-      StudentAttributes.id.name : id.value,
-      StudentAttributes.name.name : name.value,
-      StudentAttributes.birthDate.name : birthDate.date,
+      UserTable.userId.name : id.value,
+      UserTable.userName.name : name.value,
+      UserTable.birthDate.name : birthDate.date,
     };
   }
 

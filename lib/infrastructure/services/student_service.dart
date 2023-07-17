@@ -1,6 +1,7 @@
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 class StudentService implements StudentServicePort {
   final DatabasePort _databaseService;
@@ -10,10 +11,10 @@ class StudentService implements StudentServicePort {
   @override
   Future<DeleteStudentResponse> deleteStudent(
       DeleteStudentOptions options) async {
-    final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.groupId.value),
-      OptionsMetadata.lastId: options.studentId.value,
+    final dbOptions = DeleteEntityOptions(metadata: {
+      OptionsMetadata.rootCollection: DatabaseCollection.users
+    }, entries: {
+      UserGroupsTable.groupId.name: options.groupId.value,
     });
 
     _databaseService.delete(dbOptions);
@@ -65,11 +66,16 @@ class StudentService implements StudentServicePort {
   @override
   Future<UpdateStudentResponse> updateStudent(
       UpdateStudentOptions options) async {
-    final dbOptions = UpdateEntityOptions(options.student.toMap(), {
+    final dbOptions = UpdateEntityOptions(entity:options.student.toMap(),metadata: {
       OptionsMetadata.rootCollection:
           _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.lastId: options.student.id.value,
-    });
+    },
+    filters: {
+      UserTable.userId.name: options.student.id.value
+    }
+    
+    );
 
     _databaseService.update(dbOptions);
 
@@ -77,6 +83,7 @@ class StudentService implements StudentServicePort {
   }
 
   String _generateStudentGroupCode(String groupId) {
-    return "${DatabaseCollection.groupStudents.code}-$groupId";
+    // return "${DatabaseCollection.groupStudents.code}-$groupId";
+    return DatabaseCollection.users.name;
   }
 }

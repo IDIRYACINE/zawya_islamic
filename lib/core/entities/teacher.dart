@@ -1,19 +1,16 @@
 
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
+
 import 'shared/value_objects.dart';
 
-enum TeacherAttributes{
-  id,
-  name,
-  groups,
-}
 
 class TeacherId{
-  final String id;
+  final String value;
 
-  TeacherId(this.id);
+  TeacherId(this.value);
   
   bool equals(TeacherId id) {
-    return this.id == id.id;
+    return value == id.value;
   }
 
 }
@@ -27,17 +24,16 @@ class Teacher{
 
   factory Teacher.fromMap(Map<String,dynamic> json){
     return Teacher(
-      id: TeacherId(json[TeacherAttributes.id.name]),
-      name: Name(json[TeacherAttributes.name.name]),
-      groups: List<GroupId>.from(json[TeacherAttributes.groups.name].map((x) => GroupId(x))),
+      id: TeacherId(json[UserTable.userId.name]),
+      name: Name(json[UserTable.userName.name]),
+      groups: [],
     );
   }
 
   Map<String,dynamic> toMap(){
     return {
-      TeacherAttributes.id.name : id.id,
-      TeacherAttributes.name.name : name.value,
-      TeacherAttributes.groups.name : List<dynamic>.from(groups.map((x) => x.value)),
+      UserTable.userId.name : id.value,
+      UserTable.userName.name : name.value,
     };
   }
 

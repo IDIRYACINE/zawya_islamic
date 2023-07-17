@@ -41,6 +41,7 @@ dependencies:
   firebase_core: ^2.14.0
   flutter_localization: ^0.1.12
   uuid: ^3.0.7
+  supabase_flutter: ^1.10.9
 
 dev_dependencies:
   flutter_test:

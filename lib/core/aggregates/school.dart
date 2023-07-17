@@ -1,9 +1,6 @@
 import 'package:zawya_islamic/core/entities/shared/value_objects.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
-enum SchoolAttributes {
-  id,
-  name,
-}
 
 class SchoolId {
   final String value;
@@ -27,15 +24,15 @@ class School {
 
   Map<String, dynamic> toMap() {
     return {
-      SchoolAttributes.id.name: id.value,
-      SchoolAttributes.name.name: name.value,
+      SchoolTable.schoolId.name: id.value,
+      SchoolTable.schoolName.name: name.value,
     };
   }
 
   factory School.fromMap(Map<String, dynamic> json) {
     return School(
-      id: SchoolId(json[SchoolAttributes.id.name]),
-      name: Name(json[SchoolAttributes.name.name]),
+      id: SchoolId(json[SchoolTable.schoolId.name]),
+      name: Name(json[SchoolTable.schoolName.name]),
     );
   }
 

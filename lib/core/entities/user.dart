@@ -35,6 +35,20 @@ enum UserRoles {
     }
   }
 
+    UserRoles parseUserRolefromNumbers(int raw) {
+    switch (raw) {
+      case 0:
+        return UserRoles.admin;
+      case 1:
+        return UserRoles.teacher;
+      case 2:
+        return UserRoles.student;
+
+      default:
+        return UserRoles.anonymous;
+    }
+  }
+
 class User {
   final UserId id;
   final Name name;
@@ -43,6 +57,10 @@ class User {
   User({required this.id, required this.name, required this.role});
 
   TeacherId toTeacherId() {
-    return TeacherId(id.id);
+    return TeacherId(id.value);
+  }
+
+  User copyWith({ UserRoles? role}) {
+    return User(id: id, name: name, role: role??this.role);
   }
 }

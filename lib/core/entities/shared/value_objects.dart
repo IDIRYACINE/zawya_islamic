@@ -33,7 +33,7 @@ class GroupId{
 
 
 class UserId{
-  final String id;
+  final String value;
 
-  UserId(this.id);
+  UserId(this.value);
 }

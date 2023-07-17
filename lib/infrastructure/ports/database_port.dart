@@ -1,3 +1,4 @@
+
 typedef EntityMapper<T> = T Function(Map<String, dynamic> data);
 
 enum OptionsMetadata {
@@ -12,10 +13,9 @@ enum OptionsMetadata {
 enum DatabaseCollection {
   groups,
   users,
-  teachers,
+  userGroups,
   schools,
-  teacherGroups,
-  groupStudents
+  userRoles
 }
 
 extension DatabaseCollectionExtension on DatabaseCollection {
@@ -23,18 +23,19 @@ extension DatabaseCollectionExtension on DatabaseCollection {
     switch (this) {
       case DatabaseCollection.groups:
         return "g";
-      case DatabaseCollection.teacherGroups:
-        return "tg";
-      case DatabaseCollection.groupStudents:
-        return "sg";
-
-      case DatabaseCollection.teachers:
-        return "t";
+    
 
       default:
         return "s";
     }
   }
+}
+
+class DatabaseEntry{
+  final String key;
+  final String value;
+
+  DatabaseEntry(this.key, this.value);
 }
 
 abstract class DatabaseHandlerOptions {}
@@ -49,21 +50,24 @@ class CreateEntityOptions extends DatabaseHandlerOptions {
 class UpdateEntityOptions extends DatabaseHandlerOptions {
   final Map<String, dynamic> entity;
   final Map<OptionsMetadata, dynamic> metadata;
+  final Map<String,dynamic> filters;
 
-  UpdateEntityOptions(this.entity, this.metadata);
+  UpdateEntityOptions({required this.entity,required this.metadata,required this.filters});
 }
 
 class DeleteEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
+  final Map<String,String> entries; 
 
-  DeleteEntityOptions(this.metadata);
+  DeleteEntityOptions({required this.metadata,required this.entries});
 }
 
 class ReadEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
   final EntityMapper mapper;
+  final Map<String,dynamic>? filters;
 
-  ReadEntityOptions(this.metadata, this.mapper);
+  ReadEntityOptions(this.metadata, this.mapper,[this.filters]);
 }
 
 class DatabaseResponse<T> {

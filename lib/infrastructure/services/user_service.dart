@@ -1,48 +1,45 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zawya_islamic/core/entities/export.dart' as app;
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/auth_service_port.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
-import 'package:zawya_islamic/infrastructure/helpers/firebase/firestore_service.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 
 class UserService implements AuthServicePort {
-  final FirebaseAuth _auth;
-  final FirestoreService _firestore;
+  final AuthPort _auth;
+  final DatabasePort _database;
   final TeacherServicePort _teacherService;
 
-  UserService(this._auth, this._firestore, this._teacherService);
+  UserService(this._auth, this._database, this._teacherService);
 
   @override
   Future<AuthResponse> login(
       {required String identifier, required String password}) async {
     app.User? user = await _auth
         .signInWithEmailAndPassword(email: identifier, password: password)
-        .then((credentials) async => await _handleCredentials(credentials))
-        .onError((error, stackTrace) => null);
+        .then((res) async => await _handleCredentials(res.user))
+        .onError((error, stackTrace) {
+          return null;
+        });
 
-    return AuthResponse(data: user);
+    return AuthResponse(user: user);
   }
 
-  Future<app.User?> _handleCredentials(UserCredential credentials) async {
-    final user = credentials.user;
-
+  Future<app.User?> _handleCredentials(app.User? user) async {
     if (user == null) {
       return null;
     }
 
     final readOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection: DatabaseCollection.users.name,
-      OptionsMetadata.lastId: user.uid,
+      OptionsMetadata.lastId: user.id,
       OptionsMetadata.hasMany: false,
-    }, (data) => data["role"]);
+    }, (data) => data["userRole"]);
 
-    final role = await _firestore.read<String>(readOptions);
+    final role = await _database.read<int>(readOptions);
 
-    return app.User(
-      id: app.UserId(user.uid),
-      name: app.Name(user.displayName ?? ""),
-      role: app.parseUserRolefromString(role.data.first),
+
+    return user.copyWith(
+      role: app.parseUserRolefromNumbers(role.data.first),
     );
   }
 
@@ -52,7 +49,7 @@ class UserService implements AuthServicePort {
     final authUser = await _auth.createUserWithEmailAndPassword(
         email: options.email, password: options.password);
 
-    final id = authUser.user!.uid;
+    final id = authUser.user!.id.value;
 
     CreateEntityOptions createOptions = CreateEntityOptions({
       "role": options.role.name,
@@ -63,7 +60,7 @@ class UserService implements AuthServicePort {
       OptionsMetadata.hasMany: false,
     });
 
-    _firestore.create(createOptions).then((value) {
+    _database.create(createOptions).then((value) {
       if (options.role == UserRoles.teacher) {
         final registerOptions = RegisterTeacherOptions(teacher:
          Teacher(id: TeacherId(id), name: Name(options.name), groups: []), 
@@ -74,10 +71,10 @@ class UserService implements AuthServicePort {
     });
 
     final user = app.User(
-        id: app.UserId(authUser.user!.uid),
+        id: authUser.user!.id,
         name: app.Name(""),
         role: options.role);
 
-    return AuthResponse(data: user);
+    return AuthResponse(user: user);
   }
 }

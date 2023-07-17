@@ -1,6 +1,7 @@
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/ports/school_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 class SchoolService implements SchoolServicePort {
   final DatabasePort _databaseService;
@@ -9,10 +10,9 @@ class SchoolService implements SchoolServicePort {
 
   @override
   Future<DeleteSchoolResponse> deleteSchool(DeleteSchoolOptions options) async {
-    final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.lastId: options.schoolId.value,
-      OptionsMetadata.rootCollection: DatabaseCollection.schools.name
-    });
+    final dbOptions = DeleteEntityOptions(
+        metadata: {OptionsMetadata.rootCollection: DatabaseCollection.groups},
+        entries: {SchoolTable.schoolId.name: options.schoolId.value});
 
     _databaseService.delete(dbOptions);
 
@@ -47,6 +47,7 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<RegisterSchoolResponse> registerSchool(
       RegisterSchoolOptions options) async {
+
     final dbOptions = CreateEntityOptions(options.school.toMap(), {
       OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
       OptionsMetadata.lastId: options.school.id.value,
@@ -59,10 +60,16 @@ class SchoolService implements SchoolServicePort {
 
   @override
   Future<UpdateSchoolResponse> updateSchool(UpdateSchoolOptions options) async {
-    final dbOptions = UpdateEntityOptions(options.school.toMap(), {
+    final dbOptions = UpdateEntityOptions(
+      entity:options.school.toMap(),metadata:{
       OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
       OptionsMetadata.lastId: options.school.id.value,
-    });
+    },
+    
+    filters: {
+      SchoolTable.schoolId.name : options.school.id.value
+    }
+    );
 
     _databaseService.update(dbOptions);
 

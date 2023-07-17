@@ -28,7 +28,7 @@ class TeacherGroupsView extends StatelessWidget {
 
     final userId = BlocProvider.of<AppBloc>(context).state.user!.id;    
 
-    final groupOptions = LoadTeacherGroupsOptions(schoolId: schoolId, teacherId: TeacherId(userId.id));
+    final groupOptions = LoadTeacherGroupsOptions(schoolId: schoolId, teacherId: TeacherId(userId.value));
 
     ServicesProvider.instance().groupService.getTeacherGroups(groupOptions).then(
           (res) => groupsBloc.add(

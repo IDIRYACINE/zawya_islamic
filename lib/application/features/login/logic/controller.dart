@@ -11,8 +11,8 @@ import '../feature.dart';
 class LoginController {
   static final key = GlobalKey<FormState>();
 
-  String identifier = "";
-  String password = "";
+  String identifier = "idiryacinesp@gmail.com";
+  String password = "idiryacine";
 
   void login(BuildContext context) {
     final authBloc = BlocProvider.of<AppBloc>(context);
@@ -35,10 +35,10 @@ class LoginController {
 
   void _handleLoginResponse(AuthResponse response, AppBloc bloc) {
 
-    if (response.success && response.data != null) {
-      final event = LoginUserEvent(user: response.data!);
+    if (response.success && response.user != null) {
+      final event = LoginUserEvent(user: response.user!);
       bloc.add(event);
-      _navigateToPathBasedOnUser(response.data!);
+      _navigateToPathBasedOnUser(response.user!);
       return;
     }
 

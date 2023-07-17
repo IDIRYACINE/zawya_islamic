@@ -1,6 +1,7 @@
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 class TeacherService implements TeacherServicePort {
   final DatabasePort _databaseService;
@@ -10,11 +11,11 @@ class TeacherService implements TeacherServicePort {
   @override
   Future<DeleteTeacherResponse> deleteTeacher(
       DeleteTeacherOptions options) async {
-    final dbOptions = DeleteEntityOptions({
-      OptionsMetadata.fullPath:
-          '${_generateTeacherCollectionCode(options.schoolId.value)}/${options.teacherId}',
+    final dbOptions = DeleteEntityOptions(metadata: {
+      OptionsMetadata.rootCollection: DatabaseCollection.users
+    }, entries: {
+      TeacherTable.teacherId.name: options.teacherId.value,
     });
-
     _databaseService.delete(dbOptions);
 
     return DeleteTeacherResponse(data: null);
@@ -25,7 +26,7 @@ class TeacherService implements TeacherServicePort {
     final dbOptions = ReadEntityOptions({
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.teacherId.id,
+      OptionsMetadata.lastId: options.teacherId.value,
       OptionsMetadata.hasMany: false,
     }, Teacher.fromMap);
 
@@ -59,7 +60,7 @@ class TeacherService implements TeacherServicePort {
     final dbOptions = CreateEntityOptions(options.teacher.toMap(), {
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.teacher.id.id,
+      OptionsMetadata.lastId: options.teacher.id.value,
     });
 
     await _databaseService.create(dbOptions);
@@ -70,11 +71,16 @@ class TeacherService implements TeacherServicePort {
   @override
   Future<UpdateTeacherResponse> updateTeacher(
       UpdateTeacherOptions options) async {
-    final dbOptions = UpdateEntityOptions(options.teacher.toMap(), {
+    final dbOptions = UpdateEntityOptions(entity:options.teacher.toMap(),metadata:{
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
-      OptionsMetadata.lastId: options.teacher.id.id,
-    });
+      OptionsMetadata.lastId: options.teacher.id.value,
+    },
+    
+    filters: {
+      TeacherTable.teacherId.name : options.teacher.id.value
+    }
+    );
 
     await _databaseService.update(dbOptions);
 
@@ -82,6 +88,7 @@ class TeacherService implements TeacherServicePort {
   }
 
   String _generateTeacherCollectionCode(String schoolId) {
-    return "${DatabaseCollection.teachers.code}-$schoolId";
+    // return "${DatabaseCollection.teachers.code}-$schoolId";
+    return DatabaseCollection.users.name;
   }
 }

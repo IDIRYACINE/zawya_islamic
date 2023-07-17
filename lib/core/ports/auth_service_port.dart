@@ -4,9 +4,9 @@ import 'package:zawya_islamic/core/entities/export.dart';
 class AuthResponse {
   final String? message;
   final bool success;
-  final User? data;
+  final User? user;
 
-  AuthResponse({this.message, this.success = true, this.data});
+  AuthResponse({this.message, this.success = true, this.user});
 }
 
 class UpdateUserOptions{
@@ -42,4 +42,16 @@ abstract class AuthServicePort {
 
 
 
+}
+
+
+abstract class AuthPort{
+  Future<AuthResponse> signInWithEmailAndPassword({required String email, required String password});
+  Future<AuthResponse> createUserWithEmailAndPassword({required String email, required String password});
+}
+
+class AuthCredentials {
+  final dynamic credentials;
+
+  AuthCredentials(this.credentials);
 }

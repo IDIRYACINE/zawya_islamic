@@ -82,7 +82,7 @@ class TeacherEditorController {
         name: Name(teacherName),
         groups: [],
         id: TeacherId(
-          response.data?.id.id ?? const Uuid().v4(),
+          response.user?.id.value ?? const Uuid().v4(),
         ),
       );
 

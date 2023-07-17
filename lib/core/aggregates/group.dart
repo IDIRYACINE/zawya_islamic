@@ -1,9 +1,6 @@
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
-enum GroupAttributes {
-  id,
-  name,
-}
 
 class Group {
   final GroupId id;
@@ -14,15 +11,15 @@ class Group {
 
   Map<String, dynamic> toMap() {
     return {
-      GroupAttributes.id.name: id.value,
-      GroupAttributes.name.name: name.value,
+      GroupsTable.groupId.name: id.value,
+      GroupsTable.groupName.name: name.value,
     };
   }
 
   factory Group.fromMap(Map<String, dynamic> json) {
     return Group(
-      id: GroupId(json['id']),
-      name: Name(json['name']),
+      id: GroupId(json[GroupsTable.groupId.name]),
+      name: Name(json[GroupsTable.groupName.name]),
     );
   }
 
