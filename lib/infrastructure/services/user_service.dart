@@ -3,6 +3,7 @@ import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/auth_service_port.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 class UserService implements AuthServicePort {
   final AuthPort _auth;
@@ -18,8 +19,8 @@ class UserService implements AuthServicePort {
         .signInWithEmailAndPassword(email: identifier, password: password)
         .then((res) async => await _handleCredentials(res.user))
         .onError((error, stackTrace) {
-          return null;
-        });
+      return null;
+    });
 
     return AuthResponse(user: user);
   }
@@ -29,14 +30,16 @@ class UserService implements AuthServicePort {
       return null;
     }
 
-    final readOptions = ReadEntityOptions(metadata: {
-      OptionsMetadata.rootCollection: DatabaseCollection.users.name,
-      OptionsMetadata.lastId: user.id,
-      OptionsMetadata.hasMany: false,
-    }, mapper:(data) => data["userRole"]);
+    final readOptions = ReadEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection: DatabaseCollection.users.name,
+          OptionsMetadata.lastId: user.id,
+          OptionsMetadata.hasMany: false,
+        },
+        mapper: (data) => data["userRole"],
+        filters: {UserTable.userId.name: user.id.value});
 
     final role = await _database.read<int>(readOptions);
-
 
     return user.copyWith(
       role: app.parseUserRolefromNumbers(role.data.first),
@@ -62,18 +65,16 @@ class UserService implements AuthServicePort {
 
     _database.create(createOptions).then((value) {
       if (options.role == UserRoles.teacher) {
-        final registerOptions = RegisterTeacherOptions(teacher:
-         Teacher(id: TeacherId(id), name: Name(options.name), groups: []), 
-         schoolId: options.schoolId);
+        final registerOptions = RegisterTeacherOptions(
+            teacher: Teacher(
+                id: TeacherId(id), name: Name(options.name), groups: []),
+            schoolId: options.schoolId);
         _teacherService.registerTeacher(registerOptions);
-       
       }
     });
 
-    final user = app.User(
-        id: authUser.user!.id,
-        name: app.Name(""),
-        role: options.role);
+    final user =
+        app.User(id: authUser.user!.id, name: app.Name(""), role: options.role);
 
     return AuthResponse(user: user);
   }

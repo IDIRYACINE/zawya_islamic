@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/state/events.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
@@ -25,11 +24,13 @@ class TeacherCardController {
 
   void onClick(BuildContext context) {
     final groupsBloc = BlocProvider.of<GroupsBloc>(context);
-    final userId = BlocProvider.of<AppBloc>(context).state.user!.id;
+    final userId = teacher.id.toUserId();
 
     final widget = GroupsView(
         controllerPort: TeacherAdminGroupController(groupsBloc,userId),
-        dataLoader: loadTeacherGroups);
+        dataLoader: (context) => loadTeacherGroups(context,teacher.id),
+        usePrimarySource: false,
+        );
 
     NavigationService.push(widget);
   }

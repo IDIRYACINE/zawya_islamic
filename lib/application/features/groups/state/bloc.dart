@@ -19,26 +19,54 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
 
   FutureOr<void> _handleCreateGroup(
       CreateGroupEvent event, Emitter<GroupsState> emit) {
-    final updatedGroups = _aggregate.addGroup(event.group);
-    emit(state.copyWith(groups: updatedGroups));
+    final updatedGroups = event.isPrimary
+        ? _aggregate.addGroup(event.group)
+        : _aggregate.addGroup(event.group, state.secondaryGroups);
+    if (event.isPrimary) {
+      emit(state.copyWith(groups: updatedGroups));
+    } else {
+      emit(state.copyWith(secondaryGroups: updatedGroups));
+    }
   }
 
   FutureOr<void> _handleUpdateGroup(
       UpdateGroupEvent event, Emitter<GroupsState> emit) {
-    final updatedGroups = _aggregate.updateGroup(event.group);
-    emit(state.copyWith(groups: updatedGroups));
+    final updatedGroups = event.isPrimary? _aggregate.updateGroup(event.group):
+    _aggregate.updateGroup(event.group,state.secondaryGroups)
+    ;
+
+    if (event.isPrimary) {
+      emit(state.copyWith(groups: updatedGroups));
+    } else {
+      emit(state.copyWith(secondaryGroups: updatedGroups));
+    }
   }
 
   FutureOr<void> _handleLoadGroups(
       LoadGroupsEvent event, Emitter<GroupsState> emit) {
-    final updatedGroups = _aggregate.setGroups(event.groups);
-    emit(state.copyWith(groups: updatedGroups));
+    final updatedGroups = event.isPrimary
+        ? _aggregate.setGroups(event.groups)
+        : _aggregate.setGroups(event.groups, state.secondaryGroups);
+
+
+    if (event.isPrimary) {
+      emit(state.copyWith(groups: updatedGroups));
+    } else {
+      emit(state.copyWith(secondaryGroups: updatedGroups));
+    }
   }
 
   FutureOr<void> _handleDeleteGroup(
       DeleteGroupEvent event, Emitter<GroupsState> emit) {
-    final updatedGroups = _aggregate.deleteGroup(event.group);
-    emit(state.copyWith(groups: updatedGroups));
+    final updatedGroups = event.isPrimary
+        ? _aggregate.deleteGroup(event.group)
+        : _aggregate.deleteGroup(event.group, state.secondaryGroups);
+
+    if (event.isPrimary) {
+      emit(state.copyWith(groups: updatedGroups));
+    } else {
+      emit(state.copyWith(secondaryGroups: updatedGroups));
+    }
   }
 
   FutureOr<void> _handleSetSchool(

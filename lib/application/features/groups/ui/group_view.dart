@@ -50,7 +50,9 @@ class GroupsView extends StatelessWidget {
     this.onReturn,
     this.displayAppBar = true,
     this.displayFloatingAction = true,
-    this.controllerPort, required this.dataLoader,
+    this.controllerPort,
+    required this.dataLoader,
+    this.usePrimarySource = true,
   });
 
   final bool displayAppBar;
@@ -58,6 +60,7 @@ class GroupsView extends StatelessWidget {
   final bool displayFloatingAction;
   final GroupCardControllerPort? controllerPort;
   final DataLoaderCallback dataLoader;
+  final bool usePrimarySource;
 
   Widget _buildItems(
       BuildContext context, Group group, GroupCardControllerPort controller) {
@@ -67,6 +70,9 @@ class GroupsView extends StatelessWidget {
     );
   }
 
+  List<Group> _targetGroups(GroupsState state) {
+    return usePrimarySource ? state.groups : state.secondaryGroups;
+  }
 
   Widget _seperatorBuilder(BuildContext context, int index) {
     return const SizedBox(
@@ -108,11 +114,14 @@ class GroupsView extends StatelessWidget {
         padding: const EdgeInsets.all(AppMeasures.paddings),
         child: BlocBuilder<GroupsBloc, GroupsState>(
           builder: (context, state) {
+            final groups = _targetGroups(state);
+
             return ListView.separated(
-                separatorBuilder: _seperatorBuilder,
-                itemCount: state.groups.length,
-                itemBuilder: (context, index) =>
-                    _buildItems(context, state.groups[index], controller));
+              separatorBuilder: _seperatorBuilder,
+              itemCount: groups.length,
+              itemBuilder: (context, index) =>
+                  _buildItems(context, groups[index], controller),
+            );
           },
         ),
       ),

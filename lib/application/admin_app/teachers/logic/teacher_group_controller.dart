@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/layout/state/bloc.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
@@ -22,10 +21,13 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
 
   @override
   void onClick(Group group) {
-    groupsBloc.add(DeleteGroupEvent(group: group));
+    groupsBloc.add(
+      DeleteGroupEvent(group: group, isPrimary: false),
+    );
 
     final options = DeleteUserGroupOptions(
-        userGroup: UserGroup(userId: userId, groupId: group.id));
+      userGroup: UserGroup(userId: userId, groupId: group.id),
+    );
 
     ServicesProvider.instance().groupService.deleteUserGroup(options);
   }
@@ -39,7 +41,8 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
 
     NavigationService.displayDialog<Group>(dialog).then((selectedGroup) {
       if (selectedGroup != null) {
-        groupsBloc.add(CreateGroupEvent(group: selectedGroup));
+        groupsBloc
+            .add(CreateGroupEvent(group: selectedGroup, isPrimary: false));
 
         final options = RegisterUserGroupOptions(
             userGroup: UserGroup(userId: userId, groupId: selectedGroup.id));
@@ -50,17 +53,16 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
   }
 }
 
-void loadTeacherGroups(BuildContext context) {
+void loadTeacherGroups(BuildContext context,TeacherId teacherId) {
   final groupsBloc = BlocProvider.of<GroupsBloc>(context);
   final schoolId =
       BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
-  final teacherId = BlocProvider.of<AppBloc>(context).state.user!.toTeacherId();
+
 
   final options =
       LoadTeacherGroupsOptions(schoolId: schoolId, teacherId: teacherId);
 
-  ServicesProvider.instance()
-      .groupService
-      .getTeacherGroups(options)
-      .then((res) => groupsBloc.add(LoadGroupsEvent(groups: res.data)));
+  ServicesProvider.instance().groupService.getTeacherGroups(options).then(
+      (res) =>
+          groupsBloc.add(LoadGroupsEvent(groups: res.data, isPrimary: false)));
 }

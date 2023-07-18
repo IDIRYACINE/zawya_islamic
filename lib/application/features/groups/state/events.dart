@@ -5,24 +5,27 @@ abstract class GroupEvent {}
 
 class CreateGroupEvent extends GroupEvent {
   final Group group;
-  CreateGroupEvent({required this.group});
+  final bool isPrimary;
+  CreateGroupEvent({this.isPrimary = true, required this.group});
 }
 
-
-class UpdateGroupEvent extends GroupEvent{
+class UpdateGroupEvent extends GroupEvent {
   final Group group;
-  UpdateGroupEvent({required this.group});
+  final bool isPrimary;
+
+  UpdateGroupEvent({this.isPrimary = true, required this.group});
 }
 
-class DeleteGroupEvent extends GroupEvent{
+class DeleteGroupEvent extends GroupEvent {
   final Group group;
-
-  DeleteGroupEvent({required this.group});
+  final bool isPrimary;
+  DeleteGroupEvent({this.isPrimary = true, required this.group});
 }
 
-class LoadGroupsEvent extends GroupEvent{
+class LoadGroupsEvent extends GroupEvent {
   final List<Group> groups;
-  LoadGroupsEvent({required this.groups});
+  final bool isPrimary;
+  LoadGroupsEvent({this.isPrimary = true, required this.groups});
 }
 
 class SetSchoolEvent extends GroupEvent {

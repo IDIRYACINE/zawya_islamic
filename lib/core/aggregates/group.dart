@@ -1,7 +1,6 @@
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
-
 class Group {
   final GroupId id;
 
@@ -23,7 +22,7 @@ class Group {
     );
   }
 
-  bool equals(Group group) {
+  bool equals(Group group, [List<Group>? origin]) {
     return id.equals(group.id);
   }
 
@@ -37,29 +36,37 @@ class GroupsAggregate {
 
   GroupsAggregate(this._groups);
 
-  List<Group> addGroup(Group group) {
-    _groups.add(group);
-    return _groups;
+  List<Group> addGroup(Group group, [List<Group>? origin]) {
+    final List<Group> targetList = origin ?? _groups;
+
+    targetList.add(group);
+    return targetList;
   }
 
-  List<Group> updateGroup(Group group) {
-    final index = _groups.indexWhere((element) => element.equals(group));
+  List<Group> updateGroup(Group group, [List<Group>? origin]) {
+    final List<Group> targetList = origin ?? _groups;
+
+    final index = targetList.indexWhere((element) => element.equals(group));
     if (index != -1) {
-      _groups[index] = group;
+      targetList[index] = group;
     }
-    return _groups;
+    return targetList;
   }
 
-  List<Group> deleteGroup(Group group) {
-    _groups.removeWhere((element) => element.equals(group));
+  List<Group> deleteGroup(Group group, [List<Group>? origin]) {
+    final List<Group> targetList = origin ?? _groups;
 
-    return _groups;
+    targetList.removeWhere((element) => element.equals(group));
+
+    return targetList;
   }
 
-  List<Group> setGroups(List<Group> group) {
-    _groups.clear();
-    _groups.addAll(group);
-    return _groups;
+  List<Group> setGroups(List<Group> group, [List<Group>? origin]) {
+    final List<Group> targetList = origin ?? _groups;
+
+    targetList.clear();
+    targetList.addAll(group);
+    return targetList;
   }
 
   List<Group> get group => _groups;

@@ -5,6 +5,7 @@ import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 
 class GroupSelector extends StatefulWidget {
@@ -56,11 +57,11 @@ class _GroupSelectorDialogState extends State<GroupSelectorDialog> {
     selectedGroup = newGroup;
   }
 
-  void onConfirm(){
+  void onConfirm() {
     NavigationService.pop(selectedGroup);
   }
 
-  void onCancel(){
+  void onCancel() {
     NavigationService.pop();
   }
 
@@ -72,12 +73,18 @@ class _GroupSelectorDialogState extends State<GroupSelectorDialog> {
 
     return AlertDialog(
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           GroupSelector(
             groups: groups,
             onSelected: updateGroup,
           ),
+          const SizedBox(
+            height: AppMeasures.space,
+          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: [
               ButtonPrimary(
                   onPressed: onConfirm, text: localizations.confirmLabel),

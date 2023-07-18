@@ -13,6 +13,10 @@ class TeacherId{
     return value == id.value;
   }
 
+  UserId toUserId() {
+    return UserId(value);
+  }
+
 }
 
 class Teacher{
