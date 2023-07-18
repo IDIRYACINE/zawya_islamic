@@ -10,6 +10,7 @@
 .svn/
 .vscode
 migrate_working_dir/
+supabase/
 
 # IntelliJ related
 *.iml

@@ -56,7 +56,6 @@ class TeacherEditor extends StatelessWidget {
             onChanged: controller.updatePassword,
           ),
 
-          GroupSelector(groups: groups, onSelected: controller.updateGroup)
         ],
       ),
     );

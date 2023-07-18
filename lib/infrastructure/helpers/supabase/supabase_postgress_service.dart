@@ -9,10 +9,9 @@ class SupabasePostrgessService implements DatabasePort {
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
 
-    print("inside");
     await _client
         .from(options.metadata[OptionsMetadata.rootCollection])
-        .insert(options.entity).onError((e,stack) => print(e.toString()));
+        .insert(options.entity);
 
     return DatabaseResponse(data: []);
   }

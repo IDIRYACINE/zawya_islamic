@@ -29,11 +29,11 @@ class UserService implements AuthServicePort {
       return null;
     }
 
-    final readOptions = ReadEntityOptions({
+    final readOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection: DatabaseCollection.users.name,
       OptionsMetadata.lastId: user.id,
       OptionsMetadata.hasMany: false,
-    }, (data) => data["userRole"]);
+    }, mapper:(data) => data["userRole"]);
 
     final role = await _database.read<int>(readOptions);
 

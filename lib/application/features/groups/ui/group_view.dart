@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
-import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
@@ -13,7 +12,6 @@ import '../logic/group_card_controller.dart';
 import '../ports.dart';
 import '../state/bloc.dart';
 import '../state/state.dart';
-import 'group_editor.dart';
 
 class GroupCard extends StatelessWidget {
   final Group group;
@@ -69,10 +67,6 @@ class GroupsView extends StatelessWidget {
     );
   }
 
-  void _onAddGroup() {
-    const dialog = GroupEditorDialog();
-    NavigationService.displayDialog(dialog);
-  }
 
   Widget _seperatorBuilder(BuildContext context, int index) {
     return const SizedBox(
@@ -126,7 +120,7 @@ class GroupsView extends StatelessWidget {
           ? Padding(
               padding: const EdgeInsets.all(AppMeasures.paddings),
               child: ElevatedButton(
-                onPressed: _onAddGroup,
+                onPressed: controller.onFloatingClick,
                 child: const Icon(AppResources.addIcon),
               ),
             )

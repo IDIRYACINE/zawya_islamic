@@ -1,6 +1,6 @@
 
 
-import 'package:zawya_islamic/core/entities/shared/value_objects.dart';
+import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 
@@ -11,6 +11,10 @@ class StudentId{
   
   bool equals(StudentId id) {
     return value == id.value;
+  }
+
+  UserId toUserId() {
+    return UserId(value);
   }
   
 }
@@ -25,15 +29,17 @@ class Student{
     return Student(
       id: StudentId(json[UserTable.userId.name]),
       name: Name(json[UserTable.userName.name]),
-      birthDate: BirthDate.fromTimestamp(json[UserTable.birthDate.name]),
+      birthDate: BirthDate.fromString(json[UserTable.birthDate.name]),
     );
   }
 
   Map<String,dynamic> toMap(){
+
     return {
       UserTable.userId.name : id.value,
       UserTable.userName.name : name.value,
-      UserTable.birthDate.name : birthDate.date,
+      UserTable.birthDate.name : birthDate.toPostgressDate(),
+      UserTable.userRole.name : UserRoles.student.index
     };
   }
 

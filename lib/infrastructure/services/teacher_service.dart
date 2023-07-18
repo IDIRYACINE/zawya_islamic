@@ -23,12 +23,14 @@ class TeacherService implements TeacherServicePort {
 
   @override
   Future<LoadTeacherResponse> getTeacher(LoadTeacherOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
       OptionsMetadata.lastId: options.teacherId.value,
       OptionsMetadata.hasMany: false,
-    }, Teacher.fromMap);
+    }, filters: {
+      UserTable.userRole.name: UserRoles.teacher.index
+    }, mapper: Teacher.fromMap);
 
     final response = await _databaseService.read(dbOptions);
 
@@ -37,12 +39,14 @@ class TeacherService implements TeacherServicePort {
 
   @override
   Future<LoadTeachersResponse> getTeachers(LoadTeachersOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
       OptionsMetadata.lastId: options.schoolId.value,
       OptionsMetadata.hasMany: true,
-    }, Teacher.fromMap);
+    }, filters: {
+      UserTable.userRole.name: UserRoles.teacher.index
+    }, mapper: Teacher.fromMap);
 
     final response = await _databaseService.read<Teacher>(dbOptions);
 
@@ -71,16 +75,14 @@ class TeacherService implements TeacherServicePort {
   @override
   Future<UpdateTeacherResponse> updateTeacher(
       UpdateTeacherOptions options) async {
-    final dbOptions = UpdateEntityOptions(entity:options.teacher.toMap(),metadata:{
+    final dbOptions =
+        UpdateEntityOptions(entity: options.teacher.toMap(), metadata: {
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
       OptionsMetadata.lastId: options.teacher.id.value,
-    },
-    
-    filters: {
-      TeacherTable.teacherId.name : options.teacher.id.value
-    }
-    );
+    }, filters: {
+      TeacherTable.teacherId.name: options.teacher.id.value
+    });
 
     await _databaseService.update(dbOptions);
 

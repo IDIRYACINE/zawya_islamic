@@ -24,12 +24,12 @@ class GroupService implements GroupServicePort {
 
   @override
   Future<LoadGroupResponse> getGroup(LoadGroupOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
       OptionsMetadata.lastId: options.groupId.value,
       OptionsMetadata.hasMany: false,
-    }, Group.fromMap);
+    }, mapper: Group.fromMap);
 
     final response = await _databaseService.read(dbOptions);
 
@@ -39,12 +39,12 @@ class GroupService implements GroupServicePort {
   @override
   Future<TeacherGroupsResponse> getTeacherGroups(
       LoadTeacherGroupsOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateTeacherGroupCode(options.schoolId.value),
       OptionsMetadata.lastId: options.teacherId!.value,
       OptionsMetadata.hasMany: true,
-    }, Group.fromMap);
+    }, mapper: Group.fromMap);
 
     final response = await _databaseService.read<Group>(dbOptions);
 
@@ -58,11 +58,11 @@ class GroupService implements GroupServicePort {
 
   @override
   Future<LoadGroupsResponse> loadGroups(LoadGroupsOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
       OptionsMetadata.hasMany: true,
-    }, Group.fromMap);
+    }, mapper: Group.fromMap);
 
     final response = await _databaseService.read<Group>(dbOptions);
 
@@ -76,6 +76,20 @@ class GroupService implements GroupServicePort {
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
       OptionsMetadata.lastId: options.group.id.value,
+    });
+
+    await _databaseService.create(dbOptions);
+
+    return RegisterGroupResponse(data: null);
+  }
+
+  @override
+  Future<RegisterUserGroupResponse> registerUserGroup(
+      RegisterUserGroupOptions options) async {
+
+    final dbOptions = CreateEntityOptions(options.userGroup.toMap(), {
+      OptionsMetadata.rootCollection:
+          DatabaseCollection.userGroups.name,
     });
 
     await _databaseService.create(dbOptions);
@@ -99,6 +113,20 @@ class GroupService implements GroupServicePort {
     return UpdateGroupResponse(data: null);
   }
 
+
+  @override
+  Future<DeleteUserGroupResponse> deleteUserGroup(DeleteUserGroupOptions options) async {
+    final dbOptions = DeleteEntityOptions(metadata: {
+      OptionsMetadata.rootCollection: DatabaseCollection.userGroups
+    }, entries: {
+      UserGroupsTable.groupId.name: options.userGroup.groupId.value,
+      UserGroupsTable.userId.name: options.userGroup.userId.value
+    });
+
+    _databaseService.delete(dbOptions);
+
+    return DeleteGroupResponse(data: null);
+  }
   String _generateGroupCode(String schoolId) {
     return DatabaseCollection.groups.name;
   }
@@ -106,4 +134,5 @@ class GroupService implements GroupServicePort {
   String _generateTeacherGroupCode(String schoolId) {
     return DatabaseCollection.userGroups.name;
   }
+  
 }

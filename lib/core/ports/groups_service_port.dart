@@ -1,13 +1,16 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/relations.dart';
 
 typedef TeacherGroupsResponse = GroupServiceResponse<List<Group>>;
 typedef LoadGroupsResponse = GroupServiceResponse<List<Group>>;
 typedef LoadGroupResponse = GroupServiceResponse<Group>;
 typedef RegisterGroupResponse = GroupServiceResponse<void>;
+typedef RegisterUserGroupResponse = GroupServiceResponse<void>;
 typedef UpdateGroupResponse = GroupServiceResponse<void>;
 typedef DeleteGroupResponse = GroupServiceResponse<void>;
+typedef DeleteUserGroupResponse = GroupServiceResponse<void>;
 typedef LoadGroupIdsResponse = GroupServiceResponse<List<GroupId>>;
 
 class GroupServiceResponse<T> {
@@ -19,6 +22,24 @@ class GroupServiceResponse<T> {
 }
 
 abstract class GroupServiceOptions {}
+
+
+class RegisterUserGroupOptions extends GroupServiceOptions{
+
+  final UserGroup userGroup;
+ 
+
+  RegisterUserGroupOptions({required this.userGroup});
+}
+
+
+class DeleteUserGroupOptions extends GroupServiceOptions{
+
+  final UserGroup userGroup;
+ 
+
+  DeleteUserGroupOptions({required this.userGroup});
+}
 
 class LoadTeacherGroupsOptions extends GroupServiceOptions {
   final List<GroupId> groupIds;
@@ -76,5 +97,9 @@ abstract class GroupServicePort {
   Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options);
   Future<UpdateGroupResponse> updateGroup(UpdateGroupOptions options);
   Future<DeleteGroupResponse> deleteGroup(DeleteGroupOptions options);
+
+  Future<RegisterUserGroupResponse> registerUserGroup(RegisterUserGroupOptions options) ;
+
+  Future<DeleteUserGroupResponse> deleteUserGroup(DeleteUserGroupOptions options) ;
 
 }

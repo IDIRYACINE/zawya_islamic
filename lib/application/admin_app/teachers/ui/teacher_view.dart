@@ -32,7 +32,7 @@ class TeacherCard extends StatelessWidget {
     return SizedBox(
       height: 75,
       child: InkWell(
-        onTap: controller.onClick,
+        onTap: () => controller.onClick(context),
         child: Center(
           child: ListTile(
             leading: Text(teacher.name.value),

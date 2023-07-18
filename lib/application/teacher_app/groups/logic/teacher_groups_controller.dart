@@ -30,4 +30,8 @@ class TeacherGroupsController implements GroupCardControllerPort {
   void onMoreActions(Group group,AppLocalizations localizations) {
     throw UnimplementedError();
   }
+  
+  @override
+  void onFloatingClick() {
+  }
 }

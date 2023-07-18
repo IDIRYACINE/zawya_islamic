@@ -1,7 +1,7 @@
 
+import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
-import 'shared/value_objects.dart';
 
 
 class TeacherId{
@@ -34,6 +34,7 @@ class Teacher{
     return {
       UserTable.userId.name : id.value,
       UserTable.userName.name : name.value,
+      UserTable.userRole.name: UserRoles.teacher.index
     };
   }
 

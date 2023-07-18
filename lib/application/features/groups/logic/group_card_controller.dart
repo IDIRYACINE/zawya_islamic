@@ -65,4 +65,8 @@ class GroupCardController implements GroupCardControllerPort {
 
   @override
   bool get displayOnMoreActions => true;
+  
+  @override
+  void onFloatingClick() {
+  }
 }

@@ -1,8 +1,7 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
-class BirthDate{
+class BirthDate {
   final DateTime date;
 
   BirthDate(this.date);
@@ -12,16 +11,25 @@ class BirthDate{
     return BirthDate(date);
   }
 
+  String toPostgressDate() {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    return dateFormat.format(date);
+  }
+
+  static BirthDate fromString(String raw) {
+    final date = DateTime.parse(raw);
+
+    return BirthDate(date);
+  }
 }
 
-class Name{
+class Name {
   final String value;
 
   Name(this.value);
-
 }
 
-class GroupId{
+class GroupId {
   final String value;
 
   GroupId(this.value);
@@ -31,8 +39,7 @@ class GroupId{
   }
 }
 
-
-class UserId{
+class UserId {
   final String value;
 
   UserId(this.value);

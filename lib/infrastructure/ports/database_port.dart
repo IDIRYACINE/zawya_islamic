@@ -67,7 +67,7 @@ class ReadEntityOptions extends DatabaseHandlerOptions {
   final EntityMapper mapper;
   final Map<String,dynamic>? filters;
 
-  ReadEntityOptions(this.metadata, this.mapper,[this.filters]);
+  ReadEntityOptions({required this.metadata, required this.mapper,this.filters});
 }
 
 class DatabaseResponse<T> {

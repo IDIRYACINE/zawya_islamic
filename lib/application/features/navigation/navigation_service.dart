@@ -16,9 +16,9 @@ abstract class NavigationService {
     );
   }
 
-  static Future displayDialog(Widget dialog,
+  static Future<T?> displayDialog<T>(Widget dialog,
       {Color? barrierColor = Colors.black54}) {
-    return showDialog(
+    return showDialog<T?>(
         barrierColor: barrierColor,
         context: currentContext,
         builder: (context) => dialog);

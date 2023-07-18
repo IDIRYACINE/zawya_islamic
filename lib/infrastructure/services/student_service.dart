@@ -24,12 +24,19 @@ class StudentService implements StudentServicePort {
 
   @override
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.lastId: options.studentId.value,
       OptionsMetadata.hasMany: false,
-    }, Student.fromMap);
+    },
+    filters: {
+      UserTable.userRole.name : UserRoles.student.index
+    },
+    
+      
+    
+     mapper:Student.fromMap);
 
     final response = await _databaseService.read<Student>(dbOptions);
 
@@ -38,11 +45,16 @@ class StudentService implements StudentServicePort {
 
   @override
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection:
           _generateStudentGroupCode(options.groupId.value),
       OptionsMetadata.hasMany: true,
-    }, Student.fromMap);
+    }, mapper:Student.fromMap,
+    
+    filters: {
+      UserTable.userRole.name : UserRoles.student.index
+    }
+    );
 
     final response = await _databaseService.read<Student>(dbOptions);
 
@@ -52,6 +64,7 @@ class StudentService implements StudentServicePort {
   @override
   Future<RegisterStudentResponse> registerStudent(
       RegisterStudentOptions options) async {
+
     final dbOptions = CreateEntityOptions(options.student.toMap(), {
       OptionsMetadata.rootCollection:
           _generateStudentGroupCode(options.groupId.value),
@@ -59,6 +72,8 @@ class StudentService implements StudentServicePort {
     });
 
     _databaseService.create(dbOptions);
+
+
 
     return RegisterStudentResponse(data: null);
   }

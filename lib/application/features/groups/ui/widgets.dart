@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/features/groups/export.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
+import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/widgets/buttons.dart';
 
 class GroupSelector extends StatefulWidget {
   const GroupSelector(
-      {super.key, required this.groups, required this.onSelected,  this.validator});
+      {super.key,
+      required this.groups,
+      required this.onSelected,
+      this.validator});
 
   final List<Group> groups;
   final OnGroupSelectedCallback onSelected;
@@ -28,7 +36,57 @@ class _GroupSelectorState extends State<GroupSelector> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<Group>(
-      validator: widget.validator,
-        items: buildItems(), onChanged: widget.onSelected);
+        validator: widget.validator,
+        items: buildItems(),
+        onChanged: widget.onSelected);
+  }
+}
+
+class GroupSelectorDialog extends StatefulWidget {
+  const GroupSelectorDialog({super.key});
+
+  @override
+  State<GroupSelectorDialog> createState() => _GroupSelectorDialogState();
+}
+
+class _GroupSelectorDialogState extends State<GroupSelectorDialog> {
+  Group? selectedGroup;
+
+  void updateGroup(Group? newGroup) {
+    selectedGroup = newGroup;
+  }
+
+  void onConfirm(){
+    NavigationService.pop(selectedGroup);
+  }
+
+  void onCancel(){
+    NavigationService.pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final groups = BlocProvider.of<GroupsBloc>(context).state.groups;
+
+    final localizations = AppLocalizations.of(context)!;
+
+    return AlertDialog(
+      content: Column(
+        children: [
+          GroupSelector(
+            groups: groups,
+            onSelected: updateGroup,
+          ),
+          Row(
+            children: [
+              ButtonPrimary(
+                  onPressed: onConfirm, text: localizations.confirmLabel),
+              TextButton(
+                  onPressed: onCancel, child: Text(localizations.cancelLabel))
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

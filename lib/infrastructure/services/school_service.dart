@@ -21,11 +21,11 @@ class SchoolService implements SchoolServicePort {
 
   @override
   Future<LoadSchoolResponse> getSchool(LoadSchoolOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata:{
       OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
       OptionsMetadata.lastId: options.schoolId.value,
       OptionsMetadata.hasMany: false,
-    }, School.fromMap);
+    }, mapper:School.fromMap);
 
     final response = await _databaseService.read(dbOptions);
 
@@ -34,10 +34,10 @@ class SchoolService implements SchoolServicePort {
 
   @override
   Future<LoadSchoolsResponse> getSchools(LoadSchoolsOptions options) async {
-    final dbOptions = ReadEntityOptions({
+    final dbOptions = ReadEntityOptions(metadata: {
       OptionsMetadata.rootCollection: DatabaseCollection.schools.name,
       OptionsMetadata.hasMany: true,
-    }, School.fromMap);
+    }, mapper:School.fromMap);
 
     final response = await _databaseService.read<School>(dbOptions);
 

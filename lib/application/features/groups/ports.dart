@@ -6,4 +6,7 @@ abstract class GroupCardControllerPort {
   void onMoreActions(Group group, AppLocalizations localizations);
 
   bool get displayOnMoreActions;
+
+  
+  void onFloatingClick() ;
 }
