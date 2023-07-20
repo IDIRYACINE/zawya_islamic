@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
@@ -22,12 +21,11 @@ class TeacherGroupsView extends StatelessWidget {
   void _loadGroups(BuildContext context) {
     final groupsBloc = BlocProvider.of<GroupsBloc>(context);
 
-    final schoolId =
-        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool?.id;
+    
 
     final userId = BlocProvider.of<AppBloc>(context).state.user?.id;    
 
-    final groupOptions = LoadTeacherGroupsOptions(schoolId: schoolId, teacherId: userId?.toTeacherId());
+    final groupOptions = LoadTeacherGroupsOptions( teacherId: userId!.toTeacherId());
 
     ServicesProvider.instance().groupService.getTeacherGroups(groupOptions).then(
           (res) => groupsBloc.add(

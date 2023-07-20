@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/state.dart';
 import 'package:zawya_islamic/application/teacher_app/presence/ui/presence_view.dart';
-import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 
 import '../logic/presence_card_controller.dart';
@@ -54,11 +54,11 @@ class _StudentPresenceTabState extends State<StudentPresenceTab> {
 class PresenceCard extends StatelessWidget {
   const PresenceCard(
       {super.key,
-      required this.student,
+      required this.presence,
       required this.isPresent,
       required this.controller});
 
-  final Student student;
+  final StudentEvaluationAndPresence presence;
   final bool isPresent;
   final PresenceCardController controller;
 
@@ -66,12 +66,12 @@ class PresenceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => controller.onTap(student, !isPresent),
+        onTap: () => controller.onTap(presence, !isPresent),
         child: ListTile(
-          leading: Text(student.name.value),
+          leading: Text(presence.student.name.value),
           trailing: Switch(
               value: isPresent,
-              onChanged: (value) => controller.onTap(student, value)),
+              onChanged: (value) => controller.onTap(presence, value)),
         ),
       ),
     );
@@ -82,13 +82,13 @@ class PresenceTabView extends StatelessWidget {
   const PresenceTabView(
       {super.key, required this.students, this.isPresent = true});
 
-  final List<Student> students;
+  final List<StudentEvaluationAndPresence> students;
   final bool isPresent;
 
-  Widget _buildItem(BuildContext context, Student student,
+  Widget _buildItem(BuildContext context, StudentEvaluationAndPresence presence,
       PresenceCardController presenceCardController) {
     return PresenceCard(
-      student: student,
+      presence: presence,
       isPresent: isPresent,
       controller: presenceCardController,
     );
@@ -106,8 +106,8 @@ class PresenceTabView extends StatelessWidget {
     final presenceCardController = PresenceCardController(bloc);
 
     return ListView.separated(
-        itemBuilder: (context, index) =>
-            _buildItem(context, students[index], presenceCardController),
+        itemBuilder: (context, index) => _buildItem(
+            context, students[index], presenceCardController),
         separatorBuilder: _speperatorBuilder,
         itemCount: students.length);
   }

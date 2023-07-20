@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
@@ -55,12 +54,11 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
 
 void loadTeacherGroups(BuildContext context,TeacherId teacherId) {
   final groupsBloc = BlocProvider.of<GroupsBloc>(context);
-  final schoolId =
-      BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+  
 
 
   final options =
-      LoadTeacherGroupsOptions(schoolId: schoolId, teacherId: teacherId);
+      LoadTeacherGroupsOptions( teacherId: teacherId);
 
   ServicesProvider.instance().groupService.getTeacherGroups(options).then(
       (res) =>

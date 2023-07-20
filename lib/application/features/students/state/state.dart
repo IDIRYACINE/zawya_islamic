@@ -1,50 +1,47 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
-import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/core/entities/session.dart';
 
 class StudentsState {
   StudentsState(
       {required this.students,
-      required this.unEvaluated,
-      required this.evaluations,
-      required this.presence,
+      required this.presenceAndEvaluation,
       this.session,
       required this.group});
 
   final List<Student> students;
-  final List<Student> presence;
-  final List<StudentEvaluation> evaluations;
-  final List<StudentEvaluation> unEvaluated;
+  final List<StudentEvaluationAndPresence> presenceAndEvaluation;
   final Group group;
   final Session? session;
 
   factory StudentsState.initialState() {
     return StudentsState(
-        session: null,
-        presence: [],
-        students: [],
-        evaluations: [],
-        group: Group(id: GroupId(""), name: Name("")),
-        unEvaluated: []);
+      session: null,
+      presenceAndEvaluation: [],
+      students: [],
+      group: Group(id: GroupId(""), name: Name("")),
+    );
   }
 
   StudentsState copyWith(
       {List<Student>? students,
-      List<Student>? presence,
-      List<StudentEvaluation>? evaluations,
-      List<StudentEvaluation>? unEvaluated,
+      List<StudentEvaluationAndPresence>? presenceAndEvaluation,
       Group? group,
       Session? session}) {
     return StudentsState(
         students: students ?? this.students,
         group: group ?? this.group,
-        presence: presence ?? this.presence,
-        evaluations: evaluations ?? this.evaluations,
-        unEvaluated: unEvaluated ?? this.unEvaluated,
+        presenceAndEvaluation:
+            presenceAndEvaluation ?? this.presenceAndEvaluation,
         session: session ?? this.session);
   }
 
-  List<Student> get absence =>
-      students.where((element) => !presence.contains(element)).toList();
+  List<StudentEvaluationAndPresence> get absence => presenceAndEvaluation
+      .where((element) => element.presence.isAbsent)
+      .toList();
+
+  List<StudentEvaluationAndPresence> get presence => presenceAndEvaluation
+      .where((element) => element.presence.isPresent)
+      .toList();
 }

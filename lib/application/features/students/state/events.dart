@@ -1,6 +1,6 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
-import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/core/entities/session.dart';
 
 abstract class StudentEvent {}
@@ -36,25 +36,25 @@ class SetGroupEvent extends StudentEvent{
 
 
 class MarkStudentPresence extends StudentEvent{
-  final Student student;
+  final StudentEvaluationAndPresence evaluation;
 
-  MarkStudentPresence({required this.student});
+  MarkStudentPresence({required this.evaluation});
 }
 
 class MarkStudentAbsence extends StudentEvent{
-  final Student student;
+  final StudentEvaluationAndPresence evaluation;
 
-  MarkStudentAbsence({required this.student});
+  MarkStudentAbsence({required this.evaluation});
 }
 
 class UnMarkStudentEvaluation extends StudentEvent{
-  final StudentEvaluation evaluation;
+  final StudentEvaluationAndPresence evaluation;
 
   UnMarkStudentEvaluation({required this.evaluation});
 }
 
 class MarkStudentEvaluation extends StudentEvent{
-  final StudentEvaluation evaluation;
+  final StudentEvaluationAndPresence evaluation;
 
   MarkStudentEvaluation({required this.evaluation});
 }

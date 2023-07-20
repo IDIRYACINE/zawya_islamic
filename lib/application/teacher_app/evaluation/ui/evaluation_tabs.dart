@@ -2,49 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/state.dart';
-import 'package:zawya_islamic/core/entities/evaluations.dart';
-import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/core/entities/presence.dart';
 
 import '../logic/evaluation_card_controller.dart';
-
-class StudentEvaluationTab extends StatefulWidget {
-  const StudentEvaluationTab({super.key});
-
-  @override
-  State<StatefulWidget> createState() => _StudentEvaluationTabState();
-}
-
-class _StudentEvaluationTabState extends State<StudentEvaluationTab> {
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-
-    return BlocBuilder<StudentsBloc, StudentsState>(builder: (context, state) {
-      return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: TabBar(
-              tabs: [
-                Tab(text: localizations.unEvaluatedLabel),
-                Tab(text: localizations.evaluatedLabel)
-              ],
-            ),
-          ),
-          body: TabBarView(children: [
-            EvaluationTabView(
-              students: state.unEvaluated,
-              isEvaluated: false,
-            ),
-            EvaluationTabView(
-              students: state.evaluations,
-            ),
-          ]),
-        ),
-      );
-    });
-  }
-}
 
 class EvaluationCard extends StatelessWidget {
   const EvaluationCard(
@@ -53,7 +13,7 @@ class EvaluationCard extends StatelessWidget {
       required this.isEvaluated,
       required this.controller});
 
-  final StudentEvaluation evaluation;
+  final StudentEvaluationAndPresence evaluation;
   final bool isEvaluated;
   final EvaluationCardController controller;
 
@@ -77,10 +37,10 @@ class EvaluationTabView extends StatelessWidget {
   const EvaluationTabView(
       {super.key, required this.students, this.isEvaluated = true});
 
-  final List<StudentEvaluation> students;
+  final List<StudentEvaluationAndPresence> students;
   final bool isEvaluated;
 
-  Widget _buildItem(BuildContext context, StudentEvaluation student,
+  Widget _buildItem(BuildContext context, StudentEvaluationAndPresence student,
       EvaluationCardController evaluationCardController) {
     return EvaluationCard(
       evaluation: student,
@@ -111,7 +71,7 @@ class EvaluationTabView extends StatelessWidget {
 class MonthyEvaluationTab extends StatelessWidget {
   const MonthyEvaluationTab({super.key});
 
-  Widget _buildItem(BuildContext context, StudentEvaluation student,
+  Widget _buildItem(BuildContext context, StudentEvaluationAndPresence student,
       EvaluationCardController evaluationCardController) {
     return EvaluationCard(
       evaluation: student,
@@ -132,7 +92,7 @@ class MonthyEvaluationTab extends StatelessWidget {
     final evaluationCardController = EvaluationCardController(bloc);
 
     return BlocBuilder<StudentsBloc, StudentsState>(builder: (context, state) {
-      final studentsEvaluations = state.evaluations;
+      final studentsEvaluations = state.presenceAndEvaluation;
 
       return ListView.separated(
           itemBuilder: (context, index) => _buildItem(

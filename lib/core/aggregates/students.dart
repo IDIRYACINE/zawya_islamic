@@ -1,6 +1,6 @@
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/presence.dart';
 
-import '../entities/evaluations.dart';
 
 class StudentsAggregate {
   final List<Student> _students;
@@ -43,41 +43,41 @@ class StudentsAggregate {
 }
 
 class StudentEvaluationsAggregate {
-  final List<StudentEvaluation> _evaluations;
+  final List<StudentEvaluationAndPresence> _evaluations;
 
   StudentEvaluationsAggregate(this._evaluations);
 
-  List<StudentEvaluation> addStudentEvaluation(StudentEvaluation studentEvaluation, [List<StudentEvaluation>? list]) {
-    final List<StudentEvaluation> studentEvaluations = list ?? _evaluations;
+  List<StudentEvaluationAndPresence> addStudentEvaluation(StudentEvaluationAndPresence studentEvaluation, [List<StudentEvaluationAndPresence>? list]) {
+    final List<StudentEvaluationAndPresence> studentEvaluations = list ?? _evaluations;
 
     studentEvaluations.add(studentEvaluation);
 
     return studentEvaluations;
   }
 
-  List<StudentEvaluation> updateStudentEvaluation(StudentEvaluation studentEvaluation) {
-    final index = _evaluations.indexWhere((element) => element.equals(studentEvaluation));
+  List<StudentEvaluationAndPresence> updateStudentEvaluation(StudentEvaluationAndPresence studentEvaluation) {
+    final index = _evaluations.indexWhere((element) => element.student.equals(studentEvaluation.student));
     if (index != -1) {
       _evaluations[index] = studentEvaluation;
     }
     return _evaluations;
   }
 
-  List<StudentEvaluation> deleteStudentEvaluation(StudentEvaluation studentEvaluation, [List<StudentEvaluation>? list]) {
-    final List<StudentEvaluation> studentEvaluations = list ?? _evaluations;
+  List<StudentEvaluationAndPresence> deleteStudentEvaluation(StudentEvaluationAndPresence studentEvaluation, [List<StudentEvaluationAndPresence>? list]) {
+    final List<StudentEvaluationAndPresence> studentEvaluations = list ?? _evaluations;
 
-    studentEvaluations.removeWhere((element) => element.equals(studentEvaluation));
+    studentEvaluations.removeWhere((element) => element.student.equals(studentEvaluation.student));
 
     return studentEvaluations;
   }
 
-  List<StudentEvaluation> setStudentEvaluations(List<StudentEvaluation> studentEvaluations) {
+  List<StudentEvaluationAndPresence> setStudentEvaluations(List<StudentEvaluationAndPresence> studentEvaluations) {
     _evaluations.clear();
     _evaluations.addAll(studentEvaluations);
     return _evaluations;
   }
 
-  List<StudentEvaluation> get studentEvaluations => _evaluations;
+  List<StudentEvaluationAndPresence> get studentEvaluations => _evaluations;
 
 
 }

@@ -1,12 +1,10 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
-import 'package:zawya_islamic/infrastructure/helpers/supabase/supabase_app.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 class GroupService implements GroupServicePort {
   final DatabasePort _databaseService;
-  final SupabaseApp _supabaseApp = SupabaseApp();
 
   GroupService(this._databaseService);
 
@@ -41,22 +39,17 @@ class GroupService implements GroupServicePort {
   @override
   Future<TeacherGroupsResponse> getTeacherGroups(
       LoadTeacherGroupsOptions options) async {
-    final List<dynamic> rawData = await _supabaseApp.supabase.client
-        .from(DatabaseCollection.userGroups.name)
-        .select("""
-          ${UserGroupsTable.groupId.name},
-          ${DatabaseCollection.groups.name}(
-            ${GroupsTable.groupName.name}
-          )
-          """).eq(UserGroupsTable.userId.name, options.teacherId!.value);
+    final dbOptions = ReadEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection: DatabaseViews.teacherGroups.name,
+          OptionsMetadata.hasMany: true,
+        },
+        mapper: Group.fromMap,
+        filters: {UserGroupsTable.userId.name: options.teacherId!.value});
 
-    final List<Group> data = rawData.map((e) {
-      e[GroupsTable.groupName.name] = e["groups"][GroupsTable.groupName.name];
-      return Group.fromMap(e);
-    }).toList();
+    final response = await _databaseService.read<Group>(dbOptions);
 
-
-    return TeacherGroupsResponse(data: data);
+    return LoadGroupsResponse(data: response.data);
   }
 
   @override
@@ -66,16 +59,14 @@ class GroupService implements GroupServicePort {
 
   @override
   Future<LoadGroupsResponse> loadGroups(LoadGroupsOptions options) async {
-    final dbOptions = ReadEntityOptions(metadata: {
-      OptionsMetadata.rootCollection:
-          _generateGroupCode(options.schoolId.value),
-      OptionsMetadata.hasMany: true,
-    }, mapper: Group.fromMap,
-    
-    filters: {
-      GroupsTable.schoolId.name : options.schoolId.value
-    }
-    );
+    final dbOptions = ReadEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection:
+              _generateGroupCode(options.schoolId.value),
+          OptionsMetadata.hasMany: true,
+        },
+        mapper: Group.fromMap,
+        filters: {GroupsTable.schoolId.name: options.schoolId.value});
 
     final response = await _databaseService.read<Group>(dbOptions);
 
@@ -85,9 +76,7 @@ class GroupService implements GroupServicePort {
   @override
   Future<RegisterGroupResponse> registerGroup(
       RegisterGroupOptions options) async {
-
-    final entity =     options.group.toMapWithSchoolId(options.schoolId.value);
-
+    final entity = options.group.toMapWithSchoolId(options.schoolId.value);
 
     final dbOptions = CreateEntityOptions(entity, {
       OptionsMetadata.rootCollection:

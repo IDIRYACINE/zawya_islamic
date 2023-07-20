@@ -55,49 +55,45 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
 
   FutureOr<void> _handleMarkStudentAbsence(
       MarkStudentAbsence event, Emitter<StudentsState> emit) {
+
     final presence =
-        _studentAggregate.deleteStudent(event.student, state.presence);
+        _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
 
-    emit(state.copyWith(presence: presence,));
+    emit(state.copyWith(presenceAndEvaluation: presence,));
   }
 
   FutureOr<void> _handleMarkStudentPresence(
       MarkStudentPresence event, Emitter<StudentsState> emit) {
 
     final presence =
-        _studentAggregate.addStudent(event.student, state.presence);
+        _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
 
 
 
-    emit(state.copyWith(presence: presence));
+    emit(state.copyWith(presenceAndEvaluation: presence));
   }
 
   FutureOr<void> _handleMarkEvaluation(
       MarkStudentEvaluation event, Emitter<StudentsState> emit) {
 
     final updatedEvaluations =
-        _evaluationAggregate.addStudentEvaluation(event.evaluation);
+        _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
-    final updatedUnEvaluated = _evaluationAggregate.deleteStudentEvaluation(
-        event.evaluation, state.unEvaluated);
 
     emit(state.copyWith(
-        evaluations: updatedEvaluations, unEvaluated: updatedUnEvaluated));
+        presenceAndEvaluation: updatedEvaluations));
   }
 
   FutureOr<void> _handleUnMarkEvaluation(
       UnMarkStudentEvaluation event, Emitter<StudentsState> emit) {
 
   final updatedEvaluations =
-        _evaluationAggregate.deleteStudentEvaluation(event.evaluation,state.unEvaluated);
+        _evaluationAggregate.updateStudentEvaluation(event.evaluation);
         
-    final updatedUnEvaluated = _evaluationAggregate.addStudentEvaluation(
-        event.evaluation);
-
     emit(state.copyWith(
-        evaluations: updatedEvaluations, unEvaluated: updatedUnEvaluated));
+        presenceAndEvaluation: updatedEvaluations, ));
   }
 
   FutureOr<void> _handleSession(SetSession event, Emitter<StudentsState> emit) {

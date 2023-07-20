@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/teacher_app/evaluation/logic/evaluation_form_controller.dart';
-import 'package:zawya_islamic/core/entities/evaluations.dart';
+import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/core/entities/quran.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
@@ -14,10 +14,10 @@ typedef FormValidator = String? Function(String?);
 typedef StringCallback = void Function(String?);
 
 class EvaluationForm extends StatefulWidget {
-  EvaluationForm({required this.student, required this.bloc})
+  EvaluationForm({required this.evluationAndPresence, required this.bloc})
       : super(key: EvaluationFormController.widgetKey);
 
-  final StudentEvaluation student;
+  final StudentEvaluationAndPresence evluationAndPresence;
   final StudentsBloc bloc;
 
   @override
@@ -87,7 +87,7 @@ class EvaluationFormState extends State<EvaluationForm> {
     if (!init) {
       localizations = AppLocalizations.of(context)!;
       controller = EvaluationFormController(
-        widget.student,
+        widget.evluationAndPresence,
         widget.bloc,
       );
       init = true;
@@ -194,14 +194,14 @@ class AyatFormField extends StatelessWidget {
 class EvaluationDialog extends StatelessWidget {
   const EvaluationDialog({super.key, required this.student});
 
-  final StudentEvaluation student;
+  final StudentEvaluationAndPresence student;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<StudentsBloc>(context);
 
     return AlertDialog(
-      content: EvaluationForm(student: student, bloc: bloc),
+      content: EvaluationForm(evluationAndPresence: student, bloc: bloc),
     );
   }
 }
