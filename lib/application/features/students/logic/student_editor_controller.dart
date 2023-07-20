@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
@@ -62,7 +63,13 @@ class StudentEditorController {
   }
 
   void _createStudent() {
+    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!)
+        .state
+        .selectedSchool!
+        .id;
+
     final student = Student(
+      schoolId: schoolId,
       name: Name(studentName),
       id: StudentId(const Uuid().v4()),
       birthDate: BirthDate(birthDate),

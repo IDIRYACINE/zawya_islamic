@@ -43,13 +43,15 @@ class DeleteUserGroupOptions extends GroupServiceOptions{
 
 class LoadTeacherGroupsOptions extends GroupServiceOptions {
   final List<GroupId> groupIds;
-  final SchoolId schoolId;
+  final SchoolId? schoolId;
   final TeacherId? teacherId;
 
   LoadTeacherGroupsOptions(
-      {required this.schoolId,
-      required this.teacherId,
-      this.groupIds = const []});
+      { this.schoolId,
+       this.teacherId,
+      this.groupIds = const []}){
+        assert (schoolId !=null || teacherId!=null,"Must set teacherId or schoolId");
+      }
 }
 
 

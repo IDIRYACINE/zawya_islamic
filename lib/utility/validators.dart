@@ -5,7 +5,7 @@ String? schoolNameValidator(String? value, AppLocalizations localizations) {
     return localizations.emptyFieldError;
   }
 
-  RegExp regExp = RegExp(r'^[A-Za-z\s]+$');
+  RegExp regExp = RegExp(r'^[A-Za-z]+\s?(\d*|[A-Za-z]+)?$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -33,7 +33,7 @@ String? studentNameValidator(String? value, AppLocalizations localizations) {
     return localizations.emptyFieldError;
   }
 
-  RegExp regExp = RegExp(r'^[A-Za-z\s]+$');
+  RegExp regExp = RegExp(r'^[A-Za-z]+\s[A-Za-z]+$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -47,7 +47,7 @@ String? teacherNameValidator(String? value, AppLocalizations localizations) {
     return localizations.emptyFieldError;
   }
 
-  RegExp regExp = RegExp(r'^[A-Za-z\s]+$');
+  RegExp regExp = RegExp(r'^[A-Za-z]+\s[A-Za-z]+$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -61,7 +61,7 @@ String? groupNameValidator(String? value, AppLocalizations localizations) {
     return localizations.emptyFieldError;
   }
 
-  RegExp regExp = RegExp(r'^[A-Za-z\s]+$');
+  RegExp regExp = RegExp(r'^[A-Za-z]+\s?(\d*|[A-Za-z]+)?$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;

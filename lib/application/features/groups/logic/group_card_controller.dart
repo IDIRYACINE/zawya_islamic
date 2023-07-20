@@ -39,14 +39,15 @@ class GroupCardController implements GroupCardControllerPort {
   void _onDelete(String content, String title, Group group) {
     final dialog = ConfirmationDialog(
         onConfirm: () {
-          final options = DeleteGroupOptions(groupId: group.id,schoolId: schoolBloc.state.selectedSchool!.id);
+          final options = DeleteGroupOptions(
+              groupId: group.id, schoolId: schoolBloc.state.selectedSchool!.id);
 
           ServicesProvider.instance().groupService.deleteGroup(options).then(
                 (value) => groupsBloc.add(
                   DeleteGroupEvent(group: group),
                 ),
               );
-              
+
           NavigationService.pop();
         },
         title: title,
@@ -65,8 +66,10 @@ class GroupCardController implements GroupCardControllerPort {
 
   @override
   bool get displayOnMoreActions => true;
-  
+
   @override
   void onFloatingClick() {
+    const dialog = GroupEditorDialog();
+    NavigationService.displayDialog(dialog);
   }
 }

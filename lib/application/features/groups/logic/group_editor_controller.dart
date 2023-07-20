@@ -39,10 +39,12 @@ class GroupEditorController {
   void _updateGroup(Group group) {
     final updatedGroup = group.copyWith(name: Name(groupName));
     final groupBloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
-    final schoolBloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
+    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!)
+        .state
+        .selectedSchool!
+        .id;
 
-    final options =
-        UpdateGroupOptions(group: group, schoolId: schoolBloc.state.selectedSchool!.id);
+    final options = UpdateGroupOptions(group: group, schoolId: schoolId);
 
     ServicesProvider.instance()
         .groupService
@@ -51,15 +53,16 @@ class GroupEditorController {
   }
 
   void _createGroup() {
-    final schoolBloc = BlocProvider.of<SchoolsBloc>(key.currentContext!);
+    final schoolId = BlocProvider.of<SchoolsBloc>(key.currentContext!)
+        .state
+        .selectedSchool!
+        .id;
 
     final group = Group(name: Name(groupName), id: GroupId(const Uuid().v4()));
 
-    final options =
-        RegisterGroupOptions(group: group, schoolId: schoolBloc.state.selectedSchool!.id);
+    final options = RegisterGroupOptions(group: group, schoolId: schoolId);
 
     final groupBloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
-
 
     ServicesProvider.instance()
         .groupService

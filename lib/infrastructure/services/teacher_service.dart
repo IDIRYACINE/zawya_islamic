@@ -39,14 +39,20 @@ class TeacherService implements TeacherServicePort {
 
   @override
   Future<LoadTeachersResponse> getTeachers(LoadTeachersOptions options) async {
-    final dbOptions = ReadEntityOptions(metadata: {
+    final metadata = {
       OptionsMetadata.rootCollection:
           _generateTeacherCollectionCode(options.schoolId.value),
       OptionsMetadata.lastId: options.schoolId.value,
       OptionsMetadata.hasMany: true,
-    }, filters: {
-      UserTable.userRole.name: UserRoles.teacher.index
-    }, mapper: Teacher.fromMap);
+    };
+
+    final filters = {
+      UserTable.userRole.name: UserRoles.teacher.index,
+      UserTable.schoolId.name: options.schoolId.value
+    };
+
+    final dbOptions = ReadEntityOptions(
+        metadata: metadata, filters: filters, mapper: Teacher.fromMap);
 
     final response = await _databaseService.read<Teacher>(dbOptions);
 

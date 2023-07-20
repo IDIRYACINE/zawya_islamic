@@ -13,7 +13,6 @@ class AppLayout extends StatelessWidget {
     return AppBar(
       leading: InkWell(
         onTap: () {
-
           NavigationService.pop();
         },
         child: const Icon(

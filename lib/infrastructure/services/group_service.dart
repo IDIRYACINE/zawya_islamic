@@ -70,7 +70,12 @@ class GroupService implements GroupServicePort {
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
       OptionsMetadata.hasMany: true,
-    }, mapper: Group.fromMap);
+    }, mapper: Group.fromMap,
+    
+    filters: {
+      GroupsTable.schoolId.name : options.schoolId.value
+    }
+    );
 
     final response = await _databaseService.read<Group>(dbOptions);
 
@@ -80,7 +85,11 @@ class GroupService implements GroupServicePort {
   @override
   Future<RegisterGroupResponse> registerGroup(
       RegisterGroupOptions options) async {
-    final dbOptions = CreateEntityOptions(options.group.toMap(), {
+
+    final entity =     options.group.toMapWithSchoolId(options.schoolId.value);
+
+
+    final dbOptions = CreateEntityOptions(entity, {
       OptionsMetadata.rootCollection:
           _generateGroupCode(options.schoolId.value),
       OptionsMetadata.lastId: options.group.id.value,

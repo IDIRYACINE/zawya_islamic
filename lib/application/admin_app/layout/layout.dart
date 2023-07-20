@@ -9,6 +9,7 @@ import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/core/ports/school_service_port.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
+import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/resources.dart';
@@ -88,6 +89,7 @@ class AdminAppSetupOptions extends AppSetupOptions {
       case 1:
         return const TeachersView(
           displayAppBar: false,
+          dataLoader: _loadTeachers,
         );
 
       default:
@@ -99,13 +101,25 @@ class AdminAppSetupOptions extends AppSetupOptions {
   }
 }
 
+void _loadTeachers(BuildContext context) {
+  final teachersBloc = BlocProvider.of<TeachersBloc>(context);
+
+  final schoolId =
+      BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+
+  final teacheroptions = LoadTeachersOptions(schoolId: schoolId);
+  ServicesProvider.instance()
+      .teacherService
+      .getTeachers(teacheroptions)
+      .then((res) => teachersBloc.add(LoadTeachersEvent(teachers: res.data)));
+}
+
 void _loadStudents(BuildContext context) {
   final studentsBloc = BlocProvider.of<StudentsBloc>(context);
 
-  final groupId =
-      BlocProvider.of<StudentsBloc>(context).state.group.id;
+  final schoolId = BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
 
-  final studentOptions = LoadStudentsOptions(groupId: groupId);
+  final studentOptions = LoadStudentsOptions(schoolId: schoolId);
   ServicesProvider.instance().studentService.getStudents(studentOptions).then(
         (res) => studentsBloc.add(
           LoadStudentsEvent(students: res.data),

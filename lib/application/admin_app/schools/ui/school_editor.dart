@@ -50,7 +50,6 @@ class SchoolEditorDialog extends StatelessWidget {
 
   void onConfirm(SchoolEditorController controller) {
     controller.createOrUpdate(school);
-    NavigationService.pop();
   }
 
   @override

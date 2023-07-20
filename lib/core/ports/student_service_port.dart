@@ -1,3 +1,4 @@
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 typedef LoadStudentsResponse = StudentServiceResponse<List<Student>>;
@@ -18,10 +19,12 @@ class StudentServiceResponse<T> {
 abstract class StudentServiceOptions {}
 
 class LoadStudentsOptions extends StudentServiceOptions {
-  final List<String> studentIds;
-  final GroupId groupId;
+  final GroupId? groupId;
+  final SchoolId? schoolId;
 
-  LoadStudentsOptions({required this.groupId, this.studentIds = const []});
+  LoadStudentsOptions({ this.groupId, this.schoolId}){
+    assert(groupId !=null || schoolId !=null ,"Must provide schoolId or groupId");
+  }
 }
 
 class LoadStudentOptions extends StudentServiceOptions {

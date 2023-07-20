@@ -54,24 +54,16 @@ class UserService implements AuthServicePort {
 
     final id = authUser.user!.id.value;
 
-    CreateEntityOptions createOptions = CreateEntityOptions({
-      "role": options.role.name,
-      "name": options.name
-    }, {
-      OptionsMetadata.rootCollection: DatabaseCollection.users.name,
-      OptionsMetadata.lastId: id,
-      OptionsMetadata.hasMany: false,
-    });
-
-    _database.create(createOptions).then((value) {
-      if (options.role == UserRoles.teacher) {
-        final registerOptions = RegisterTeacherOptions(
-            teacher: Teacher(
-                id: TeacherId(id), name: Name(options.name), groups: []),
-            schoolId: options.schoolId);
-        _teacherService.registerTeacher(registerOptions);
-      }
-    });
+    if (options.role == UserRoles.teacher) {
+      final registerOptions = RegisterTeacherOptions(
+          teacher: Teacher(
+              id: TeacherId(id),
+              name: Name(options.name),
+              groups: [],
+              schoolId: options.schoolId),
+          schoolId: options.schoolId);
+      _teacherService.registerTeacher(registerOptions);
+    }
 
     final user =
         app.User(id: authUser.user!.id, name: app.Name(""), role: options.role);

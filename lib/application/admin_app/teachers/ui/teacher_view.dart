@@ -4,8 +4,7 @@ import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
-import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
-import 'package:zawya_islamic/infrastructure/exports.dart';
+import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
@@ -46,7 +45,10 @@ class TeacherCard extends StatelessWidget {
 }
 
 class TeachersView extends StatelessWidget {
-  const TeachersView({super.key, this.displayAppBar = true});
+  const TeachersView({super.key,     required this.dataLoader,
+this.displayAppBar = true});
+
+  final DataLoaderCallback dataLoader;
 
   final bool displayAppBar;
 
@@ -65,24 +67,12 @@ class TeachersView extends StatelessWidget {
     );
   }
 
-  void _loadTeachers(BuildContext context) {
-    final teachersBloc = BlocProvider.of<TeachersBloc>(context);
-
-    final schoolId =
-        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
-
-    final teacheroptions = LoadTeachersOptions(schoolId: schoolId);
-    ServicesProvider.instance()
-        .teacherService
-        .getTeachers(teacheroptions)
-        .then((res) => teachersBloc.add(LoadTeachersEvent(teachers: res.data)));
-  }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    _loadTeachers(context);
+    dataLoader(context);
 
     return Scaffold(
       appBar: displayAppBar

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+import '../teacher.dart';
+
 class BirthDate {
   final DateTime date;
 
@@ -43,4 +45,8 @@ class UserId {
   final String value;
 
   UserId(this.value);
+
+  TeacherId toTeacherId() {
+      return TeacherId(value);
+  }
 }

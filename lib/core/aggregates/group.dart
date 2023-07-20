@@ -29,6 +29,14 @@ class Group {
   Group copyWith({Name? name}) {
     return Group(id: id, name: name ?? this.name);
   }
+
+  Map<String, dynamic> toMapWithSchoolId(String schoolId) {
+     return {
+      GroupsTable.groupId.name: id.value,
+      GroupsTable.groupName.name: name.value,
+      GroupsTable.schoolId.name : schoolId
+    };
+  }
 }
 
 class GroupsAggregate {

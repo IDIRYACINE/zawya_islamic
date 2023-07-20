@@ -10,8 +10,8 @@ class SupabaseApp {
 
   Future<void> init() async {
     supabase = await Supabase.initialize(
-      url: SupabaseSecrets.supabaseUrl,
-      anonKey: SupabaseSecrets.supabaseApi,
+      url: SupabaseSecrets.testSupabaseUrl,
+      anonKey: SupabaseSecrets.testSupabaseApi,
     );
   }
 }

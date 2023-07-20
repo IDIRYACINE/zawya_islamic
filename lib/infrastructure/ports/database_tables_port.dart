@@ -49,6 +49,6 @@ enum UserTable{
   userId,
   userName,
   userRole,
-  birthDate
+  birthDate, schoolId
 
 }

@@ -1,6 +1,7 @@
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
 Future<void> loadTestGroups(GroupsBloc bloc) async {
@@ -17,6 +18,7 @@ Future<void> loadTestGroups(GroupsBloc bloc) async {
 Future<void> loadTestStudent(StudentsBloc bloc) async {
   final students = [
     Student(
+      schoolId: SchoolId("school"),
       id: StudentId("s1"),
       name: Name('s1'),
       birthDate: BirthDate(
@@ -24,6 +26,8 @@ Future<void> loadTestStudent(StudentsBloc bloc) async {
       ),
     ),
     Student(
+            schoolId: SchoolId("school"),
+
       id: StudentId("s2"),
       name: Name('s2'),
       birthDate: BirthDate(
@@ -31,6 +35,8 @@ Future<void> loadTestStudent(StudentsBloc bloc) async {
       ),
     ),
     Student(
+            schoolId: SchoolId("school"),
+
       id: StudentId("s2"),
       name: Name('s2'),
       birthDate: BirthDate(
