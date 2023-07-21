@@ -1,5 +1,4 @@
 import 'package:zawya_islamic/core/entities/export.dart';
-import 'package:zawya_islamic/core/entities/presence.dart';
 
 
 class StudentsAggregate {

@@ -1,7 +1,5 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
-import 'package:zawya_islamic/core/entities/presence.dart';
-import 'package:zawya_islamic/core/entities/session.dart';
 
 class StudentsState {
   StudentsState(

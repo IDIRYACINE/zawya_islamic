@@ -6,8 +6,9 @@ class PresenceCardController {
 
   final StudentsBloc studentBloc;
 
-  void onTap(StudentEvaluationAndPresence student, bool value) {
-    if (value) {
+  void onTap(StudentEvaluationAndPresence student) {
+    final isAbsent = student.presence.isAbsent;
+    if (isAbsent) {
       final event = MarkStudentPresence(evaluation: student);
       studentBloc.add(event);
       return;

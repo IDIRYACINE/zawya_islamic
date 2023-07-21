@@ -1,6 +1,6 @@
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
-import 'evaluations.dart';
 
 enum PresenceType { present, absent }
 
@@ -40,6 +40,15 @@ class StudentPresence {
       studentId: studentId,
     );
   }
+
+  factory  StudentPresence.fromMap(Map<String, dynamic> raw) {
+
+    final absenceParsed  = Presence(type: PresenceType.absent, modifer: raw[StudentEvaluationAndPresenceTable.absence.name]);
+    final presenceParsed = Presence(type: PresenceType.present, modifer: raw[StudentEvaluationAndPresenceTable.presence.name]);
+    final studentIdParsed = StudentId(raw[StudentEvaluationAndPresenceTable.userId.name]);
+
+    return StudentPresence(absence: absenceParsed, presence: presenceParsed, studentId: studentIdParsed);
+  }
 }
 
 class StudentEvaluationAndPresence {
@@ -47,6 +56,14 @@ class StudentEvaluationAndPresence {
 
   final StudentPresence presence;
   final StudentEvaluation evaluation;
+
+  factory StudentEvaluationAndPresence.fromMap(Map<String, dynamic> raw) {
+    return StudentEvaluationAndPresence(
+      presence: StudentPresence.fromMap(raw),
+      evaluation: StudentEvaluation.fromMap(raw),
+      student: Student.fromMap(raw),
+    );
+  }
 
   StudentEvaluationAndPresence(
       {required this.student,

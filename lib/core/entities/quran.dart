@@ -1,13 +1,11 @@
-import 'exceptions.dart';
-
 class Ayat {
   final int number;
 
   Ayat._(this.number);
 
-  factory Ayat.fromNumber(int num, int surahAyatCount) {
+  static Ayat? fromNumber(int num, int surahAyatCount) {
     if (num < 1 || num > surahAyatCount) {
-      throw AyatException();
+      return null;
     }
 
     return Ayat._(num);

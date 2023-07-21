@@ -7,6 +7,27 @@ typedef RegisterStudentResponse = StudentServiceResponse<void>;
 typedef UpdateStudentResponse = StudentServiceResponse<void>;
 typedef DeleteStudentResponse = StudentServiceResponse<void>;
 
+typedef GroupPresenceAndEvaluationResponse
+    = StudentServiceResponse<List<StudentEvaluationAndPresence>>;
+
+typedef SchoolPresenceAndEvaluationResponse
+    = StudentServiceResponse<List<PresenseAndEvaluationHolder>>;
+
+typedef MarkPresenceResponse = StudentServiceResponse<void>;
+typedef MarkEvaluationResponse = StudentServiceResponse<void>;
+
+class PresenseAndEvaluationHolder {
+  final GroupId groupId;
+  final List<Presence>? presences;
+  final List<Evaluation>? evaluations;
+
+  PresenseAndEvaluationHolder(
+      {required this.groupId, this.presences, this.evaluations}) {
+    assert(presences == null && evaluations == null,
+        "Must load presences or evaluations or both");
+  }
+}
+
 class StudentServiceResponse<T> {
   final String? message;
   final bool success;
@@ -55,6 +76,55 @@ class DeleteStudentOptions extends StudentServiceOptions {
   DeleteStudentOptions({required this.groupId, required this.studentId});
 }
 
+
+class LoadSchoolPresenceAndEvaluationOptions
+    extends StudentServiceOptions {
+  final List<String>? groupsIds;
+  final SchoolId schoolId;
+
+  LoadSchoolPresenceAndEvaluationOptions(
+      {required this.schoolId, this.groupsIds});
+}
+
+class LoadGroupPresenceAndEvaluationOptions
+    extends StudentServiceOptions {
+  final GroupId groupId;
+  final SchoolId? schoolId;
+
+  LoadGroupPresenceAndEvaluationOptions(
+      { this.schoolId, required this.groupId});
+}
+
+class MarkPresenceOptions extends StudentServiceOptions {
+  final Presence? presence;
+  final List<Presence>? presences;
+  final GroupId groupId;
+  final SessionId sessionId;
+
+  MarkPresenceOptions(
+      {this.presence,
+      this.presences,
+      required this.sessionId,
+      required this.groupId}) {
+    assert(presence == null || presences == null,
+        "Either presence or presences must be provided");
+    assert((presences != null) && (presences?.isEmpty == true),
+        "Presences is Empty");
+  }
+}
+
+class MarkEvaluationOptions extends StudentServiceOptions {
+  final Evaluation evaluation;
+  final SchoolId schoolId;
+  final GroupId groupId;
+
+  MarkEvaluationOptions(
+      {required this.evaluation,
+      required this.schoolId,
+      required this.groupId});
+}
+
+
 abstract class StudentServicePort {
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options);
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options);
@@ -62,4 +132,11 @@ abstract class StudentServicePort {
       RegisterStudentOptions options);
   Future<UpdateStudentResponse> updateStudent(UpdateStudentOptions options);
   Future<DeleteStudentResponse> deleteStudent(DeleteStudentOptions options);
+   Future<GroupPresenceAndEvaluationResponse> loadGroupPresenceAndEvaluations(
+      LoadGroupPresenceAndEvaluationOptions options);
+  Future<MarkPresenceResponse> markPresenceOrAbsence(
+      MarkPresenceOptions options);
+  Future<MarkEvaluationResponse> markMonthlyEvaluation(
+      MarkEvaluationOptions options);
+  
 }

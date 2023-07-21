@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/state.dart';
 import 'package:zawya_islamic/core/entities/presence.dart';
+import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/measures.dart';
 
 import '../logic/evaluation_card_controller.dart';
 
@@ -19,14 +21,28 @@ class EvaluationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Card(
       child: InkWell(
         onTap: () => controller.onTap(evaluation, !isEvaluated),
-        child: ListTile(
-          leading: Text(evaluation.student.name.value),
-          trailing: Switch(
-              value: isEvaluated,
-              onChanged: (value) => controller.onTap(evaluation, value)),
+        child: Padding(
+          padding: const EdgeInsets.all(AppMeasures.paddings),
+          child: Column(
+            children: [
+              Text(evaluation.student.name.value),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                      "${localizations.surat} : ${evaluation.evaluation.evaluation.suratName}"),
+                  Text(
+                      "${localizations.ayat} : ${evaluation.evaluation.evaluation.ayatNumber}"),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -60,11 +76,14 @@ class EvaluationTabView extends StatelessWidget {
     final bloc = BlocProvider.of<StudentsBloc>(context);
     final evaluationCardController = EvaluationCardController(bloc);
 
-    return ListView.separated(
-        itemBuilder: (context, index) =>
-            _buildItem(context, students[index], evaluationCardController),
-        separatorBuilder: _speperatorBuilder,
-        itemCount: students.length);
+    return Padding(
+      padding: const EdgeInsets.all(AppMeasures.paddingsLarge),
+      child: ListView.separated(
+          itemBuilder: (context, index) =>
+              _buildItem(context, students[index], evaluationCardController),
+          separatorBuilder: _speperatorBuilder,
+          itemCount: students.length),
+    );
   }
 }
 

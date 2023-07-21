@@ -24,7 +24,7 @@ class TeacherGroupsController implements GroupCardControllerPort {
 
     NavigationService.pushNamed(Routes.teacherDashboardRoute);
 
-    _loadGroupStudents(group);
+    _loadGroupStudentsPresenceAndEvluation(group);
   }
 
   @override
@@ -35,11 +35,14 @@ class TeacherGroupsController implements GroupCardControllerPort {
   @override
   void onFloatingClick() {}
 
-  void _loadGroupStudents(Group group) {
-    final options = LoadStudentsOptions(groupId: group.id);
+  void _loadGroupStudentsPresenceAndEvluation(Group group) {
+
+    final options = LoadGroupPresenceAndEvaluationOptions(groupId: group.id);
+
+    
     ServicesProvider.instance()
         .studentService
-        .getStudents(options)
-        .then((res) => studentsBloc.add(LoadStudentsEvent(students: res.data)));
+        .loadGroupPresenceAndEvaluations(options)
+        .then((res) => studentsBloc.add(LoadPresencesAndEvaluations(evaluations: res.data)));
   }
 }

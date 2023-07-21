@@ -1,7 +1,5 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
-import 'package:zawya_islamic/core/entities/presence.dart';
-import 'package:zawya_islamic/core/entities/session.dart';
 
 abstract class StudentEvent {}
 
@@ -32,6 +30,12 @@ class SetGroupEvent extends StudentEvent{
   final Group group;
   
   SetGroupEvent({required this.group});
+}
+
+class LoadPresencesAndEvaluations extends StudentEvent{
+  final List<StudentEvaluationAndPresence> evaluations;
+
+  LoadPresencesAndEvaluations({required this.evaluations});
 }
 
 

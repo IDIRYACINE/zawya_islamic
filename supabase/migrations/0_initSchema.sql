@@ -87,6 +87,16 @@ where
   users."userRole" = 1;    
 
 
+
+create
+or replace view "groupStudentEvaluations" as
+SELECT se.*,u."userName",u."birthDate",u."schoolId",ug."groupId"
+FROM "studentEvaluations" se
+JOIN "users" u ON se."userId" = u."userId"
+JOIN "userGroups" ug ON u."userId" = ug."userId"
+WHERE u."userRole" = 2;
+
+
 CREATE OR REPLACE FUNCTION create_student_evaluation()
 RETURNS TRIGGER AS $$
 BEGIN

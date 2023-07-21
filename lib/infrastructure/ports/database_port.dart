@@ -9,9 +9,9 @@ enum OptionsMetadata {
   lastCollection,
 }
 
-enum DatabaseCollection { groups, users, userGroups, schools, userRoles }
+enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations }
 
-enum DatabaseViews { groupStudents, teacherGroups, schoolStudents }
+enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations }
 
 
 extension DatabaseCollectionExtension on DatabaseCollection {

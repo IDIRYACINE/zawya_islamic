@@ -49,6 +49,15 @@ enum UserTable{
   userId,
   userName,
   userRole,
-  birthDate, schoolId
+  birthDate, 
+  schoolId
 
+}
+
+enum StudentEvaluationAndPresenceTable{
+  userId,
+  presence,
+  absence,
+  evaluationAyat,
+  evaluationSurat
 }

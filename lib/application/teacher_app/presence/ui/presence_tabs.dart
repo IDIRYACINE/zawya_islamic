@@ -29,6 +29,7 @@ class _StudentPresenceTabState extends State<StudentPresenceTab> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: TabBar(
               tabs: [
                 Tab(text: localizations.absenceLabel),
@@ -55,23 +56,21 @@ class PresenceCard extends StatelessWidget {
   const PresenceCard(
       {super.key,
       required this.presence,
-      required this.isPresent,
       required this.controller});
 
   final StudentEvaluationAndPresence presence;
-  final bool isPresent;
   final PresenceCardController controller;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => controller.onTap(presence, !isPresent),
+        onTap: () => controller.onTap(presence, ),
         child: ListTile(
           leading: Text(presence.student.name.value),
           trailing: Switch(
-              value: isPresent,
-              onChanged: (value) => controller.onTap(presence, value)),
+              value: presence.presence.isPresent,
+              onChanged: (value) => controller.onTap(presence)),
         ),
       ),
     );
@@ -89,7 +88,6 @@ class PresenceTabView extends StatelessWidget {
       PresenceCardController presenceCardController) {
     return PresenceCard(
       presence: presence,
-      isPresent: isPresent,
       controller: presenceCardController,
     );
   }
@@ -106,8 +104,8 @@ class PresenceTabView extends StatelessWidget {
     final presenceCardController = PresenceCardController(bloc);
 
     return ListView.separated(
-        itemBuilder: (context, index) => _buildItem(
-            context, students[index], presenceCardController),
+        itemBuilder: (context, index) =>
+            _buildItem(context, students[index], presenceCardController),
         separatorBuilder: _speperatorBuilder,
         itemCount: students.length);
   }

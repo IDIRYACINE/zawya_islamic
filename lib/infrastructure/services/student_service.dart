@@ -97,6 +97,36 @@ class StudentService implements StudentServicePort {
     return UpdateStudentResponse(data: null);
   }
 
+
+
+  @override
+  Future<GroupPresenceAndEvaluationResponse> loadGroupPresenceAndEvaluations(
+      LoadGroupPresenceAndEvaluationOptions options) async {
+
+    final dbOptions = ReadEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection: DatabaseViews.groupStudentEvaluations.name,
+          OptionsMetadata.hasMany: true,
+        },
+        mapper: StudentEvaluationAndPresence.fromMap,
+        filters: {UserGroupsTable.groupId.name: options.groupId.value});
+
+    final response = await _databaseService.read<StudentEvaluationAndPresence>(dbOptions);
+    
+    return GroupPresenceAndEvaluationResponse(data: response.data);
+  }
+  @override
+  Future<MarkEvaluationResponse> markMonthlyEvaluation(
+      MarkEvaluationOptions options) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<MarkPresenceResponse> markPresenceOrAbsence(
+      MarkPresenceOptions options) {
+    throw UnimplementedError();
+  }
+
   String _generateStudentGroupCode(String groupId) {
     // return "${DatabaseCollection.groupStudents.code}-$groupId";
     return DatabaseCollection.users.name;
