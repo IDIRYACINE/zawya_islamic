@@ -1,4 +1,18 @@
+enum RpcFunctions{
+  updateStudentsPresence
+}
 
+extension RpcFunctionsExtension on RpcFunctions{
+  String get functionName {
+    switch (this) {
+      case RpcFunctions.updateStudentsPresence:
+        return "update_student_presence";
+
+      default:
+        return "s";
+    }
+  }
+}
 
 enum GroupsTable {
   groupId,

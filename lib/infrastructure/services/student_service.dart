@@ -1,10 +1,12 @@
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
+import 'package:zawya_islamic/infrastructure/helpers/supabase/supabase_app.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
 class StudentService implements StudentServicePort {
   final DatabasePort _databaseService;
+  final SupabaseApp _supabaseApp = SupabaseApp();
 
   StudentService(this._databaseService);
 
@@ -40,21 +42,24 @@ class StudentService implements StudentServicePort {
 
   @override
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options) async {
-
-    final targetSchoolOrGroup = options.schoolId !=null ;
+    final targetSchoolOrGroup = options.schoolId != null;
 
     final metadata = {
-      OptionsMetadata.rootCollection:
-          targetSchoolOrGroup ? DatabaseViews.schoolStudents.name:DatabaseViews.groupStudents.name ,
+      OptionsMetadata.rootCollection: targetSchoolOrGroup
+          ? DatabaseViews.schoolStudents.name
+          : DatabaseViews.groupStudents.name,
       OptionsMetadata.hasMany: true,
     };
 
-    final filterBySchoolOrGroupKey = targetSchoolOrGroup? GroupsTable.schoolId.name : GroupsTable.groupId.name;
-    final filterBySchoolOrGroupValue = targetSchoolOrGroup? options.schoolId!.value : options.groupId!.value;
+    final filterBySchoolOrGroupKey = targetSchoolOrGroup
+        ? GroupsTable.schoolId.name
+        : GroupsTable.groupId.name;
+    final filterBySchoolOrGroupValue =
+        targetSchoolOrGroup ? options.schoolId!.value : options.groupId!.value;
 
     final filters = {
       UserTable.userRole.name: UserRoles.student.index,
-      filterBySchoolOrGroupKey : filterBySchoolOrGroupValue
+      filterBySchoolOrGroupKey: filterBySchoolOrGroupValue
     };
 
     final dbOptions = ReadEntityOptions(
@@ -97,38 +102,70 @@ class StudentService implements StudentServicePort {
     return UpdateStudentResponse(data: null);
   }
 
-
-
   @override
   Future<GroupPresenceAndEvaluationResponse> loadGroupPresenceAndEvaluations(
       LoadGroupPresenceAndEvaluationOptions options) async {
-
     final dbOptions = ReadEntityOptions(
         metadata: {
-          OptionsMetadata.rootCollection: DatabaseViews.groupStudentEvaluations.name,
+          OptionsMetadata.rootCollection:
+              DatabaseViews.groupStudentEvaluations.name,
           OptionsMetadata.hasMany: true,
         },
         mapper: StudentEvaluationAndPresence.fromMap,
         filters: {UserGroupsTable.groupId.name: options.groupId.value});
 
-    final response = await _databaseService.read<StudentEvaluationAndPresence>(dbOptions);
-    
+    final response =
+        await _databaseService.read<StudentEvaluationAndPresence>(dbOptions);
+
     return GroupPresenceAndEvaluationResponse(data: response.data);
   }
+
   @override
   Future<MarkEvaluationResponse> markMonthlyEvaluation(
-      MarkEvaluationOptions options) {
-    throw UnimplementedError();
+      MarkEvaluationOptions options) async {
+    final dbOptions =
+        UpdateEntityOptions(entity: options.evaluation.toMap(), metadata: {
+      OptionsMetadata.rootCollection:
+          DatabaseCollection.studentEvaluations.name,
+      OptionsMetadata.lastId: options.evaluation.studentId.value,
+    }, filters: {
+      StudentEvaluationAndPresenceTable.userId.name:
+          options.evaluation.studentId.value
+    });
+
+    _databaseService.update(dbOptions);
+
+    return MarkEvaluationResponse(data: null);
   }
 
   @override
   Future<MarkPresenceResponse> markPresenceOrAbsence(
-      MarkPresenceOptions options) {
-    throw UnimplementedError();
+      MarkPresenceOptions options) async {
+
+    // _supabaseApp.supabase.client.rpc(
+    //     RpcFunctions.updateStudentsPresence.functionName,
+    //     params: {"payload": _presenceDataAdapter(options.presences!)})
+    //   .then((value) => print(value)); 
+    //
+    _supabaseApp.supabase.client.from(DatabaseCollection.studentEvaluations.name).upsert(
+      _presenceDataAdapter(options.presences!),onConflict: "userId");
+        
+
+    return MarkPresenceResponse(data: null);
   }
 
   String _generateStudentGroupCode(String groupId) {
-    // return "${DatabaseCollection.groupStudents.code}-$groupId";
     return DatabaseCollection.users.name;
+  }
+
+  List<Map<String, dynamic>> _presenceDataAdapter(List<StudentPresence> data) {
+    final List<Map<String, dynamic>> result = [];
+
+    for (StudentPresence presence in data) {
+      result.add(presence.toMap());
+    }
+
+
+    return result;
   }
 }

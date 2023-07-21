@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/bloc.dart';
 import 'package:zawya_islamic/application/features/students/state/state.dart';
+import 'package:zawya_islamic/application/teacher_app/presence/logic/helpers.dart';
 import 'package:zawya_islamic/application/teacher_app/presence/ui/presence_view.dart';
 import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/measures.dart';
+import 'package:zawya_islamic/resources/resources.dart';
 
 import '../logic/presence_card_controller.dart';
 
@@ -46,6 +49,13 @@ class _StudentPresenceTabState extends State<StudentPresenceTab> {
               students: state.presence,
             ),
           ]),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(AppMeasures.paddings),
+            child: ElevatedButton(
+              child: const Icon(AppResources.closeSessionIcon),
+              onPressed: () => closeSession(context),
+            ),
+          ),
         ),
       );
     });
@@ -54,9 +64,7 @@ class _StudentPresenceTabState extends State<StudentPresenceTab> {
 
 class PresenceCard extends StatelessWidget {
   const PresenceCard(
-      {super.key,
-      required this.presence,
-      required this.controller});
+      {super.key, required this.presence, required this.controller});
 
   final StudentEvaluationAndPresence presence;
   final PresenceCardController controller;
@@ -65,7 +73,9 @@ class PresenceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => controller.onTap(presence, ),
+        onTap: () => controller.onTap(
+          presence,
+        ),
         child: ListTile(
           leading: Text(presence.student.name.value),
           trailing: Switch(

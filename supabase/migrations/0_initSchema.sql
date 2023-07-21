@@ -4,7 +4,10 @@ create table if not exists "userRoles" (
   constraint userRoles_pkey primary key ("roleId")
 ) tablespace pg_default;
 
-create table if not exists schools ("schoolName" text null, "schoolId" uuid not null primary key) tablespace pg_default;
+create table if not exists schools (
+  "schoolName" text null,
+  "schoolId" uuid not null primary key
+) tablespace pg_default;
 
 create table if not exists "users" (
   "userId" uuid not null,
@@ -15,9 +18,7 @@ create table if not exists "users" (
   constraint users_pkey primary key ("userId"),
   constraint users_userRole_fkey foreign key ("userRole") references "userRoles" ("roleId"),
   constraint users_schoolId_fkey foreign key ("schoolId") references "schools" ("schoolId")
-
 ) tablespace pg_default;
-
 
 create table if not exists groups (
   "groupName" text null,
@@ -29,19 +30,18 @@ create table if not exists groups (
 create table if not exists "userGroups" (
   "userId" uuid not null,
   "groupId" uuid null,
+  constraint userGroups_pkey primary key ("userId", "groupId") ,
   constraint userGroups_userId_fkey foreign key ("userId") references users ("userId") on delete cascade
 ) tablespace pg_default;
-
-
 create table if not exists "studentEvaluations" (
   "userId" uuid not null,
-  "evaluationSurat" Text default '',
+   "evaluationSurat" Text default '',
   "evaluationAyat" Integer default 0,
   "presence" Integer default 0,
   "absence" Integer default 0,
+  constraint studentEvaluations_pkey primary key ("userId") ,
   constraint studentEvaluations_userId_fkey foreign key ("userId") references users ("userId") on delete cascade
 ) tablespace pg_default;
-
 
 create
 or replace view "groupStudents" as
@@ -60,54 +60,56 @@ select
   groups.*,
   users."userId"
 from
-  "userGroups" 
+  "userGroups"
   inner join users on "userGroups"."userId" = users."userId"
   inner join groups on "userGroups"."groupId" = groups."groupId"
 where
   users."userRole" = 1;
-
 
 create
 or replace view "schoolStudents" as
 select
   users.*
 from
-  "users" 
+  "users"
 where
-  users."userRole" = 2;  
-
+  users."userRole" = 2;
 
 create
 or replace view "schoolTeachers" as
 select
   users.*
 from
-  "users" 
+  "users"
 where
-  users."userRole" = 1;    
-
-
+  users."userRole" = 1;
 
 create
 or replace view "groupStudentEvaluations" as
-SELECT se.*,u."userName",u."birthDate",u."schoolId",ug."groupId"
-FROM "studentEvaluations" se
-JOIN "users" u ON se."userId" = u."userId"
-JOIN "userGroups" ug ON u."userId" = ug."userId"
-WHERE u."userRole" = 2;
+SELECT
+  se.*,
+  u."userName",
+  u."birthDate",
+  u."schoolId",
+  ug."groupId"
+FROM
+  "studentEvaluations" se
+  JOIN "users" u ON se."userId" = u."userId"
+  JOIN "userGroups" ug ON u."userId" = ug."userId"
+WHERE
+  u."userRole" = 2;
 
+CREATE
+OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 2 THEN
+INSERT INTO
+  "studentEvaluations" ("userId")
+VALUES
+  (NEW."userId");
 
-CREATE OR REPLACE FUNCTION create_student_evaluation()
-RETURNS TRIGGER AS $$
-BEGIN
-  IF NEW."userRole" = 2 THEN
-    INSERT INTO "studentEvaluations" ("userId") VALUES (NEW."userId");
-  END IF;
-  RETURN NEW;
+END IF;
+
+RETURN NEW;
+
 END;
-$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_user_role_and_insert_evaluation
-AFTER INSERT ON "users"
-FOR EACH ROW
-EXECUTE FUNCTION create_student_evaluation();
+$ $ LANGUAGE plpgsql;

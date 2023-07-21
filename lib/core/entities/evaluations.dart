@@ -29,8 +29,8 @@ class Evaluation {
     );
   }
 
-  String get suratName =>  surat?.name ??  '?' ;
-  int get ayatNumber => end?.number ??  -1 ;
+  String get suratName => surat?.name ?? '?';
+  int get ayatNumber => end?.number ?? -1;
 }
 
 class StudentEvaluation {
@@ -57,5 +57,14 @@ class StudentEvaluation {
       evaluation: Evaluation.fromMap(raw),
       studentId: StudentId(raw[UserTable.userId.name]),
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      StudentEvaluationAndPresenceTable.evaluationAyat.name:
+          evaluation.ayatNumber,
+      StudentEvaluationAndPresenceTable.evaluationSurat.name:
+          evaluation.surat?.name ,
+    };
   }
 }

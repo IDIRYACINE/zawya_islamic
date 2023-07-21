@@ -5,6 +5,8 @@ import 'package:zawya_islamic/application/teacher_app/evaluation/ui/evaluation_f
 import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/core/entities/quran.dart';
+import 'package:zawya_islamic/core/ports/student_service_port.dart';
+import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 
 class EvaluationFormController {
   static final formKey = GlobalKey<FormState>();
@@ -47,6 +49,7 @@ class EvaluationFormController {
       return;
     }
 
+
     Evaluation evaluation = Evaluation(
       surat: surat!,
       start: Ayat.fromNumber(startAyat!, surat!.ayatCount),
@@ -57,12 +60,17 @@ class EvaluationFormController {
         studentId: studentEvaluationAndPresence.student.id,
         evaluation: evaluation);
 
-    studentEvaluationAndPresence.copyWith(evaluation: newStudentEvaluation);
 
     final event =
-        MarkStudentEvaluation(evaluation: studentEvaluationAndPresence);
+        MarkStudentEvaluation(evaluation: studentEvaluationAndPresence.copyWith(evaluation: newStudentEvaluation));
 
     studentBloc.add(event);
+
+    final options = MarkEvaluationOptions(
+      evaluation: newStudentEvaluation,
+    );
+
+    ServicesProvider.instance().studentService.markMonthlyEvaluation(options);
 
     NavigationService.pop();
   }

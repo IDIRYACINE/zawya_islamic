@@ -26,13 +26,14 @@ class StudentsState {
       {List<Student>? students,
       List<StudentEvaluationAndPresence>? presenceAndEvaluation,
       Group? group,
+      bool nullifySession = false,
       Session? session}) {
     return StudentsState(
         students: students ?? this.students,
         group: group ?? this.group,
         presenceAndEvaluation:
             presenceAndEvaluation ?? this.presenceAndEvaluation,
-        session: session ?? this.session);
+        session: nullifySession? null : session ?? this.session );
   }
 
   List<StudentEvaluationAndPresence> get absence => presenceAndEvaluation

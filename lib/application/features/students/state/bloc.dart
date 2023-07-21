@@ -84,6 +84,8 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
 
   FutureOr<void> _handleMarkEvaluation(
       MarkStudentEvaluation event, Emitter<StudentsState> emit) {
+
+
     final updatedEvaluations =
         _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
@@ -101,7 +103,18 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleSession(SetSession event, Emitter<StudentsState> emit) {
-    emit(state.copyWith(session: event.session));
+
+    List<StudentEvaluationAndPresence>? updatedPresence;
+    if(event.nullify){
+     updatedPresence = _evaluationAggregate.updateAllByPresence();
+
+    }
+
+    emit(state.copyWith(
+      session: event.session,
+      nullifySession: event.nullify,
+      presenceAndEvaluation: updatedPresence
+      ));
   }
 
   FutureOr<void> _handleLoadPresencesAndEvaluations(

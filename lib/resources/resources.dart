@@ -23,4 +23,6 @@ abstract class AppResources {
   static const presenceIcon = Icons.remove_red_eye_rounded;
 
   static const settingsIcon = Icons.settings;
+
+  static const closeSessionIcon = Icons.close_sharp;
 }

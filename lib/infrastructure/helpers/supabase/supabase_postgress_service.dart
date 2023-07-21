@@ -8,7 +8,6 @@ class SupabasePostrgessService implements DatabasePort {
 
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
-
     await _client
         .from(options.metadata[OptionsMetadata.rootCollection])
         .insert(options.entity);
@@ -37,21 +36,17 @@ class SupabasePostrgessService implements DatabasePort {
       rawData = (await _client
           .from(options.metadata[OptionsMetadata.rootCollection])
           .select('*')
-          .match(options.filters!))
-          
-          ;
+          .match(options.filters!));
     } else {
       rawData = await _client
           .from(options.metadata[OptionsMetadata.rootCollection])
           .select("*");
-
     }
 
     if (!hasMany) {
       parsedData.add(options.mapper(rawData.first));
     } else {
-      final List<T> data =
-          rawData.map((e) => options.mapper(e) as T).toList();
+      final List<T> data = rawData.map((e) => options.mapper(e) as T).toList();
 
       parsedData.addAll(data);
     }

@@ -43,8 +43,9 @@ class LoadStudentsOptions extends StudentServiceOptions {
   final GroupId? groupId;
   final SchoolId? schoolId;
 
-  LoadStudentsOptions({ this.groupId, this.schoolId}){
-    assert(groupId !=null || schoolId !=null ,"Must provide schoolId or groupId");
+  LoadStudentsOptions({this.groupId, this.schoolId}) {
+    assert(groupId != null || schoolId != null,
+        "Must provide schoolId or groupId");
   }
 }
 
@@ -76,9 +77,7 @@ class DeleteStudentOptions extends StudentServiceOptions {
   DeleteStudentOptions({required this.groupId, required this.studentId});
 }
 
-
-class LoadSchoolPresenceAndEvaluationOptions
-    extends StudentServiceOptions {
+class LoadSchoolPresenceAndEvaluationOptions extends StudentServiceOptions {
   final List<String>? groupsIds;
   final SchoolId schoolId;
 
@@ -86,44 +85,34 @@ class LoadSchoolPresenceAndEvaluationOptions
       {required this.schoolId, this.groupsIds});
 }
 
-class LoadGroupPresenceAndEvaluationOptions
-    extends StudentServiceOptions {
+class LoadGroupPresenceAndEvaluationOptions extends StudentServiceOptions {
   final GroupId groupId;
   final SchoolId? schoolId;
 
-  LoadGroupPresenceAndEvaluationOptions(
-      { this.schoolId, required this.groupId});
+  LoadGroupPresenceAndEvaluationOptions({this.schoolId, required this.groupId});
 }
 
 class MarkPresenceOptions extends StudentServiceOptions {
-  final Presence? presence;
-  final List<Presence>? presences;
-  final GroupId groupId;
-  final SessionId sessionId;
+  final StudentPresence? presence;
+  final List<StudentPresence>? presences;
+  final GroupId? groupId;
+  final SessionId? sessionId;
 
   MarkPresenceOptions(
-      {this.presence,
-      this.presences,
-      required this.sessionId,
-      required this.groupId}) {
+      {this.presence, this.presences, this.sessionId, this.groupId}) {
     assert(presence == null || presences == null,
         "Either presence or presences must be provided");
-    assert((presences != null) && (presences?.isEmpty == true),
-        "Presences is Empty");
   }
 }
 
 class MarkEvaluationOptions extends StudentServiceOptions {
-  final Evaluation evaluation;
-  final SchoolId schoolId;
-  final GroupId groupId;
+  final StudentEvaluation evaluation;
+  final SchoolId? schoolId;
+  final GroupId? groupId;
 
   MarkEvaluationOptions(
-      {required this.evaluation,
-      required this.schoolId,
-      required this.groupId});
+      {required this.evaluation, this.schoolId, this.groupId});
 }
-
 
 abstract class StudentServicePort {
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options);
@@ -132,11 +121,10 @@ abstract class StudentServicePort {
       RegisterStudentOptions options);
   Future<UpdateStudentResponse> updateStudent(UpdateStudentOptions options);
   Future<DeleteStudentResponse> deleteStudent(DeleteStudentOptions options);
-   Future<GroupPresenceAndEvaluationResponse> loadGroupPresenceAndEvaluations(
+  Future<GroupPresenceAndEvaluationResponse> loadGroupPresenceAndEvaluations(
       LoadGroupPresenceAndEvaluationOptions options);
   Future<MarkPresenceResponse> markPresenceOrAbsence(
       MarkPresenceOptions options);
   Future<MarkEvaluationResponse> markMonthlyEvaluation(
       MarkEvaluationOptions options);
-  
 }

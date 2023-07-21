@@ -31,6 +31,7 @@ class EvaluationCard extends StatelessWidget {
           child: Column(
             children: [
               Text(evaluation.student.name.value),
+              const SizedBox(height: AppMeasures.space,),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -110,7 +111,8 @@ class MonthyEvaluationTab extends StatelessWidget {
     final bloc = BlocProvider.of<StudentsBloc>(context);
     final evaluationCardController = EvaluationCardController(bloc);
 
-    return BlocBuilder<StudentsBloc, StudentsState>(builder: (context, state) {
+    return BlocBuilder<StudentsBloc, StudentsState>(
+      builder: (context, state) {
       final studentsEvaluations = state.presenceAndEvaluation;
 
       return ListView.separated(

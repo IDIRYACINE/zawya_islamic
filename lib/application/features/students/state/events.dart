@@ -66,6 +66,7 @@ class MarkStudentEvaluation extends StudentEvent{
 
 class SetSession extends StudentEvent{
   final Session? session;
+  final bool nullify;
 
-  SetSession({ this.session});
+  SetSession({ this.session,this.nullify =false});
 }
