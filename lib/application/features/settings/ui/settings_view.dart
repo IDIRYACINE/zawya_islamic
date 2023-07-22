@@ -11,75 +11,64 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final controller = SettingsController(SettingsLiveDataModel.instance());
     final localizations = AppLocalizations.of(context)!;
 
-    return Padding(
-      padding: const EdgeInsets.all(AppMeasures.paddingsLarge),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              localizations.settings,
-              style: theme.textTheme.headlineSmall,
-            ),
-            const SizedBox(
-              height: AppMeasures.space,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SettingCard(
-                      sectionTitle: localizations.general,
-                      rowData: [
-                        SettingRowData(
-                          title: localizations.displayLanguage,
-                          onClick: () {
-                            controller.changeDisplayLangauge(context);
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: AppMeasures.space,
-                    ),
-                    SettingCard(
-                      sectionTitle: localizations.about,
-                      rowData: [
-                        SettingRowData(
-                          title: localizations.developerContact,
-                          onClick: () {
-                            controller.displayAbout(context);
-                          },
-                        ),
-                        SettingRowData(
-                          title: localizations.appVersion,
-                          subtitle: 'v 0.0.1',
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                SettingCard(
-                  sectionTitle: localizations.general,
-                  rowData: const [
-                    
-                   
-                  ],
-                )
-              ],
-            ),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(localizations.settings),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(AppMeasures.paddings),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              SettingCard(
+                sectionTitle: localizations.general,
+                rowData: [
+                  SettingRowData(
+                    title: localizations.displayLanguage,
+                    onClick: () {
+                      controller.changeDisplayLangauge(context);
+                    },
+                  ),
+                  SettingRowData(
+                    title: localizations.statistiques,
+                    onClick: () {
+                      controller.displayStatistiques(context);
+                    },
+                  ),
+                  SettingRowData(
+                    title: localizations.updateSchedule,
+                    onClick: () {
+                      controller.changeDisplayLangauge(context);
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: AppMeasures.space,
+              ),
+              SettingCard(
+                sectionTitle: localizations.about,
+                rowData: [
+                  SettingRowData(
+                    title: localizations.developerContact,
+                    onClick: () {
+                      controller.displayAbout(context);
+                    },
+                  ),
+                  SettingRowData(
+                    title: localizations.appVersion,
+                    subtitle: 'v 0.0.1',
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

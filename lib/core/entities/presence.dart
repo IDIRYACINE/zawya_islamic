@@ -30,6 +30,8 @@ class StudentPresence {
   bool get isPresent =>
       currentSessionPresence.index == PresenceType.present.index;
 
+  int get totalPresenceCount => presence.modifer + absence.modifer;
+
   StudentPresence copyWith(
       {PresenceType? currentSessionPresence,
       Presence? presence,
@@ -76,6 +78,8 @@ class StudentEvaluationAndPresence {
   final StudentEvaluation evaluation;
 
   factory StudentEvaluationAndPresence.fromMap(Map<String, dynamic> raw) {
+
+
     return StudentEvaluationAndPresence(
       presence: StudentPresence.fromMap(raw),
       evaluation: StudentEvaluation.fromMap(raw),

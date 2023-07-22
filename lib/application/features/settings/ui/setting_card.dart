@@ -8,7 +8,7 @@ class SettingCard extends StatelessWidget {
       required this.sectionTitle,
       this.displayDivider = false,
       this.crossAxisAlignment = CrossAxisAlignment.start,
-      this.cardPaddings = AppMeasures.paddings,
+      this.cardPaddings = AppMeasures.paddingsSmall,
       this.width,
       this.height,
       this.sectionTitleSpace = AppMeasures.space})

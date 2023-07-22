@@ -45,10 +45,10 @@ class TeacherCard extends StatelessWidget {
 }
 
 class TeachersView extends StatelessWidget {
-  const TeachersView({super.key,     required this.dataLoader,
+  const TeachersView({super.key,      this.dataLoader,
 this.displayAppBar = true});
 
-  final DataLoaderCallback dataLoader;
+  final DataLoaderCallback? dataLoader;
 
   final bool displayAppBar;
 
@@ -72,7 +72,7 @@ this.displayAppBar = true});
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    dataLoader(context);
+    dataLoader?.call(context);
 
     return Scaffold(
       appBar: displayAppBar

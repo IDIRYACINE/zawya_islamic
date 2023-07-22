@@ -10,17 +10,19 @@ class Evaluation {
   Evaluation({this.surat, this.start, this.end});
 
   factory Evaluation.fromMap(Map<String, dynamic> raw) {
-    final surat = raw[StudentEvaluationAndPresenceTable.evaluationSurat] != null
+
+    final surat = raw[StudentEvaluationAndPresenceTable.evaluationSurat.name] != null
         ? Surat(
             suratNumber: 1,
-            name: raw[StudentEvaluationAndPresenceTable.evaluationSurat],
+            name: raw[StudentEvaluationAndPresenceTable.evaluationSurat.name],
             ayatCount: 285)
         : null;
 
-    final ayat = raw[StudentEvaluationAndPresenceTable.evaluationAyat] != null
+    final ayat = raw[StudentEvaluationAndPresenceTable.evaluationAyat.name] != null
         ? Ayat.fromNumber(
-            raw[StudentEvaluationAndPresenceTable.evaluationAyat], 285)
+            raw[StudentEvaluationAndPresenceTable.evaluationAyat.name], 285)
         : null;
+
 
     return Evaluation(
       surat: surat,

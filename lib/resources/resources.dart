@@ -25,4 +25,6 @@ abstract class AppResources {
   static const settingsIcon = Icons.settings;
 
   static const closeSessionIcon = Icons.close_sharp;
+
+  static const presenceCircleIcon = Icons.circle;
 }

@@ -23,11 +23,11 @@ class DeveloperContacts extends StatelessWidget {
           children: [
             Text(
               AppMetadata.developerName,
-              style: theme.textTheme.displaySmall,
+              style: theme.textTheme.bodyLarge,
             ),
             Text(
               AppMetadata.developerEmail,
-              style: theme.textTheme.displaySmall,
+              style: theme.textTheme.bodyLarge,
             ),
             const SizedBox(
               height: AppMeasures.paddingsSmall,
@@ -91,9 +91,10 @@ class DeveloperContactDialog extends StatelessWidget {
       ),
       actions: [
         Center(
-            child: ButtonPrimary(
-                onPressed: () => NavigationService.pop(),
-                text: localizations.confirmLabel))
+          child: ButtonPrimary(
+              onPressed: () => NavigationService.pop(),
+              text: localizations.confirmLabel),
+        )
       ],
     );
   }

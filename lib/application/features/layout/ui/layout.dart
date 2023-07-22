@@ -31,7 +31,7 @@ class AppLayout extends StatelessWidget {
       state.appsetupBuilder.dataLoader?.call(context);
 
       return Scaffold(
-        appBar: _buildAppBar(context),
+        appBar: state.appsetupBuilder.appbarBuilder?.call(context) ?? _buildAppBar(context),
         body: state.appsetupBuilder.bodyBuilder(selectedIndex),
         bottomNavigationBar: state.appsetupBuilder.bottomNavigationBarBuilder(
           selectedIndex,

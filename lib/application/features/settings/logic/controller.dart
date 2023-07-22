@@ -29,4 +29,8 @@ class SettingsController {
     );
   }
 
+  void displayStatistiques(BuildContext context) {
+    NavigationService.pushNamed(Routes.statistiquesRoute);
+  }
+
 }

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
+import 'package:zawya_islamic/application/features/settings/feature.dart';
 import 'package:zawya_islamic/application/features/splash/feature.dart';
+import 'package:zawya_islamic/application/features/statistiques/export.dart';
+import 'package:zawya_islamic/application/features/statistiques/ui/student_statistiques_view.dart';
 import 'package:zawya_islamic/application/teacher_app/export.dart';
 
 import 'routes.dart';
@@ -28,10 +31,23 @@ abstract class AppRouter {
       case Routes.teacherDashboardRoute:
         return getPageRoute(settings: settings, view: const AppLayout());
 
+      case Routes.settingsRoute:
+        return getPageRoute(settings: settings, view: const SettingsView());
+
+      case Routes.studentGroupStatistique:
+        return getPageRoute(
+            settings: settings, view: const GroupStudentStatistiques());
+
+      case Routes.statistiquesRoute :
+           return getPageRoute(
+            settings: settings, view: const StatistiquesView());
+
       default:
         return getPageRoute(
           settings: settings,
-          view: SplashView(callback: settings.arguments as VoidCallback? ,),
+          view: SplashView(
+            callback: settings.arguments as VoidCallback?,
+          ),
         );
     }
   }

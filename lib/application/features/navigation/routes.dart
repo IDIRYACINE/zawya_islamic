@@ -13,5 +13,11 @@ abstract class Routes {
   static const teacherDashboardRoute = "/teacher/dashbaord";
 
   static const splashRoute = "/splash";
+
+  static const String settingsRoute = "/settings";
+
+  static const String studentGroupStatistique="/statistiques/group";
+
+  static const String statistiquesRoute = "/statistiques";
   
 }

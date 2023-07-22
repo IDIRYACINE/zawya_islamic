@@ -25,45 +25,34 @@
     "general": "عام",
     "settings": "الإعدادات",
     "appVersion": "نسخة التطبيق",
-    "onlyCharactersAllowed" : "يسمح فقط بالحروف",
-    "emptyFieldError" : "الرجاء ملء الحقل",
-    "invalidDateFormat" : "تنسيق التاريخ غير صالح",
-    "studentListLabel" : "قائمة الطلاب",
-    "deleteLabel" : "حذف",
-    "editLabel" : "تحرير",
-    "permanentActionWarning" : "هذا الإجراء دائم ، هل أنت متأكد أنك تريد المتابعة؟",
-    "addLabel" : "إضافة",
-    "teacherListLabel" : "قائمة المعلمين",
-    "groupsListLabel" : "قائمة المجموعات",
-    "teachersLabel" : "المعلمين",
-    "studentsLabel" : "الطلاب",
-    "groupsLabel" : "المجموعات",
-    "presenceLabel" : "الحضور",
-    "absenceLabel" : "الغياب",
-    "evaluationLabel" : "الحفظ",
-    "evaluatedLabel" : "مقيم",
-    "unEvaluatedLabel" : "غير مقيم",
-    "ayat" : "اية",
-    "surat" : "سورة",
-    "alSurat" : "السورة",
-    "count" : "عدد",
-    "number" : "رقم",
-    "start" : "البداية",
-    "end" : "النهاية",
+    "onlyCharactersAllowed": "يسمح فقط بالحروف",
+    "emptyFieldError": "الرجاء ملء الحقل",
+    "invalidDateFormat": "تنسيق التاريخ غير صالح",
+    "studentListLabel": "قائمة الطلاب",
+    "deleteLabel": "حذف",
+    "editLabel": "تحرير",
+    "permanentActionWarning": "هذا الإجراء دائم ، هل أنت متأكد أنك تريد المتابعة؟",
+    "addLabel": "إضافة",
+    "teacherListLabel": "قائمة المعلمين",
+    "groupsListLabel": "قائمة المجموعات",
+    "teachersLabel": "المعلمين",
+    "studentsLabel": "الطلاب",
+    "groupsLabel": "المجموعات",
+    "presenceLabel": "الحضور",
+    "absenceLabel": "الغياب",
+    "evaluationLabel": "الحفظ",
+    "evaluatedLabel": "مقيم",
+    "unEvaluatedLabel": "غير مقيم",
+    "ayat": "اية",
+    "surat": "سورة",
+    "alSurat": "السورة",
+    "count": "عدد",
+    "number": "رقم",
+    "start": "البداية",
+    "end": "النهاية",
     "didntMemoreizeAnything": "لم يحفظ",
-    "emailLabel" : "الايمايل",
-    "createSessionLabel" : "بدء الحصة"
-
-
-
-    
-
-     
-
-
-
-
-
-
-
+    "emailLabel": "الايمايل",
+    "createSessionLabel": "بدء الحصة",
+    "statistiques": "الإحصائيات",
+    "updateSchedule": "جدول التحديث"
 }

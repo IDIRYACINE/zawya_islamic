@@ -28,7 +28,6 @@ class TeacherCardController {
 
     final widget = GroupsView(
         controllerPort: TeacherAdminGroupController(groupsBloc,userId),
-        dataLoader: (context) => loadTeacherGroups(context,teacher.id),
         usePrimarySource: false,
         );
 

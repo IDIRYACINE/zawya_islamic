@@ -49,12 +49,17 @@ class TeacherAppSetupOptions extends AppSetupOptions {
       : super(
           bodyBuilder: buildBody,
           bottomNavigationBarBuilder: buildBottomNavigationBar,
+          dataLoader:teacherDataLoader
         );
 
   static Widget buildBottomNavigationBar(int index) {
     return TeacherBottomNavigationBar(
       selectedIndex: index,
     );
+  }
+
+  static void teacherDataLoader(BuildContext context) {
+    
   }
 
   static Widget buildBody(int pageIndex) {
@@ -70,4 +75,5 @@ class TeacherAppSetupOptions extends AppSetupOptions {
         );
     }
   }
+  
 }

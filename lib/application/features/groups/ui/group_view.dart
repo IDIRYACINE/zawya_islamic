@@ -26,17 +26,19 @@ class GroupCard extends StatelessWidget {
 
     return SizedBox(
       height: 75,
-      child: InkWell(
-        onTap: () => controllerPort.onClick(group),
-        child: Center(
-          child: ListTile(
-            leading: Text(group.name.value),
-            trailing: controllerPort.displayOnMoreActions
-                ? OptionsButton(
-                    onClick: () =>
-                        controllerPort.onMoreActions(group, localizations),
-                  )
-                : null,
+      child: Card(
+        child: InkWell(
+          onTap: () => controllerPort.onClick(group),
+          child: Center(
+            child: ListTile(
+              leading: Text(group.name.value),
+              trailing: controllerPort.displayOnMoreActions
+                  ? OptionsButton(
+                      onClick: () =>
+                          controllerPort.onMoreActions(group, localizations),
+                    )
+                  : null,
+            ),
           ),
         ),
       ),
@@ -51,16 +53,18 @@ class GroupsView extends StatelessWidget {
     this.displayAppBar = true,
     this.displayFloatingAction = true,
     this.controllerPort,
-    required this.dataLoader,
+    this.dataLoader,
     this.usePrimarySource = true,
+    this.paddings = AppMeasures.paddings,
   });
 
   final bool displayAppBar;
   final VoidCallback? onReturn;
   final bool displayFloatingAction;
   final GroupCardControllerPort? controllerPort;
-  final DataLoaderCallback dataLoader;
+  final DataLoaderCallback? dataLoader;
   final bool usePrimarySource;
+  final double paddings;
 
   Widget _buildItems(
       BuildContext context, Group group, GroupCardControllerPort controller) {
@@ -106,12 +110,12 @@ class GroupsView extends StatelessWidget {
     final schoolBloc = BlocProvider.of<SchoolsBloc>(context);
 
     final controller = controllerPort ?? GroupCardController(bloc, schoolBloc);
-    dataLoader(context);
+    dataLoader?.call(context);
 
     return Scaffold(
       appBar: _buildAppBar(localizations),
       body: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddings),
+        padding:  EdgeInsets.all(paddings),
         child: BlocBuilder<GroupsBloc, GroupsState>(
           builder: (context, state) {
             final groups = _targetGroups(state);

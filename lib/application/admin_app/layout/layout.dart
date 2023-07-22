@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/admin_app/teachers/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/features/layout/logic/ports.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
-import 'package:zawya_islamic/core/ports/school_service_port.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
@@ -57,19 +57,15 @@ class AdminBottomNavigationBar extends StatelessWidget {
 class AdminAppSetupOptions extends AppSetupOptions {
   const AdminAppSetupOptions()
       : super(
-          bodyBuilder: buildBody,
-          bottomNavigationBarBuilder: buildBottomNavigationBar,
-        );
+            bodyBuilder: buildBody,
+            bottomNavigationBarBuilder: buildBottomNavigationBar,
+            dataLoader: adminDataLoader,
+            appbarBuilder: buildAppBar);
 
   static void adminDataLoader(BuildContext context) {
-    final servicesProvider = ServicesProvider.instance();
-
-    final schoolsBloc = BlocProvider.of<SchoolsBloc>(context);
-
-    final schoolsOptions = LoadSchoolsOptions();
-    servicesProvider.schoolService
-        .getSchools(schoolsOptions)
-        .then((res) => schoolsBloc.add(LoadSchoolsEvent(schools: res.data)));
+    _loadGroups(context);
+    _loadStudents(context);
+    _loadTeachers(context);
   }
 
   static Widget buildBottomNavigationBar(int index) {
@@ -78,24 +74,46 @@ class AdminAppSetupOptions extends AppSetupOptions {
     );
   }
 
+  static PreferredSizeWidget buildAppBar(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          NavigationService.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            AppResources.settingsIcon,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            NavigationService.pushNamed(Routes.settingsRoute);
+          },
+        ),
+      ],
+    );
+  }
+
   static Widget buildBody(int pageIndex) {
     switch (pageIndex) {
       case 0:
         return const StudentsView(
           displayAppBar: false,
-          dataLoader: _loadStudents,
         );
 
       case 1:
         return const TeachersView(
           displayAppBar: false,
-          dataLoader: _loadTeachers,
         );
 
       default:
         return const GroupsView(
           displayAppBar: false,
-          dataLoader: _loadGroups,
         );
     }
   }
@@ -117,7 +135,8 @@ void _loadTeachers(BuildContext context) {
 void _loadStudents(BuildContext context) {
   final studentsBloc = BlocProvider.of<StudentsBloc>(context);
 
-  final schoolId = BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+  final schoolId =
+      BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
 
   final studentOptions = LoadStudentsOptions(schoolId: schoolId);
   ServicesProvider.instance().studentService.getStudents(studentOptions).then(

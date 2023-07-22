@@ -52,7 +52,9 @@
     "end" : "End",
     "didntMemoreizeAnything": "Didn't Memorize",
     "emailLabel" : "Email",
-    "createSessionLabel" : "Start session"
+    "createSessionLabel" : "Start session",
+    "statistiques" : "Statistiques",
+    "updateSchedule": "Update Schedule"
    
 
 }
