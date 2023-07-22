@@ -117,7 +117,6 @@ class StudentService implements StudentServicePort {
     final response =
         await _databaseService.read<StudentEvaluationAndPresence>(dbOptions);
 
-
     return GroupPresenceAndEvaluationResponse(data: response.data);
   }
 
@@ -142,15 +141,9 @@ class StudentService implements StudentServicePort {
   @override
   Future<MarkPresenceResponse> markPresenceOrAbsence(
       MarkPresenceOptions options) async {
-
-    // _supabaseApp.supabase.client.rpc(
-    //     RpcFunctions.updateStudentsPresence.functionName,
-    //     params: {"payload": _presenceDataAdapter(options.presences!)})
-    //   .then((value) => print(value)); 
-    //
-    _supabaseApp.supabase.client.from(DatabaseCollection.studentEvaluations.name).upsert(
-      _presenceDataAdapter(options.presences!),onConflict: "userId");
-        
+    _supabaseApp.supabase.client
+        .from(DatabaseCollection.studentEvaluations.name)
+        .upsert(_presenceDataAdapter(options.presences!), onConflict: "userId");
 
     return MarkPresenceResponse(data: null);
   }
@@ -165,7 +158,6 @@ class StudentService implements StudentServicePort {
     for (StudentPresence presence in data) {
       result.add(presence.toMap());
     }
-
 
     return result;
   }

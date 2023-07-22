@@ -38,49 +38,45 @@ class EvaluationFormState extends State<EvaluationForm> {
     });
   }
 
-
-
-    Widget buildAyatForm() {
-      if (surat == null) {
-        return const SizedBox();
-      }
-
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Flexible(
-            child: AyatFormField(
-              onChanged: controller.setStartAyat,
-              surat: surat!,
-              isStart: true,
-            ),
-          ),
-          const SizedBox(
-            width: AppMeasures.space,
-          ),
-          Flexible(
-            child: AyatFormField(
-                onChanged: controller.setEndAyat,
-                surat: surat!,
-                isStart: false),
-          ),
-        ],
-      );
+  Widget buildAyatForm() {
+    if (surat == null) {
+      return const SizedBox();
     }
 
-    Widget buildActionButton(AppLocalizations localizations) {
-      if (surat != null) {
-        return ButtonPrimary(
-          text: localizations.confirmLabel,
-          onPressed: controller.registerStudentMemorization,
-        );
-      }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          child: AyatFormField(
+            onChanged: controller.setStartAyat,
+            surat: surat!,
+            isStart: true,
+          ),
+        ),
+        const SizedBox(
+          width: AppMeasures.space,
+        ),
+        Flexible(
+          child: AyatFormField(
+              onChanged: controller.setEndAyat, surat: surat!, isStart: false),
+        ),
+      ],
+    );
+  }
+
+  Widget buildActionButton(AppLocalizations localizations) {
+    if (surat != null) {
       return ButtonPrimary(
-        text: localizations.didntMemoreizeAnything,
-        onPressed: controller.registerStudentZeroMemorization,
+        text: localizations.confirmLabel,
+        onPressed: controller.registerStudentMemorization,
       );
     }
+    return ButtonPrimary(
+      text: localizations.didntMemoreizeAnything,
+      onPressed: controller.registerStudentZeroMemorization,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +96,9 @@ class EvaluationFormState extends State<EvaluationForm> {
         children: [
           SuratFormField(
               onChanged: controller.onSuratNumber,
-              suratNameController: controller.suratNameController),
+              onTap: controller.onSelectSuratFromList,
+              suratNameController: controller.suratNameController, 
+              suratNumberController: controller.suratNumberController,),
           const SizedBox(
             height: AppMeasures.space,
           ),
@@ -127,10 +125,18 @@ class EvaluationFormState extends State<EvaluationForm> {
 
 class SuratFormField extends StatelessWidget {
   const SuratFormField(
-      {super.key, required this.onChanged, required this.suratNameController});
+      {super.key,
+      this.onChanged,
+      required this.suratNameController,
+      required this.suratNumberController,
+      this.useListPopup = true,
+      this.onTap});
 
-  final StringCallback onChanged;
+  final StringCallback? onChanged;
   final TextEditingController suratNameController;
+  final TextEditingController suratNumberController;
+  final bool useListPopup;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -140,11 +146,17 @@ class SuratFormField extends StatelessWidget {
       children: [
         Flexible(
           child: TextFormField(
-            decoration: InputDecoration(
-                labelText: "${localizations.number} ${localizations.alSurat}"),
-            onChanged: onChanged,
-            validator: (value) => suratFormValidator(value, localizations),
-          ),
+            controller: suratNumberController,
+                  decoration: InputDecoration(
+                      labelText:
+                          "${localizations.number} ${localizations.alSurat}"),
+                  readOnly: useListPopup,
+                  onTap: useListPopup ? onTap : null,
+                  onChanged: useListPopup ? null : onChanged,
+                  validator: (value) =>
+                      suratFormValidator(value, localizations),
+                
+                ),
         ),
         const SizedBox(
           width: AppMeasures.space,

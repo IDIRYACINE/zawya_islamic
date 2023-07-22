@@ -19,4 +19,12 @@ class Surat {
 
   Surat(
       {required this.suratNumber, required this.name, required this.ayatCount});
+
+  factory Surat.fromMap(Map<String,dynamic> raw) {
+    return Surat(
+      ayatCount: raw["ayatCount"],
+      name: raw["name"],
+      suratNumber: raw["number"],
+    );
+  }
 }

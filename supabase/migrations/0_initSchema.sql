@@ -30,16 +30,17 @@ create table if not exists groups (
 create table if not exists "userGroups" (
   "userId" uuid not null,
   "groupId" uuid null,
-  constraint userGroups_pkey primary key ("userId", "groupId") ,
+  constraint userGroups_pkey primary key ("userId", "groupId"),
   constraint userGroups_userId_fkey foreign key ("userId") references users ("userId") on delete cascade
 ) tablespace pg_default;
+
 create table if not exists "studentEvaluations" (
   "userId" uuid not null,
-   "evaluationSurat" Text default '',
+  "evaluationSurat" Text default '',
   "evaluationAyat" Integer default 0,
   "presence" Integer default 0,
   "absence" Integer default 0,
-  constraint studentEvaluations_pkey primary key ("userId") ,
+  constraint studentEvaluations_pkey primary key ("userId"),
   constraint studentEvaluations_userId_fkey foreign key ("userId") references users ("userId") on delete cascade
 ) tablespace pg_default;
 
@@ -100,7 +101,7 @@ WHERE
   u."userRole" = 2;
 
 CREATE
-OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 2 THEN
+OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 2 THEN
 INSERT INTO
   "studentEvaluations" ("userId")
 VALUES
@@ -112,4 +113,4 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;

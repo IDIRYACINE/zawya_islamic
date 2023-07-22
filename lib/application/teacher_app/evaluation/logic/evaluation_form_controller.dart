@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/teacher_app/evaluation/ui/evaluation_form.dart';
+import 'package:zawya_islamic/application/teacher_app/evaluation/ui/evaluation_view.dart';
 import 'package:zawya_islamic/core/entities/evaluations.dart';
 import 'package:zawya_islamic/core/entities/presence.dart';
 import 'package:zawya_islamic/core/entities/quran.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
+
+import 'data.dart';
 
 class EvaluationFormController {
   static final formKey = GlobalKey<FormState>();
@@ -17,18 +20,31 @@ class EvaluationFormController {
   final StudentEvaluationAndPresence studentEvaluationAndPresence;
   final StudentsBloc studentBloc;
 
-  TextEditingController suratNameController = TextEditingController();
+  final TextEditingController suratNameController = TextEditingController();
+  final TextEditingController suratNumberController = TextEditingController();
 
   Surat? surat;
   int? startAyat;
   int? endAyat;
 
+  void onSelectSuratFromList() {
+    const dialog = SuratListSelector();
+
+    NavigationService.displayDialog<Surat?>(dialog).then((value) {
+      if (value != null) {
+        surat = value;
+        suratNameController.text = value.name;
+        suratNumberController.text = value.suratNumber.toString();
+        widgetKey.currentState!.updateSurat(surat);
+      }
+    });
+  }
+
   void onSuratNumber(String? num) {
-    //TODO implement search surat
-    final invalidNum = (int.tryParse(num ?? "")) != null;
-    surat = invalidNum
-        ? Surat(suratNumber: 2, name: "البقرة", ayatCount: 286)
-        : null;
+    int? parsedNum = int.tryParse(num ?? "-1");
+
+    final validNum = _validSuratNum(parsedNum);
+    surat = validNum ? _searchSuratByNum(parsedNum!) : null;
     suratNameController.text = surat?.name ?? "";
 
     widgetKey.currentState!.updateSurat(surat);
@@ -44,11 +60,10 @@ class EvaluationFormController {
 
   void registerStudentMemorization() {
     final didMemorize = startAyat != null && endAyat != null;
+
     if (!didMemorize) {
-      registerStudentZeroMemorization();
       return;
     }
-
 
     Evaluation evaluation = Evaluation(
       surat: surat!,
@@ -60,9 +75,9 @@ class EvaluationFormController {
         studentId: studentEvaluationAndPresence.student.id,
         evaluation: evaluation);
 
-
-    final event =
-        MarkStudentEvaluation(evaluation: studentEvaluationAndPresence.copyWith(evaluation: newStudentEvaluation));
+    final event = MarkStudentEvaluation(
+        evaluation: studentEvaluationAndPresence.copyWith(
+            evaluation: newStudentEvaluation));
 
     studentBloc.add(event);
 
@@ -90,5 +105,20 @@ class EvaluationFormController {
 
     studentBloc.add(event);
     NavigationService.pop();
+  }
+
+  Surat _searchSuratByNum(int num) {
+    final rawSurat = suwarList[num - 1];
+
+    return rawSurat;
+  }
+
+  bool _validSuratNum(int? parsedNum) {
+    if (parsedNum == null) {
+      return false;
+    }
+    final inSuratNumRange = parsedNum > 0 && parsedNum < 115;
+
+    return inSuratNumRange;
   }
 }

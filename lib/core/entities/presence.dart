@@ -79,7 +79,6 @@ class StudentEvaluationAndPresence {
 
   factory StudentEvaluationAndPresence.fromMap(Map<String, dynamic> raw) {
 
-
     return StudentEvaluationAndPresence(
       presence: StudentPresence.fromMap(raw),
       evaluation: StudentEvaluation.fromMap(raw),

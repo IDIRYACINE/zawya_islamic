@@ -51,8 +51,6 @@ class SupabasePostrgessService implements DatabasePort {
       parsedData.addAll(data);
     }
 
-
-
     return DatabaseResponse(data: parsedData);
   }
 

@@ -1,3 +1,4 @@
+import 'package:zawya_islamic/application/teacher_app/evaluation/logic/data.dart';
 import 'package:zawya_islamic/core/ports/auth_service_port.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/core/ports/school_service_port.dart';
@@ -67,6 +68,7 @@ class ServicesProvider implements ServiceProviderPort {
     }
 
    await _initSupabase();
+   await loadSuwarFromAssets();
 
     _isInit = true;
   }

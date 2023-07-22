@@ -22,19 +22,10 @@ class LoginController {
           .authService
           .login(identifier: identifier, password: password)
           .then((response) => _handleLoginResponse(response, authBloc));
-
-      // _handleLoginResponse(
-      //     AuthResponse(
-      //         data: User(
-      //             id: UserId("test"),
-      //             name: Name("test"),
-      //             role: UserRoles.teacher)),
-      //     authBloc);
     }
   }
 
   void _handleLoginResponse(AuthResponse response, AppBloc bloc) {
-
     if (response.success && response.user != null) {
       final event = LoginUserEvent(user: response.user!);
       bloc.add(event);
@@ -42,7 +33,9 @@ class LoginController {
       return;
     }
 
-    const dialog = InfoDialog(message: 'كلمة المرور او المستخدم خاطئ',);
+    const dialog = InfoDialog(
+      message: 'كلمة المرور او المستخدم خاطئ',
+    );
 
     NavigationService.displayDialog(dialog);
   }
