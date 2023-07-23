@@ -19,5 +19,7 @@ abstract class Routes {
   static const String studentGroupStatistique="/statistiques/group";
 
   static const String statistiquesRoute = "/statistiques";
+
+  static const String groupScheduleRoute= "/group/schedule";
   
 }

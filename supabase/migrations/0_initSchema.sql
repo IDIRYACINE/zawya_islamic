@@ -44,6 +44,20 @@ create table if not exists "studentEvaluations" (
   constraint studentEvaluations_userId_fkey foreign key ("userId") references users ("userId") on delete cascade
 ) tablespace pg_default;
 
+create table if not exists "days" (
+  "dayId" SMALLINT not null,
+  "dayName" Text not null,
+  constraint days_pkey primary key ("dayId")
+) tablespace pg_default;
+
+create table if not exists "groupSchedules" (
+  "dayId" SMALLINT not null,
+  "groupId" Text not null,
+  "startTimeInMinutes" SMALLINT not null,
+  "endTimeInMinutes" SMALLINT not null,
+  constraint groupSchedules_pkey primary key ("dayId","groupId","startTimeInMinutes")
+) tablespace pg_default;
+
 create
 or replace view "groupStudents" as
 select
@@ -101,7 +115,7 @@ WHERE
   u."userRole" = 2;
 
 CREATE
-OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 2 THEN
+OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 2 THEN
 INSERT INTO
   "studentEvaluations" ("userId")
 VALUES
@@ -113,4 +127,4 @@ RETURN NEW;
 
 END;
 
-$$ LANGUAGE plpgsql;
+$ $ LANGUAGE plpgsql;

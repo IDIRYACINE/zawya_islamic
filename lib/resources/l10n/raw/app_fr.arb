@@ -54,7 +54,14 @@
     "emailLabel" : "Email",
     "createSessionLabel" : "Nouvelle session",
     "statistiques" : "Statistiques",
-    "updateSchedule": "Mise à jour du calendrier"
+    "updateSchedule": "Mise à jour du calendrier",
+    "saturday": "samedi",
+    "sunday": "dimanche",
+    "monday": "lundi",
+    "tuesday": "mardi",
+    "wednesday": "mercredi",
+    "thursday": "jeudi",
+    "friday": "vendredi"
 
 
 

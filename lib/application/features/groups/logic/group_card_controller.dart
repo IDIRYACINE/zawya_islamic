@@ -19,7 +19,9 @@ class GroupCardController implements GroupCardControllerPort {
   final SchoolsBloc schoolBloc;
 
   @override
-  void onClick(Group group) {}
+  void onClick(Group group) {
+    NavigationService.pushNamed(Routes.groupScheduleRoute);
+  }
 
   @override
   void onMoreActions(Group group, AppLocalizations localizations) {

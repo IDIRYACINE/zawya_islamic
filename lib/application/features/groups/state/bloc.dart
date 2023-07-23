@@ -8,6 +8,8 @@ import 'state.dart';
 
 class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
   final GroupsAggregate _aggregate = GroupsAggregate([]);
+  final WeekDaySchedulesAggregate _scheduleAggregate =
+      WeekDaySchedulesAggregate.initail();
 
   GroupsBloc() : super(GroupsState.initialState()) {
     on<CreateGroupEvent>(_handleCreateGroup);
@@ -15,6 +17,10 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
     on<DeleteGroupEvent>(_handleDeleteGroup);
     on<LoadGroupsEvent>(_handleLoadGroups);
     on<SetSchoolEvent>(_handleSetSchool);
+    on<SetWeekDaySchedulesEvent>(_handleSetWeeDaykSchedules);
+    on<AddDayScheduleEntryEvent>(_handleAddScheduleEntry);
+    on<DeleteDayScheduleEntryEvent>(_handleDeleteScheduleEntry);
+    on<UpdateDayScheduleEntryEvent>(_handleUpdateScheduleEntry);
   }
 
   FutureOr<void> _handleCreateGroup(
@@ -31,9 +37,9 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
 
   FutureOr<void> _handleUpdateGroup(
       UpdateGroupEvent event, Emitter<GroupsState> emit) {
-    final updatedGroups = event.isPrimary? _aggregate.updateGroup(event.group):
-    _aggregate.updateGroup(event.group,state.secondaryGroups)
-    ;
+    final updatedGroups = event.isPrimary
+        ? _aggregate.updateGroup(event.group)
+        : _aggregate.updateGroup(event.group, state.secondaryGroups);
 
     if (event.isPrimary) {
       emit(state.copyWith(groups: updatedGroups));
@@ -47,7 +53,6 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
     final updatedGroups = event.isPrimary
         ? _aggregate.setGroups(event.groups)
         : _aggregate.setGroups(event.groups, state.secondaryGroups);
-
 
     if (event.isPrimary) {
       emit(state.copyWith(groups: updatedGroups));
@@ -72,5 +77,38 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
   FutureOr<void> _handleSetSchool(
       SetSchoolEvent event, Emitter<GroupsState> emit) {
     emit(state.copyWith(school: event.school));
+  }
+
+  FutureOr<void> _handleSetWeeDaykSchedules(
+      SetWeekDaySchedulesEvent event, Emitter<GroupsState> emit) {
+    final updatedSchedules =
+        _scheduleAggregate.setSchedules(schedules: event.schedules);
+
+    emit(state.copyWith(groupScheduleEntry: updatedSchedules));
+  }
+
+  FutureOr<void> _handleAddScheduleEntry(
+      AddDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
+    final updatedSchedules =
+        _scheduleAggregate.addEntry(entry: event.entry,dayIndex: event.dayIndex);
+
+    emit(state.copyWith(groupScheduleEntry: updatedSchedules));
+  }
+
+  FutureOr<void> _handleDeleteScheduleEntry(
+      DeleteDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
+
+    final updatedSchedules =
+        _scheduleAggregate.deleteEntry(entry: event.entry,dayIndex: event.dayIndex);
+
+    emit(state.copyWith(groupScheduleEntry: updatedSchedules));
+  }
+
+  FutureOr<void> _handleUpdateScheduleEntry(
+      UpdateDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
+    final updatedSchedules =
+        _scheduleAggregate.updateEntry(entry: event.entry,old:event.old,dayIndex: event.dayIndex);
+
+    emit(state.copyWith(groupScheduleEntry: updatedSchedules));
   }
 }

@@ -1,10 +1,21 @@
 insert into
-    public."userRoles"
+    public.userRoles
 values
     (0, 'admin'),
     (1, 'teacher'),
     (2, 'student'),
     (3, 'anonymous');
+
+insert into
+    public.days
+values
+    (0, 'السبت'),
+    (1, 'الأحد'),
+    (2, 'الاثنين'),
+    (3, 'الثلاثاء'),
+    (4, 'الأربعاء'),
+    (5, 'الخميس'),
+    (6, 'الجمعة');
 
 insert into
     public.users
@@ -14,7 +25,7 @@ values
         'idiryacine',
         0,
         null
-    );    
+    );
 
 insert into
     auth.users (
@@ -68,7 +79,7 @@ values
         '',
         NULL,
         '2023-01-11 16:54:12.801124+00',
-        '{"provider": "email", "providers": ["email"]}',
+        '{provider: email, providers: [email]}',
         '{}',
         NULL,
         '2023-01-11 16:54:12.796822+00',

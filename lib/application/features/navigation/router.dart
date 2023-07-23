@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zawya_islamic/application/features/groups/ui/group_schedule_view.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
@@ -38,9 +39,12 @@ abstract class AppRouter {
         return getPageRoute(
             settings: settings, view: const GroupStudentStatistiques());
 
-      case Routes.statistiquesRoute :
-           return getPageRoute(
-            settings: settings, view: const StatistiquesView());
+      case Routes.statistiquesRoute:
+        return getPageRoute(settings: settings, view: const StatistiquesView());
+
+      case Routes.groupScheduleRoute:
+        return getPageRoute(
+            settings: settings, view:  GroupScheduleView());
 
       default:
         return getPageRoute(

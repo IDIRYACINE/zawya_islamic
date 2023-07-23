@@ -54,7 +54,13 @@
     "emailLabel" : "Email",
     "createSessionLabel" : "Start session",
     "statistiques" : "Statistiques",
-    "updateSchedule": "Update Schedule"
-   
+    "updateSchedule": "Update Schedule",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday"   
 
 }

@@ -40,15 +40,17 @@ class _StudentPresenceTabState extends State<StudentPresenceTab> {
               ],
             ),
           ),
-          body: TabBarView(children: [
-            PresenceTabView(
-              students: state.absence,
-              isPresent: false,
-            ),
-            PresenceTabView(
-              students: state.presence,
-            ),
-          ]),
+          body: TabBarView(
+            children: [
+              PresenceTabView(
+                students: state.absence,
+                isPresent: false,
+              ),
+              PresenceTabView(
+                students: state.presence,
+              ),
+            ],
+          ),
           floatingActionButton: Padding(
             padding: const EdgeInsets.all(AppMeasures.paddings),
             child: ElevatedButton(

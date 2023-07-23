@@ -75,3 +75,16 @@ enum StudentEvaluationAndPresenceTable{
   evaluationAyat,
   evaluationSurat
 }
+
+enum DaysTable{
+  dayId ,
+  dayName
+}
+
+
+enum GroupsScheduleTable{
+  groupId,
+  dayId,
+  startMinuteId,
+  endMinuteId
+}
