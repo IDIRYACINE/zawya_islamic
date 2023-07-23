@@ -1,4 +1,5 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
@@ -134,5 +135,86 @@ class GroupService implements GroupServicePort {
 
   String _generateGroupCode(String schoolId) {
     return DatabaseCollection.groups.name;
+  }
+
+  @override
+  Future<AddScheduleEntryResponse> addGroupScheduleEntry(
+      AddScheduleEntryOptions options) async {
+    final entity = options.entry.toMap();
+
+    final dbOptions = CreateEntityOptions(entity, {
+      OptionsMetadata.rootCollection: DatabaseCollection.groupSchedules.name,
+      OptionsMetadata.lastId: null,
+    });
+
+    await _databaseService.create(dbOptions);
+
+    return RegisterGroupResponse(data: null);
+  }
+
+  @override
+  Future<DeleteScheduleEntryResponse> deleteGroupScheduleEntry(
+      DeleteScheduleEntryOptions options) async {
+    final dbOptions = DeleteEntityOptions(metadata: {
+      OptionsMetadata.rootCollection: DatabaseCollection.groupSchedules.name
+    }, entries: {
+      GroupsScheduleTable.groupId.name: options.entry.groupId.value,
+      GroupsScheduleTable.dayId.name: options.entry.dayId.value,
+      GroupsScheduleTable.startMinuteId.name: options.entry.startMinuteId.value,
+    });
+
+    _databaseService.delete(dbOptions);
+
+    return DeleteGroupResponse(data: null);
+  }
+
+  @override
+  Future<LoadGroupScheduleResponse> loadGroupSchedule(
+      LoadGroupScheduleOptions options) async {
+    final dbOptions = ReadEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection:
+              DatabaseCollection.groupSchedules.name,
+          OptionsMetadata.hasMany: true,
+        },
+        mapper: GroupScheduleEntry.fromMap,
+        filters: {GroupsScheduleTable.groupId.name: options.groupId.value});
+
+    final response = await _databaseService.read<GroupScheduleEntry>(dbOptions);
+
+    final List<List<GroupScheduleEntry>> schedule =
+        _generateGroupScheduleByDays(response.data);
+
+    return LoadGroupScheduleResponse(data: schedule);
+  }
+
+  List<List<GroupScheduleEntry>> _generateGroupScheduleByDays(
+      List<GroupScheduleEntry> data) {
+    final List<List<GroupScheduleEntry>> result = [[], [], [], [], [], []];
+
+    for (GroupScheduleEntry element in data) {
+      result[element.dayId.value].add(element);
+    }
+
+    return result;
+  }
+
+  @override
+  Future<UpdateGroupScheduleEntryResponse> updateScheduleEntry(
+      UpdateScheduleEntryOptions options) async {
+    final dbOptions =
+        UpdateEntityOptions(entity: options.updated.toMap(updatedMode:true), metadata: {
+      OptionsMetadata.rootCollection: DatabaseCollection.groupSchedules.name,
+      OptionsMetadata.lastId: null,
+    }, filters: {
+      GroupsScheduleTable.groupId.name: options.old.groupId.value,
+      GroupsScheduleTable.dayId.name: options.old.dayId.value,
+            GroupsScheduleTable.startMinuteId.name: options.old.startMinuteId.value,
+
+    });
+
+    await _databaseService.update(dbOptions);
+
+    return UpdateGroupResponse(data: null);
   }
 }

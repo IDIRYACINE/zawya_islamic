@@ -44,7 +44,7 @@ abstract class AppRouter {
 
       case Routes.groupScheduleRoute:
         return getPageRoute(
-            settings: settings, view:  GroupScheduleView());
+            settings: settings, view:  const GroupScheduleView());
 
       default:
         return getPageRoute(

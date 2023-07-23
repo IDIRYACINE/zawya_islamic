@@ -87,7 +87,7 @@ class WeekDaySchedulesAggregate {
   WeekDaySchedulesAggregate(this._schedules);
 
   factory WeekDaySchedulesAggregate.initail() {
-    return WeekDaySchedulesAggregate(List.filled(7, []));
+    return WeekDaySchedulesAggregate([[], [], [], [], [], [],[]]);
   }
 
   WeekDaySchedules addEntry(

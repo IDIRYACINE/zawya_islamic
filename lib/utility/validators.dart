@@ -123,3 +123,10 @@ String? passwordValidator(String? value, AppLocalizations localizations) {
 
   return null;
 }
+
+String? emptyValidator (String? value, AppLocalizations localizations) {
+  if (value == null) {
+    return localizations.emptyFieldError;
+  }
+  return null;
+}

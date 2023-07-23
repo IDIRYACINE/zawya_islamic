@@ -35,34 +35,43 @@ class SetSchoolEvent extends GroupEvent {
   SetSchoolEvent({required this.school});
 }
 
-
 class SetWeekDaySchedulesEvent extends GroupEvent {
   final WeekDaySchedules schedules;
 
   SetWeekDaySchedulesEvent({required this.schedules});
 }
 
-
 class AddDayScheduleEntryEvent extends GroupEvent {
   final int dayIndex;
   final GroupScheduleEntry entry;
 
-  AddDayScheduleEntryEvent({required this.dayIndex,required this.entry});
+  AddDayScheduleEntryEvent({required this.dayIndex, required this.entry});
 }
 
+class SelectGroupEvent extends GroupEvent {
+  final Group? group;
+
+  SelectGroupEvent({this.group});
+}
 
 class UpdateDayScheduleEntryEvent extends GroupEvent {
   final int dayIndex;
   final GroupScheduleEntry entry;
   final GroupScheduleEntry old;
 
-  UpdateDayScheduleEntryEvent({required this.old, required this.dayIndex,required this.entry});
+  UpdateDayScheduleEntryEvent(
+      {required this.old, required this.dayIndex, required this.entry});
 }
-
 
 class DeleteDayScheduleEntryEvent extends GroupEvent {
   final int dayIndex;
   final GroupScheduleEntry entry;
 
-  DeleteDayScheduleEntryEvent({required this.dayIndex,required this.entry});
+  DeleteDayScheduleEntryEvent({required this.dayIndex, required this.entry});
+}
+
+class SelectDayIndexEvent extends GroupEvent {
+  final int dayIndex;
+
+  SelectDayIndexEvent({required this.dayIndex});
 }

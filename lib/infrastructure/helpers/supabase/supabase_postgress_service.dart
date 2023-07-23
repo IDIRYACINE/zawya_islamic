@@ -21,7 +21,6 @@ class SupabasePostrgessService implements DatabasePort {
         .from(options.metadata[OptionsMetadata.rootCollection])
         .delete()
         .match(options.entries);
-
     return DatabaseResponse(data: []);
   }
 

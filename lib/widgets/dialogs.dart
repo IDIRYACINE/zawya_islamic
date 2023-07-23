@@ -78,7 +78,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String title;
 
   void _onCancel() {
-    NavigationService.pop();
+    NavigationService.pop(false);
   }
 
   @override

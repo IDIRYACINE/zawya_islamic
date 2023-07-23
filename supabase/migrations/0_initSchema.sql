@@ -53,8 +53,8 @@ create table if not exists "days" (
 create table if not exists "groupSchedules" (
   "dayId" SMALLINT not null,
   "groupId" Text not null,
-  "startTimeInMinutes" SMALLINT not null,
-  "endTimeInMinutes" SMALLINT not null,
+  "startMinuteId" SMALLINT not null,
+  "endMinuteId" SMALLINT not null,
   constraint groupSchedules_pkey primary key ("dayId","groupId","startTimeInMinutes")
 ) tablespace pg_default;
 

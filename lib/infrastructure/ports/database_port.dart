@@ -9,7 +9,7 @@ enum OptionsMetadata {
   lastCollection,
 }
 
-enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations }
+enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules }
 
 enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations }
 
@@ -53,7 +53,7 @@ class UpdateEntityOptions extends DatabaseHandlerOptions {
 
 class DeleteEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
-  final Map<String, String> entries;
+  final Map<String, dynamic> entries;
 
   DeleteEntityOptions({required this.metadata, required this.entries});
 }

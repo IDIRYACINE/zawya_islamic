@@ -21,6 +21,8 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
     on<AddDayScheduleEntryEvent>(_handleAddScheduleEntry);
     on<DeleteDayScheduleEntryEvent>(_handleDeleteScheduleEntry);
     on<UpdateDayScheduleEntryEvent>(_handleUpdateScheduleEntry);
+    on<SelectGroupEvent>(_handleSelectGroup);
+    on<SelectDayIndexEvent>(_handleSelectDayIndex);
   }
 
   FutureOr<void> _handleCreateGroup(
@@ -89,26 +91,40 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
 
   FutureOr<void> _handleAddScheduleEntry(
       AddDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
-    final updatedSchedules =
-        _scheduleAggregate.addEntry(entry: event.entry,dayIndex: event.dayIndex);
+        
+    final updatedSchedules = _scheduleAggregate.addEntry(
+        entry: event.entry, dayIndex: state.selectedDayIndex);
 
     emit(state.copyWith(groupScheduleEntry: updatedSchedules));
   }
 
   FutureOr<void> _handleDeleteScheduleEntry(
       DeleteDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
+    final updatedSchedules = _scheduleAggregate.deleteEntry(
+        entry: event.entry, dayIndex: event.dayIndex);
 
-    final updatedSchedules =
-        _scheduleAggregate.deleteEntry(entry: event.entry,dayIndex: event.dayIndex);
-
-    emit(state.copyWith(groupScheduleEntry: updatedSchedules));
+    emit(
+      state.copyWith(groupScheduleEntry: updatedSchedules),
+    );
   }
 
   FutureOr<void> _handleUpdateScheduleEntry(
       UpdateDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
-    final updatedSchedules =
-        _scheduleAggregate.updateEntry(entry: event.entry,old:event.old,dayIndex: event.dayIndex);
+    final updatedSchedules = _scheduleAggregate.updateEntry(
+        entry: event.entry, old: event.old, dayIndex: event.dayIndex);
 
-    emit(state.copyWith(groupScheduleEntry: updatedSchedules));
+    emit(
+      state.copyWith(groupScheduleEntry: updatedSchedules),
+    );
+  }
+
+  FutureOr<void> _handleSelectGroup(
+      SelectGroupEvent event, Emitter<GroupsState> emit) {
+    emit(state.copyWith(
+        selectedGroup: event.group, nullifySelectedGroup: event.group == null));
+  }
+
+  FutureOr<void> _handleSelectDayIndex(SelectDayIndexEvent event, Emitter<GroupsState> emit) {
+    emit(state.copyWith(selectedDayIndex: event.dayIndex));
   }
 }
