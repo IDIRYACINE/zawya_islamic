@@ -50,15 +50,15 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
       }
     });
   }
+
+  @override
+  bool get displayFloatingActions => true;
 }
 
-void loadTeacherGroups(BuildContext context,TeacherId teacherId) {
+void loadTeacherGroups(BuildContext context, TeacherId teacherId) {
   final groupsBloc = BlocProvider.of<GroupsBloc>(context);
-  
 
-
-  final options =
-      LoadTeacherGroupsOptions( teacherId: teacherId);
+  final options = LoadTeacherGroupsOptions(teacherId: teacherId);
 
   ServicesProvider.instance().groupService.getTeacherGroups(options).then(
       (res) =>

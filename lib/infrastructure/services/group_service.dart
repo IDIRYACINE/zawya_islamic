@@ -190,7 +190,7 @@ class GroupService implements GroupServicePort {
 
   List<List<GroupScheduleEntry>> _generateGroupScheduleByDays(
       List<GroupScheduleEntry> data) {
-    final List<List<GroupScheduleEntry>> result = [[], [], [], [], [], []];
+    final List<List<GroupScheduleEntry>> result = [[], [], [], [], [], [],[]];
 
     for (GroupScheduleEntry element in data) {
       result[element.dayId.value].add(element);

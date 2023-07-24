@@ -86,4 +86,7 @@ class GroupCardController implements GroupCardControllerPort {
     const dialog = GroupEditorDialog();
     NavigationService.displayDialog(dialog);
   }
+  
+  @override
+  bool get displayFloatingActions => true;
 }

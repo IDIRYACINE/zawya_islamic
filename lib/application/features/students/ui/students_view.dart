@@ -10,7 +10,6 @@ import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
-
 class StudentCard extends StatelessWidget {
   final Student student;
 
@@ -20,19 +19,18 @@ class StudentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final bloc = BlocProvider.of<StudentsBloc>(context);
-    
-    final groupId =
-        BlocProvider.of<StudentsBloc>(context).state.group.id;
+
+    final groupId = BlocProvider.of<StudentsBloc>(context).state.group.id;
 
     final StudentCardController controller =
         StudentCardController(student, bloc, groupId);
 
     return SizedBox(
       height: 75,
-      child: InkWell(
-        onTap: controller.onClick,
+      child: Card(
         child: Center(
           child: ListTile(
+            onTap: controller.onClick,
             leading: Text(student.name.value),
             trailing: OptionsButton(
                 onClick: () => controller.onMoreActions(localizations)),
@@ -44,7 +42,7 @@ class StudentCard extends StatelessWidget {
 }
 
 class StudentsView extends StatelessWidget {
-  const StudentsView({super.key, this.displayAppBar = true,  this.dataLoader});
+  const StudentsView({super.key, this.displayAppBar = true, this.dataLoader});
 
   final bool displayAppBar;
   final DataLoaderCallback? dataLoader;
@@ -57,8 +55,6 @@ class StudentsView extends StatelessWidget {
     const dialog = StudentEditorDialog();
     NavigationService.displayDialog(dialog);
   }
-
-
 
   @override
   Widget build(BuildContext context) {

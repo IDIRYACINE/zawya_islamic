@@ -25,7 +25,6 @@ class SettingsView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               SettingCard(
                 sectionTitle: localizations.general,
                 rowData: [
@@ -39,12 +38,6 @@ class SettingsView extends StatelessWidget {
                     title: localizations.statistiques,
                     onClick: () {
                       controller.displayStatistiques(context);
-                    },
-                  ),
-                  SettingRowData(
-                    title: localizations.updateSchedule,
-                    onClick: () {
-                      controller.changeDisplayLangauge(context);
                     },
                   ),
                 ],

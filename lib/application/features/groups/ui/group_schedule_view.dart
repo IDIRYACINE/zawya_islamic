@@ -8,7 +8,12 @@ import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
 
 class GroupScheduleView extends StatefulWidget {
-  const GroupScheduleView({super.key});
+  const GroupScheduleView(
+      {super.key, this.localizations, this.viewController, this.bloc});
+
+  final AppLocalizations? localizations;
+  final GroupScheduleEntryControllerPort? viewController;
+  final GroupsBloc? bloc;
 
   @override
   State<GroupScheduleView> createState() => _GroupScheduleViewState();
@@ -17,7 +22,8 @@ class GroupScheduleView extends StatefulWidget {
 class _GroupScheduleViewState extends State<GroupScheduleView>
     with SingleTickerProviderStateMixin {
   late AppLocalizations localizations;
-  late GroupScheduleController controller;
+  late GroupScheduleEditorController editorController;
+  late GroupScheduleEntryControllerPort viewController;
   late GroupsBloc bloc;
 
   late TabController tabController;
@@ -35,24 +41,38 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
     tabController.index = index;
   }
 
-  Widget _buildItem(GroupScheduleEntry entry) {
+  Widget _buildSwipableItem(GroupScheduleEntry entry) {
     final key = Key(entry.toString());
+
     return Dismissible(
-        key: key,
-        confirmDismiss: (direction) =>
-            ScheduleEntryController.onSwipe(entry, context),
-        child: ScheduleEntryWidget(
-          entry: entry,
-        ));
+      key: key,
+      confirmDismiss: (direction) => viewController.onSwipe(entry, context),
+      child: ScheduleEntryWidget(
+        entry: entry,
+        controller: viewController,
+      ),
+    );
+  }
+
+
+  Widget _buildItem(GroupScheduleEntry entry) {
+
+    return ScheduleEntryWidget(
+      entry: entry,
+      controller: viewController,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     if (!isInit) {
-      localizations = AppLocalizations.of(context)!;
-      bloc = BlocProvider.of<GroupsBloc>(context);
-      controller = GroupScheduleController(bloc);
+      localizations = widget.localizations ?? AppLocalizations.of(context)!;
+      bloc = widget.bloc ?? BlocProvider.of<GroupsBloc>(context);
+      editorController = GroupScheduleEditorController(bloc);
+      viewController = widget.viewController ?? ScheduleEntryController();
     }
+
+    final itemBuilder = viewController.canSwipe ? _buildSwipableItem : _buildItem;
 
     return DefaultTabController(
       length: 7,
@@ -61,6 +81,7 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
           automaticallyImplyLeading: false,
           title: TabBar(
             onTap: updateDayIndex,
+            isScrollable: true,
             tabs: [
               Tab(text: localizations.saturday),
               Tab(text: localizations.sunday),
@@ -77,13 +98,15 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
 
           return ListView.builder(
             itemCount: dataSource.length,
-            itemBuilder: (context, index) => _buildItem(dataSource[index]),
+            itemBuilder: (context, index) =>  itemBuilder(dataSource[index]),
           );
         }),
-        floatingActionButton: const FloatingActionButton(
-          onPressed: displaTimePickerDialog,
-          child: Icon(AppResources.addIcon),
-        ),
+        floatingActionButton: viewController.displayFloatingActions
+            ? const FloatingActionButton(
+                onPressed: displaTimePickerDialog,
+                child: Icon(AppResources.addIcon),
+              )
+            : null,
       ),
     );
   }
@@ -91,8 +114,10 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
 
 class ScheduleEntryWidget extends StatelessWidget {
   final GroupScheduleEntry entry;
+  final GroupScheduleEntryControllerPort controller;
 
-  const ScheduleEntryWidget({super.key, required this.entry});
+  const ScheduleEntryWidget(
+      {super.key, required this.entry, required this.controller});
 
   String _formatedTime() {
     return "${entry.startMinuteId.toDisplayFormat()} - ${entry.endMinuteId.toDisplayFormat()}";
@@ -101,7 +126,7 @@ class ScheduleEntryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => ScheduleEntryController.onTap(entry),
+      onTap: () => controller.onTap(entry),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(AppMeasures.paddings),

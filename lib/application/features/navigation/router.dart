@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zawya_islamic/application/anonymous_app/ui/anonymous_schools_view.dart';
+import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/groups/ui/group_schedule_view.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
@@ -21,6 +23,20 @@ abstract class AppRouter {
 
       case Routes.adminDashboardRoute:
         return getPageRoute(settings: settings, view: const AppLayout());
+
+      case Routes.groupsRoute:
+        final arguments = settings.arguments as GroupViewRouteArguments?;
+
+        return getPageRoute(
+            settings: settings,
+            view: GroupsView(
+              controllerPort: arguments?.controllerPort,
+              dataLoader: arguments?.dataLoader,
+            ));
+
+      case Routes.anonymousAppRoute:
+        return getPageRoute(
+            settings: settings, view: const AnonymousSchoolsView());
 
       case Routes.loginRoute:
         return getPageRoute(settings: settings, view: const LoginView());
@@ -43,8 +59,13 @@ abstract class AppRouter {
         return getPageRoute(settings: settings, view: const StatistiquesView());
 
       case Routes.groupScheduleRoute:
+        final arguments =
+            settings.arguments as GroupScheduleViewRouteArguments?;
         return getPageRoute(
-            settings: settings, view:  const GroupScheduleView());
+            settings: settings,
+            view: GroupScheduleView(
+              viewController: arguments?.viewController,
+            ));
 
       default:
         return getPageRoute(

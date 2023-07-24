@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/logic/school_card_controller.dart';
+import 'package:zawya_islamic/application/admin_app/schools/ports.dart';
 import 'package:zawya_islamic/application/admin_app/schools/state/export.dart';
-import 'package:zawya_islamic/application/admin_app/schools/ui/school_editor.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
@@ -12,31 +13,26 @@ import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
-import '../logic/school_card_controller.dart';
-
 class SchoolCard extends StatelessWidget {
   final School school;
 
-  const SchoolCard({super.key, required this.school});
+  const SchoolCard({super.key, required this.school, required this.controller});
+  final SchoolCardControllerPort controller;
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    final bloc = BlocProvider.of<SchoolsBloc>(context);
-    final appBloc = BlocProvider.of<AppBloc>(context);
-
-    final SchoolCardController controller =
-        SchoolCardController(school, bloc, appBloc);
-
     return SizedBox(
       height: 75,
       child: InkWell(
-        onTap: controller.onClick,
+        onTap: () => controller.onClick(school),
         child: Center(
           child: ListTile(
             leading: Text(school.name.value),
-            trailing: OptionsButton(
-                onClick: () => controller.onMoreActions(localizations)),
+            trailing: controller.displayOnMoreActions
+                ? OptionsButton(
+                    onClick: () => controller.onMoreActions(school),
+                  )
+                : null,
           ),
         ),
       ),
@@ -45,15 +41,15 @@ class SchoolCard extends StatelessWidget {
 }
 
 class SchoolsView extends StatelessWidget {
-  const SchoolsView({super.key});
+  const SchoolsView({super.key, this.controllerPort});
 
-  Widget _buildItems(BuildContext context, School school) {
-    return SchoolCard(school: school);
-  }
+  final SchoolCardControllerPort? controllerPort;
 
-  void _onAddSchool() {
-    const dialog = SchoolEditorDialog();
-    NavigationService.displayDialog(dialog);
+  Widget _buildItems(SchoolCardControllerPort controller, School school) {
+    return SchoolCard(
+      school: school,
+      controller: controller,
+    );
   }
 
   void _loadSchools(BuildContext context) {
@@ -75,13 +71,22 @@ class SchoolsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final bloc = BlocProvider.of<SchoolsBloc>(context);
+    final appBloc = BlocProvider.of<AppBloc>(context);
+
+    final SchoolCardControllerPort controller = controllerPort ??
+        SchoolCardController(
+          bloc,
+          appBloc,
+          localizations,
+        );
+
     _loadSchools(context);
 
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-             
             BlocProvider.of<AppBloc>(context).add(LogoutEvent());
 
             NavigationService.pushNamedReplacement(Routes.loginRoute);
@@ -101,18 +106,20 @@ class SchoolsView extends StatelessWidget {
               separatorBuilder: _seperatorBuilder,
               itemCount: state.schools.length,
               itemBuilder: (context, index) =>
-                  _buildItems(context, state.schools[index]),
+                  _buildItems(controller, state.schools[index]),
             );
           },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddings),
-        child: ElevatedButton(
-          onPressed: _onAddSchool,
-          child: const Icon(AppResources.addIcon),
-        ),
-      ),
+      floatingActionButton: controller.displayFloatingAction
+          ? Padding(
+              padding: const EdgeInsets.all(AppMeasures.paddings),
+              child: ElevatedButton(
+                onPressed: controller.onFloatingClick,
+                child: const Icon(AppResources.addIcon),
+              ),
+            )
+          : null,
     );
   }
 }

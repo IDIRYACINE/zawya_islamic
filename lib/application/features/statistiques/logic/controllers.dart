@@ -35,4 +35,7 @@ class StatistiquesGroupController implements GroupCardControllerPort {
 
   @override
   void onMoreActions(Group group, AppLocalizations localizations) {}
+  
+  @override
+  bool get displayFloatingActions => false;
 }

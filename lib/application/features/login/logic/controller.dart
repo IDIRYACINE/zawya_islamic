@@ -61,4 +61,15 @@ class LoginController {
         break;
     }
   }
+
+  void loginAnonymous(BuildContext context) {
+    final authBloc = BlocProvider.of<AppBloc>(context);
+
+    final user = User(
+        id: UserId(""), name: Name("Anonymous"), role: UserRoles.anonymous);
+
+    final event = LoginUserEvent(user: user);
+    authBloc.add(event);
+    _navigateToPathBasedOnUser(user);
+  }
 }

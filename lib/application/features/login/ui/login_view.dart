@@ -38,7 +38,12 @@ class LoginView extends StatelessWidget {
                     MaterialButton(
                       onPressed: () => controller.login(context),
                       child: Text(localizations.loginButtonLabel),
-                    )
+                    ),
+                    const Divider(height: 2,),
+                     MaterialButton(
+                      onPressed: () => controller.loginAnonymous(context),
+                      child: Text(localizations.loginAnonymous),
+                    ),
                   ],
                 ),
               )

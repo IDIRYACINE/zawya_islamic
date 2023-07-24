@@ -30,13 +30,14 @@ class TeacherCard extends StatelessWidget {
 
     return SizedBox(
       height: 75,
-      child: InkWell(
-        onTap: () => controller.onClick(context),
+      child: Card(
         child: Center(
           child: ListTile(
+            onTap: () => controller.onClick(context),
             leading: Text(teacher.name.value),
             trailing: OptionsButton(
-                onClick: () => controller.onMoreActions(localizations)),
+              onClick: () => controller.onMoreActions(localizations),
+            ),
           ),
         ),
       ),
@@ -45,8 +46,7 @@ class TeacherCard extends StatelessWidget {
 }
 
 class TeachersView extends StatelessWidget {
-  const TeachersView({super.key,      this.dataLoader,
-this.displayAppBar = true});
+  const TeachersView({super.key, this.dataLoader, this.displayAppBar = true});
 
   final DataLoaderCallback? dataLoader;
 
@@ -66,7 +66,6 @@ this.displayAppBar = true});
       height: 20,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

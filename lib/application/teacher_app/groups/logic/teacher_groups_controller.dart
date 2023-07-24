@@ -45,4 +45,7 @@ class TeacherGroupsController implements GroupCardControllerPort {
         .loadGroupPresenceAndEvaluations(options)
         .then((res) => studentsBloc.add(LoadPresencesAndEvaluations(evaluations: res.data)));
   }
+  
+  @override
+  bool get displayFloatingActions => false;
 }

@@ -22,7 +22,7 @@ class GroupsState {
       selectedDayIndex: 0,
       groups: [],
       secondaryGroups: [],
-      groupScheduleEntry: List.filled(7, []),
+      groupScheduleEntry: [[],[],[],[],[],[],[]],
     );
   }
 

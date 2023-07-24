@@ -10,8 +10,8 @@ import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/utility/formaters.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
-class GroupScheduleController {
-  GroupScheduleController(this.bloc);
+class GroupScheduleEditorController {
+  GroupScheduleEditorController(this.bloc);
 
   final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -85,13 +85,13 @@ class GroupScheduleController {
     final dayIndex = bloc.state.selectedDayIndex;
 
     final entry = GroupScheduleEntry(
-          startMinuteId: DayMinuteId.fromTimeOfDay(startTime!),
-          endMinuteId: DayMinuteId.fromTimeOfDay(endTime!),
-          groupId: groupId,
-          dayId: DayId(dayIndex),
-        );
+      startMinuteId: DayMinuteId.fromTimeOfDay(startTime!),
+      endMinuteId: DayMinuteId.fromTimeOfDay(endTime!),
+      groupId: groupId,
+      dayId: DayId(dayIndex),
+    );
 
- bloc.add(
+    bloc.add(
       AddDayScheduleEntryEvent(
         dayIndex: dayIndex,
         entry: entry,
@@ -100,8 +100,6 @@ class GroupScheduleController {
 
     final options = AddScheduleEntryOptions(entry: entry);
     ServicesProvider.instance().groupService.addGroupScheduleEntry(options);
-
-   
   }
 
   void _updateEntry() {
@@ -111,9 +109,9 @@ class GroupScheduleController {
         startMinuteId: DayMinuteId.fromTimeOfDay(startTime!),
         endMinuteId: DayMinuteId.fromTimeOfDay(endTime!));
 
-    
-    final options = UpdateScheduleEntryOptions(updated: updatedEntry,old:scheduleEntry!);
-    ServicesProvider.instance().groupService.updateScheduleEntry(options);    
+    final options =
+        UpdateScheduleEntryOptions(updated: updatedEntry, old: scheduleEntry!);
+    ServicesProvider.instance().groupService.updateScheduleEntry(options);
 
     bloc.add(
       UpdateDayScheduleEntryEvent(
@@ -122,23 +120,6 @@ class GroupScheduleController {
   }
 }
 
-class GroupScheduleEntryController {
-  final GroupScheduleEntry entry;
-  final GroupsBloc bloc;
-
-  GroupScheduleEntryController(this.entry, this.bloc);
-
-  void delete() {
-    bloc.add(DeleteDayScheduleEntryEvent(
-        dayIndex: bloc.state.selectedDayIndex, entry: entry));
-  }
-
-  void update() {
-    final dialog = GroupScheduleEditorDialog(groupEntry: entry);
-
-    NavigationService.displayDialog(dialog);
-  }
-}
 
 Future<void> displaTimePickerDialog() async {
   const dialog = GroupScheduleEditorDialog();
@@ -146,39 +127,50 @@ Future<void> displaTimePickerDialog() async {
   NavigationService.displayDialog(dialog);
 }
 
-abstract class ScheduleEntryController {
-  static void onTap(GroupScheduleEntry entry) {
+ class ScheduleEntryController implements GroupScheduleEntryControllerPort{
+
+
+  @override
+   void onTap(GroupScheduleEntry entry) {
     final dialog = GroupScheduleEditorDialog(
       groupEntry: entry,
     );
     NavigationService.displayDialog(dialog);
   }
 
-  static Future<bool> onSwipe(
+    @override
+   Future<bool> onSwipe(
       GroupScheduleEntry entry, BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
 
     final bloc = BlocProvider.of<GroupsBloc>(context);
 
     final dialog = ConfirmationDialog(
-      content: localizations.deleteLabel,
+      content: localizations.permanentActionWarning,
       onConfirm: () {
         bloc.add(
           DeleteDayScheduleEntryEvent(
               dayIndex: bloc.state.selectedDayIndex, entry: entry),
         );
 
-
-    final options = DeleteScheduleEntryOptions(entry: entry);
-    ServicesProvider.instance().groupService.deleteGroupScheduleEntry(options);
-
+        final options = DeleteScheduleEntryOptions(entry: entry);
+        ServicesProvider.instance()
+            .groupService
+            .deleteGroupScheduleEntry(options);
 
         NavigationService.pop(true);
       },
-      title: localizations.confirmLabel,
+      title: localizations.deleteLabel,
     );
     final dismiss = await NavigationService.displayDialog<bool>(dialog);
 
     return dismiss ?? false;
   }
+  
+  @override
+  bool get displayFloatingActions => true;
+  
+  @override
+  bool get canSwipe => true;
+  
 }

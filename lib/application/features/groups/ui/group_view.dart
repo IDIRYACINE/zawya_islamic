@@ -51,7 +51,6 @@ class GroupsView extends StatelessWidget {
     super.key,
     this.onReturn,
     this.displayAppBar = true,
-    this.displayFloatingAction = true,
     this.controllerPort,
     this.dataLoader,
     this.usePrimarySource = true,
@@ -60,7 +59,6 @@ class GroupsView extends StatelessWidget {
 
   final bool displayAppBar;
   final VoidCallback? onReturn;
-  final bool displayFloatingAction;
   final GroupCardControllerPort? controllerPort;
   final DataLoaderCallback? dataLoader;
   final bool usePrimarySource;
@@ -129,7 +127,7 @@ class GroupsView extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: displayFloatingAction
+      floatingActionButton: controller.displayFloatingActions
           ? Padding(
               padding: const EdgeInsets.all(AppMeasures.paddings),
               child: ElevatedButton(

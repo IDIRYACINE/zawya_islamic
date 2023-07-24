@@ -61,6 +61,7 @@
     "tuesday": "Tuesday",
     "wednesday": "Wednesday",
     "thursday": "Thursday",
-    "friday": "Friday"   
+    "friday": "Friday"   ,
+    "loginAnonymous" : "Login Anonymous"
 
 }

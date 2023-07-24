@@ -42,7 +42,6 @@ class TeacherGroupsView extends StatelessWidget {
     return GroupsView(
       displayAppBar: true,
       onReturn: () => _onReturn(context),
-      displayFloatingAction: false,
       controllerPort: TeacherGroupsController(studentBloc, appBloc),
       dataLoader: _loadGroups,
     );

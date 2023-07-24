@@ -56,7 +56,6 @@ class StatistiquesView extends StatelessWidget {
               child: GroupsView(
                 paddings: 0,
                 displayAppBar: false,
-                displayFloatingAction: false,
                 controllerPort: StatistiquesGroupController(studentsBloc),
               ),
             ),

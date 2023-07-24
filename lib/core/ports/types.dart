@@ -9,3 +9,4 @@ typedef SuratCllaback = void Function(Surat? surat);
 typedef DataLoaderCallback = void Function (BuildContext context);
 typedef OnGroupSelectedCallback = void Function (Group? group);
 typedef WeekDaySchedules = List<List<GroupScheduleEntry>>;
+typedef WidgetBuilderWithNoContext = Widget Function();
