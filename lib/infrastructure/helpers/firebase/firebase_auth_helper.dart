@@ -39,4 +39,14 @@ class FirebaseAuthHelper implements AuthPort {
         user: app.User(
             id: UserId(id), name: app.Name(""), role: UserRoles.teacher));
   }
+  
+  @override
+  Future<void> sendPasswordReset({required String email}) {
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<app.User?> setNewPassword({required String otp, required String newPassword,required String email, }) {
+    throw UnimplementedError();
+  }
 }

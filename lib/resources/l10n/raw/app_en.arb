@@ -62,6 +62,11 @@
     "wednesday": "Wednesday",
     "thursday": "Thursday",
     "friday": "Friday"   ,
-    "loginAnonymous" : "Login Anonymous"
+    "loginAnonymous" : "Login Anonymous",
+    "passwordResetSuccess" : "Password Reset Succesfully",
+    "passwordResetFail" : "Wrong token",
+    "otpLabel" : "Password Reset Token",
+    "forgotPasswordLabel" : "Forogot Password ?",
+    "resendPasswordReset" : "Resend Token"
 
 }

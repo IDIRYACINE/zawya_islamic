@@ -103,8 +103,9 @@ String? ayatFormValidator(
 
 
 String? emailValidator(String? value, AppLocalizations localizations) {
-  if (value == null) {
-    return localizations.emptyFieldError;
+  String? isEmpty = emptyValidator(value,localizations);
+  if(isEmpty !=null){
+    return isEmpty;
   }
 
 
@@ -125,8 +126,9 @@ String? passwordValidator(String? value, AppLocalizations localizations) {
 }
 
 String? emptyValidator (String? value, AppLocalizations localizations) {
-  if (value == null) {
+  if (value == null || value=="") {
     return localizations.emptyFieldError;
   }
+
   return null;
 }

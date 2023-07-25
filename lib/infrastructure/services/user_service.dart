@@ -70,4 +70,14 @@ class UserService implements AuthServicePort {
 
     return AuthResponse(user: user);
   }
+  
+  @override
+  Future<void> sendPasswordReset({required String email}) async {
+    _auth.sendPasswordReset(email:email);
+  }
+  
+  @override
+  Future<app.User?> setNewPassword({required String otp,required String email,  required String newPassword}) {
+    return _auth.setNewPassword(otp: otp, newPassword: newPassword,email:email);
+  }
 }

@@ -62,6 +62,11 @@
     "wednesday": "الأربعاء",
     "thursday": "الخميس",
     "friday": "الجمعة",
-    "loginAnonymous" : "الدخول كزائر"
+    "loginAnonymous": "الدخول كزائر",
+    "passwordResetSuccess": "تمت إعادة تعيين كلمة المرور بنجاح",
+    "passwordResetFail": "رمز خاطئ",
+    "otpLabel": "رمز إعادة التعيين",
+    "forgotPasswordLabel" : "نسيت كلمة المرور ؟",
+    "resendPasswordReset" : "اعادة ارسال الرمز"
 
 }

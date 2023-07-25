@@ -21,7 +21,7 @@ class LoginView extends StatelessWidget {
             children: [
               const Logo(),
               Form(
-                key:  LoginController.key,
+                key: LoginController.key,
                 child: Column(
                   children: [
                     TextFormField(
@@ -39,11 +39,14 @@ class LoginView extends StatelessWidget {
                       onPressed: () => controller.login(context),
                       child: Text(localizations.loginButtonLabel),
                     ),
-                    const Divider(height: 2,),
-                     MaterialButton(
+                    const Divider(
+                      height: 2,
+                    ),
+                    MaterialButton(
                       onPressed: () => controller.loginAnonymous(context),
                       child: Text(localizations.loginAnonymous),
                     ),
+                    TextButton(onPressed: controller.forgotPassword, child: Text(localizations.forgotPasswordLabel))
                   ],
                 ),
               )

@@ -40,7 +40,9 @@ abstract class AuthServicePort {
 
   Future<AuthResponse> registerUser({required RegisterUserOptions options});
 
+  Future<void> sendPasswordReset({required String email});
 
+  Future<User?> setNewPassword({required String otp ,required String email,  required String newPassword});
 
 }
 
@@ -48,6 +50,10 @@ abstract class AuthServicePort {
 abstract class AuthPort{
   Future<AuthResponse> signInWithEmailAndPassword({required String email, required String password});
   Future<AuthResponse> createUserWithEmailAndPassword({required String email, required String password});
+
+  Future<void> sendPasswordReset({required String email});
+
+  Future<User?> setNewPassword({required String otp , required String email, required String newPassword});
 }
 
 class AuthCredentials {
