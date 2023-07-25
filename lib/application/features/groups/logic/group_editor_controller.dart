@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
+import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
@@ -29,10 +30,12 @@ class GroupEditorController {
     if (isValid) {
       if (group != null) {
         _updateGroup(group);
+        NavigationService.pop();
         return;
       }
 
       _createGroup();
+      NavigationService.pop();
     }
   }
 
@@ -63,7 +66,6 @@ class GroupEditorController {
     final options = RegisterGroupOptions(group: group, schoolId: schoolId);
 
     final groupBloc = BlocProvider.of<GroupsBloc>(key.currentContext!);
-
     ServicesProvider.instance()
         .groupService
         .registerGroup(options)

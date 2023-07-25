@@ -6,29 +6,31 @@ import 'package:zawya_islamic/application/admin_app/teachers/state/bloc.dart';
 import 'package:zawya_islamic/application/features/groups/state/bloc.dart';
 import 'package:zawya_islamic/resources/metadata.dart';
 import 'package:zawya_islamic/resources/themes.dart';
-
 import 'application/features/login/feature.dart';
 import 'application/features/settings/feature.dart';
 import 'application/features/navigation/navigation_service.dart';
 import 'resources/l10n/l10n.dart';
+import 'resources/loaded.dart';
 
-void main() {
+Future<void> main() async {
+  await LoadedAppResources.loadResource();
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<SchoolsBloc>(
           create: (context) => SchoolsBloc(),
         ),
-         BlocProvider<StudentsBloc>(
+        BlocProvider<StudentsBloc>(
           create: (context) => StudentsBloc(),
         ),
-         BlocProvider<TeachersBloc>(
+        BlocProvider<TeachersBloc>(
           create: (context) => TeachersBloc(),
         ),
         BlocProvider<GroupsBloc>(
           create: (context) => GroupsBloc(),
         ),
-         BlocProvider<AppBloc>(
+        BlocProvider<AppBloc>(
           create: (context) => AppBloc(),
         ),
       ],
@@ -47,9 +49,8 @@ class MyApp extends StatelessWidget {
       animation: liveModel,
       builder: (context, child) {
         return MaterialApp(
-          
           title: AppMetadata.appName,
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
           locale: liveModel.displayLanguage,

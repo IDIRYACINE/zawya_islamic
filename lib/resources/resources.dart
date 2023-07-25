@@ -4,7 +4,7 @@ abstract class AppResources {
   static const logoBlack = 'assets/images/logo_black.svg.vec';
   static const logoWhite = 'assets/images/logo_white.svg.vec';
   static const logoAlt = 'assets/images/logo_alt.svg.vec';
-  static const backgroundPatterns = 'assets/images/background_patterns.svg.vec';
+  static const backgroundPatterns = 'assets/images/background_pattern.png';
 
   static const mainFontBold = 'assets/fonts/arabicmodern-bold.otf';
 

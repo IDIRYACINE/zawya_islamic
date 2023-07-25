@@ -1,11 +1,23 @@
+// ignore_for_file: unnecessary_string_escapes
+
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+
+String _getLanguageClass(AppLocalizations lcoalizations) {
+  String arabicClass = "\\u0600-\\u06FF\\u0750-\\u077F";
+  String latinClass = "[a-zA-Z]";
+
+  final isArabic = lcoalizations.localeName == "ar";
+  return isArabic ? arabicClass : latinClass;
+}
 
 String? schoolNameValidator(String? value, AppLocalizations localizations) {
   if (value == null) {
     return localizations.emptyFieldError;
   }
 
-  RegExp regExp = RegExp(r'^[A-Za-z]+\s?(\d*|[A-Za-z]+)?$');
+  String languageClass = _getLanguageClass(localizations);
+
+  RegExp regExp = RegExp('^[$languageClass]+\\s?(\\d*|[$languageClass]+)?\$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -32,8 +44,9 @@ String? studentNameValidator(String? value, AppLocalizations localizations) {
   if (value == null) {
     return localizations.emptyFieldError;
   }
+  String languageClass = _getLanguageClass(localizations);
 
-  RegExp regExp = RegExp(r'^[A-Za-z]+\s[A-Za-z]+$');
+  RegExp regExp = RegExp('^[$languageClass]+\\s[$languageClass]+\$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -46,8 +59,9 @@ String? teacherNameValidator(String? value, AppLocalizations localizations) {
   if (value == null) {
     return localizations.emptyFieldError;
   }
+  String languageClass = _getLanguageClass(localizations);
 
-  RegExp regExp = RegExp(r'^[A-Za-z]+\s[A-Za-z]+$');
+  RegExp regExp = RegExp('^[$languageClass]+\\s[$languageClass]+\$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -60,8 +74,9 @@ String? groupNameValidator(String? value, AppLocalizations localizations) {
   if (value == null) {
     return localizations.emptyFieldError;
   }
+  String languageClass = _getLanguageClass(localizations);
 
-  RegExp regExp = RegExp(r'^[A-Za-z]+\s?(\d*|[A-Za-z]+)?$');
+  RegExp regExp = RegExp('^[$languageClass]+\\s?(\\d*|[$languageClass]+)?\$');
 
   if (!regExp.hasMatch(value)) {
     return localizations.onlyCharactersAllowed;
@@ -101,17 +116,14 @@ String? ayatFormValidator(
   return null;
 }
 
-
 String? emailValidator(String? value, AppLocalizations localizations) {
-  String? isEmpty = emptyValidator(value,localizations);
-  if(isEmpty !=null){
+  String? isEmpty = emptyValidator(value, localizations);
+  if (isEmpty != null) {
     return isEmpty;
   }
 
-
   return null;
 }
-
 
 String? passwordValidator(String? value, AppLocalizations localizations) {
   if (value == null) {
@@ -125,8 +137,8 @@ String? passwordValidator(String? value, AppLocalizations localizations) {
   return null;
 }
 
-String? emptyValidator (String? value, AppLocalizations localizations) {
-  if (value == null || value=="") {
+String? emptyValidator(String? value, AppLocalizations localizations) {
+  if (value == null || value == "") {
     return localizations.emptyFieldError;
   }
 

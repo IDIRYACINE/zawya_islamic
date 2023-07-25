@@ -27,7 +27,7 @@ class OptionsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onClick, icon: const Icon(AppResources.optionsIcon));
+        onPressed: onClick, icon: const Icon(AppResources.optionsIcon,color: Colors.white,));
   }
 }
 

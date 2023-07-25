@@ -48,7 +48,6 @@ class GroupEditorDialog extends StatelessWidget {
 
   void onConfirm(GroupEditorController controller) {
     controller.createOrUpdate(group);
-    NavigationService.pop();
   }
 
   @override

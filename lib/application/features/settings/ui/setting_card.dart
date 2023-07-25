@@ -80,25 +80,26 @@ class SettingsRowStateless extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SizedBox(
-      width: width,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppMeasures.borderRadius),
-        onTap: rowData.onClick,
-        child: Padding(
-          padding: const EdgeInsets.all(AppMeasures.space),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (rowData.title != null)
-                Text(
-                  rowData.title!,
-                  style: theme.textTheme.bodyLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-              if (rowData.subtitle != null)
-                Text(rowData.subtitle!, style: theme.textTheme.bodyMedium!),
-            ],
+    return Card(
+      child: SizedBox(
+        width: width,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppMeasures.borderRadius),
+          onTap: rowData.onClick,
+          child: Padding(
+            padding: const EdgeInsets.all(AppMeasures.space),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (rowData.title != null)
+                  Text(
+                    rowData.title!,
+                    
+                  ),
+                if (rowData.subtitle != null)
+                  Text(rowData.subtitle!, style: theme.textTheme.bodyMedium!),
+              ],
+            ),
           ),
         ),
       ),

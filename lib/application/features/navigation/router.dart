@@ -12,6 +12,7 @@ import 'package:zawya_islamic/application/features/splash/feature.dart';
 import 'package:zawya_islamic/application/features/statistiques/export.dart';
 import 'package:zawya_islamic/application/features/statistiques/ui/student_statistiques_view.dart';
 import 'package:zawya_islamic/application/teacher_app/export.dart';
+import 'package:zawya_islamic/widgets/customs.dart';
 
 import 'routes.dart';
 
@@ -39,7 +40,7 @@ abstract class AppRouter {
             settings: settings, view: const AnonymousSchoolsView());
 
       case Routes.loginRoute:
-        return getPageRoute(settings: settings, view: const LoginView());
+        return getPageRoute(settings: settings, view: const BackgroundPattern(child:  LoginView()));
 
       case Routes.teacherAppRoute:
         return getPageRoute(
@@ -70,8 +71,10 @@ abstract class AppRouter {
       default:
         return getPageRoute(
           settings: settings,
-          view: SplashView(
-            callback: settings.arguments as VoidCallback?,
+          view: BackgroundPattern(
+            child: SplashView(
+              callback: settings.arguments as VoidCallback?,
+            ),
           ),
         );
     }
