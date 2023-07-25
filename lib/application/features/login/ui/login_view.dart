@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zawya_islamic/application/features/splash/feature.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
+import 'package:zawya_islamic/widgets/app_logo.dart';
 import '../logic/controller.dart';
 
 class LoginView extends StatelessWidget {
@@ -11,6 +11,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final controller = LoginController();
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Center(
@@ -19,7 +20,9 @@ class LoginView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Logo(),
+              AppLogo(
+                height: size.height * 0.2,
+              ),
               Form(
                 key: LoginController.key,
                 child: Column(
@@ -46,7 +49,9 @@ class LoginView extends StatelessWidget {
                       onPressed: () => controller.loginAnonymous(context),
                       child: Text(localizations.loginAnonymous),
                     ),
-                    TextButton(onPressed: controller.forgotPassword, child: Text(localizations.forgotPasswordLabel))
+                    TextButton(
+                        onPressed: controller.forgotPassword,
+                        child: Text(localizations.forgotPasswordLabel))
                   ],
                 ),
               )

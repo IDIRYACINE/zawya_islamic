@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
@@ -38,4 +39,10 @@ class StatistiquesGroupController implements GroupCardControllerPort {
   
   @override
   bool get displayFloatingActions => false;
+
+  @override
+  Future<bool> onSwipe(Group group, BuildContext context) {
+    throw UnimplementedError();
+  }
+  
 }

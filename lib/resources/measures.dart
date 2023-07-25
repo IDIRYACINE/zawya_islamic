@@ -13,4 +13,6 @@ abstract class AppMeasures{
   static const double borderRadius = 8.0;
 
   static const double  settingsCardsWidth = 400;
+
+  static const double cardHeight = 75;
 }

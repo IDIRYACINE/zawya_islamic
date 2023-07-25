@@ -13,6 +13,8 @@ abstract class GroupCardControllerPort {
   bool get displayFloatingActions;
 
   void onFloatingClick();
+
+  Future<bool> onSwipe(Group group, BuildContext context);
 }
 
 

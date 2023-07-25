@@ -69,8 +69,8 @@ class GroupScheduleEditorDialog extends StatelessWidget {
 
     return AlertDialog(
       content: SizedBox(
-        height: size.height * 0.8,
-        width: size.width * 0.8,
+        height: size.height * 0.5,
+        width: size.width * 0.5,
         child: GroupScheduleEditor(
           controller: controller,
         ),

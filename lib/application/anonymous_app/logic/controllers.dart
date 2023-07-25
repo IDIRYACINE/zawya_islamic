@@ -90,6 +90,11 @@ class AnonymousGroupCardController implements GroupCardControllerPort{
   
   @override
   bool get displayFloatingActions => false;
+  
+  @override
+  Future<bool> onSwipe(Group group, BuildContext context) {
+    throw UnimplementedError();
+  }
 
 }
 

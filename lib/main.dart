@@ -49,7 +49,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           
           title: AppMetadata.appName,
-          theme: AppThemes.lighTheme,
+          themeMode: ThemeMode.dark,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
           locale: liveModel.displayLanguage,
           navigatorKey: NavigationService.key,
           onGenerateRoute: AppRouter.generateRoutes,

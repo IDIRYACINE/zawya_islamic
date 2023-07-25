@@ -53,6 +53,11 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
 
   @override
   bool get displayFloatingActions => true;
+  
+  @override
+  Future<bool> onSwipe(Group group, BuildContext context) {
+    throw UnimplementedError();
+  }
 }
 
 void loadTeacherGroups(BuildContext context, TeacherId teacherId) {

@@ -8,32 +8,24 @@ import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
-import 'package:zawya_islamic/widgets/dialogs.dart';
 
 class StudentCard extends StatelessWidget {
   final Student student;
 
-  const StudentCard({super.key, required this.student});
+  const StudentCard(
+      {super.key, required this.student, required this.controller});
 
+  final StudentCardController controller;
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    final bloc = BlocProvider.of<StudentsBloc>(context);
-
-    final groupId = BlocProvider.of<StudentsBloc>(context).state.group.id;
-
-    final StudentCardController controller =
-        StudentCardController(student, bloc, groupId);
-
     return SizedBox(
-      height: 75,
+      height: AppMeasures.cardHeight,
       child: Card(
         child: Center(
           child: ListTile(
-            onTap: controller.onClick,
+            minVerticalPadding: 0,
+            onTap: () => controller.onClick(student),
             leading: Text(student.name.value),
-            trailing: OptionsButton(
-                onClick: () => controller.onMoreActions(localizations)),
           ),
         ),
       ),
@@ -47,8 +39,18 @@ class StudentsView extends StatelessWidget {
   final bool displayAppBar;
   final DataLoaderCallback? dataLoader;
 
-  Widget _buildItems(BuildContext context, Student student) {
-    return StudentCard(student: student);
+  Widget _buildItems(
+      BuildContext context, Student student, StudentCardController controller) {
+    final key = Key(student.id.value);
+
+    return Dismissible(
+      key: key,
+      confirmDismiss: (direction) => controller.onSwipe(student),
+      child: StudentCard(
+        student: student,
+        controller: controller,
+      ),
+    );
   }
 
   void _onAddStudent() {
@@ -56,9 +58,21 @@ class StudentsView extends StatelessWidget {
     NavigationService.displayDialog(dialog);
   }
 
+  Widget _seperatorBuilder(BuildContext context, int index) {
+    return const SizedBox(
+      height: 20,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final bloc = BlocProvider.of<StudentsBloc>(context);
+
+    final groupId = BlocProvider.of<StudentsBloc>(context).state.group.id;
+
+    final StudentCardController controller =
+        StudentCardController(localizations, bloc, groupId);
 
     dataLoader?.call(context);
 
@@ -75,10 +89,11 @@ class StudentsView extends StatelessWidget {
             Expanded(
               child: BlocBuilder<StudentsBloc, StudentsState>(
                 builder: (context, state) {
-                  return ListView.builder(
+                  return ListView.separated(
+                    separatorBuilder: _seperatorBuilder,
                     itemCount: state.students.length,
                     itemBuilder: (context, index) =>
-                        _buildItems(context, state.students[index]),
+                        _buildItems(context, state.students[index], controller),
                   );
                 },
               ),

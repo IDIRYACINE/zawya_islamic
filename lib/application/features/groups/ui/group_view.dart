@@ -25,20 +25,19 @@ class GroupCard extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return SizedBox(
-      height: 75,
+      height: AppMeasures.cardHeight,
       child: Card(
-        child: InkWell(
-          onTap: () => controllerPort.onClick(group),
-          child: Center(
-            child: ListTile(
-              leading: Text(group.name.value),
-              trailing: controllerPort.displayOnMoreActions
-                  ? OptionsButton(
-                      onClick: () =>
-                          controllerPort.onMoreActions(group, localizations),
-                    )
-                  : null,
-            ),
+        child: Center(
+          child: ListTile(
+            minVerticalPadding: 0,
+            onTap: () => controllerPort.onClick(group),
+            leading: Text(group.name.value),
+            trailing: controllerPort.displayOnMoreActions
+                ? OptionsButton(
+                    onClick: () =>
+                        controllerPort.onMoreActions(group, localizations),
+                  )
+                : null,
           ),
         ),
       ),
@@ -63,6 +62,20 @@ class GroupsView extends StatelessWidget {
   final DataLoaderCallback? dataLoader;
   final bool usePrimarySource;
   final double paddings;
+
+  Widget _buildSwipableItem(
+      BuildContext context, Group group, GroupCardControllerPort controller) {
+    final key = Key(group.id.value);
+
+    return Dismissible(
+      key: key,
+      confirmDismiss: (direction) => controller.onSwipe(group, context),
+      child: GroupCard(
+        group: group,
+        controllerPort: controller,
+      ),
+    );
+  }
 
   Widget _buildItems(
       BuildContext context, Group group, GroupCardControllerPort controller) {
@@ -109,11 +122,13 @@ class GroupsView extends StatelessWidget {
 
     final controller = controllerPort ?? GroupCardController(bloc, schoolBloc);
     dataLoader?.call(context);
+    final itemBuilder =
+        controller.displayOnMoreActions ? _buildSwipableItem : _buildItems;
 
     return Scaffold(
       appBar: _buildAppBar(localizations),
       body: Padding(
-        padding:  EdgeInsets.all(paddings),
+        padding: EdgeInsets.all(paddings),
         child: BlocBuilder<GroupsBloc, GroupsState>(
           builder: (context, state) {
             final groups = _targetGroups(state);
@@ -122,7 +137,7 @@ class GroupsView extends StatelessWidget {
               separatorBuilder: _seperatorBuilder,
               itemCount: groups.length,
               itemBuilder: (context, index) =>
-                  _buildItems(context, groups[index], controller),
+                  itemBuilder(context, groups[index], controller),
             );
           },
         ),

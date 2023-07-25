@@ -7,6 +7,7 @@ import 'package:zawya_islamic/application/teacher_app/layout/layout.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
+import 'package:flutter/material.dart';
 
 class TeacherGroupsController implements GroupCardControllerPort {
   const TeacherGroupsController(this.studentsBloc, this.appBloc);
@@ -48,4 +49,9 @@ class TeacherGroupsController implements GroupCardControllerPort {
   
   @override
   bool get displayFloatingActions => false;
+
+  @override
+  Future<bool> onSwipe(Group group, BuildContext context) {
+    throw UnimplementedError();
+  }
 }

@@ -11,7 +11,6 @@ import 'package:zawya_islamic/infrastructure/exports.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/resources/resources.dart';
-import 'package:zawya_islamic/widgets/dialogs.dart';
 
 class SchoolCard extends StatelessWidget {
   final School school;
@@ -25,15 +24,8 @@ class SchoolCard extends StatelessWidget {
       height: 75,
       child: InkWell(
         onTap: () => controller.onClick(school),
-        child: Center(
-          child: ListTile(
-            leading: Text(school.name.value),
-            trailing: controller.displayOnMoreActions
-                ? OptionsButton(
-                    onClick: () => controller.onMoreActions(school),
-                  )
-                : null,
-          ),
+        child: Card(
+          child: Center(child: Text(school.name.value)),
         ),
       ),
     );

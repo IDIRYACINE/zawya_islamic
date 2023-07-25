@@ -15,28 +15,22 @@ import '../logic/teacher_card_controller.dart';
 class TeacherCard extends StatelessWidget {
   final Teacher teacher;
 
-  const TeacherCard({super.key, required this.teacher});
+  const TeacherCard(
+      {super.key, required this.teacher, required this.controller});
 
+  final TeacherCardController controller;
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    final bloc = BlocProvider.of<TeachersBloc>(context);
-
-    final schoolId =
-        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
-
-    final TeacherCardController controller =
-        TeacherCardController(teacher, bloc, schoolId);
-
     return SizedBox(
-      height: 75,
+      height: AppMeasures.cardHeight,
       child: Card(
         child: Center(
           child: ListTile(
-            onTap: () => controller.onClick(context),
+            minVerticalPadding: 0,
+            onTap: () => controller.onClick(context, teacher),
             leading: Text(teacher.name.value),
             trailing: OptionsButton(
-              onClick: () => controller.onMoreActions(localizations),
+              onClick: () => controller.onMoreActions(teacher),
             ),
           ),
         ),
@@ -52,8 +46,18 @@ class TeachersView extends StatelessWidget {
 
   final bool displayAppBar;
 
-  Widget _buildItems(BuildContext context, Teacher teacher) {
-    return TeacherCard(teacher: teacher);
+  Widget _buildItems(
+      BuildContext context, Teacher teacher, TeacherCardController controller) {
+    final key = Key(teacher.id.value);
+
+    return Dismissible(
+      key: key,
+      confirmDismiss: (direction) => controller.onSwipe(teacher, context),
+      child: TeacherCard(
+        teacher: teacher,
+        controller: controller,
+      ),
+    );
   }
 
   void _onAddTeacher() {
@@ -71,6 +75,14 @@ class TeachersView extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
+    final bloc = BlocProvider.of<TeachersBloc>(context);
+
+    final schoolId =
+        BlocProvider.of<SchoolsBloc>(context).state.selectedSchool!.id;
+
+    final TeacherCardController controller =
+        TeacherCardController(localizations, bloc, schoolId);
+
     dataLoader?.call(context);
 
     return Scaffold(
@@ -84,10 +96,11 @@ class TeachersView extends StatelessWidget {
         child: BlocBuilder<TeachersBloc, TeachersState>(
           builder: (context, state) {
             return ListView.separated(
-                separatorBuilder: _seperatorBuilder,
-                itemCount: state.teachers.length,
-                itemBuilder: (context, index) =>
-                    _buildItems(context, state.teachers[index]));
+              separatorBuilder: _seperatorBuilder,
+              itemCount: state.teachers.length,
+              itemBuilder: (context, index) =>
+                  _buildItems(context, state.teachers[index], controller),
+            );
           },
         ),
       ),
