@@ -6,10 +6,10 @@ enum OptionsMetadata {
   hasMany,
   fullPath,
   firstId,
-  lastCollection,
+  lastCollection, order,
 }
 
-enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules }
+enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules, groupScheduleOrderd }
 
 enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations }
 
@@ -32,6 +32,7 @@ class DatabaseEntry {
 
   DatabaseEntry(this.key, this.value);
 }
+
 
 abstract class DatabaseHandlerOptions {}
 
@@ -57,6 +58,8 @@ class DeleteEntityOptions extends DatabaseHandlerOptions {
 
   DeleteEntityOptions({required this.metadata, required this.entries});
 }
+
+
 
 class ReadEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;

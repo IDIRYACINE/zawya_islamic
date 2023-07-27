@@ -116,6 +116,16 @@ FROM
 WHERE
   u."userRole" = 2;
 
+
+create
+or replace view "groupScheduleOrderd" as
+select
+  "groupSchedules".*
+from
+  "groupSchedules"
+ORDER BY 
+  "groupSchedules"."startMinuteId";
+
 CREATE
 OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 2 THEN
 INSERT INTO

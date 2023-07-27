@@ -37,10 +37,11 @@ class SchoolCard extends StatelessWidget {
                   iconDataBytes: LoadedAppResources.mosqueWhite,
                 ),
                 Text(school.name.value),
-                if (controller.displayOnMoreActions)
-                  OptionsButton(
-                    onClick: () => controller.onMoreActions(school),
-                  ),
+                controller.displayOnMoreActions
+                    ? OptionsButton(
+                        onClick: () => controller.onMoreActions(school),
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -140,7 +141,9 @@ class SchoolsView extends StatelessWidget {
         ),
       ),
       floatingActionButton: controller.displayFloatingAction
-          ? AddButton(onPressed: controller.onFloatingClick,)
+          ? AddButton(
+              onPressed: controller.onFloatingClick,
+            )
           : null,
     );
   }

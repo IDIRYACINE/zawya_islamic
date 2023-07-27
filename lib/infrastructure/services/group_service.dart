@@ -174,7 +174,7 @@ class GroupService implements GroupServicePort {
     final dbOptions = ReadEntityOptions(
         metadata: {
           OptionsMetadata.rootCollection:
-              DatabaseCollection.groupSchedules.name,
+              DatabaseCollection.groupScheduleOrderd.name,
           OptionsMetadata.hasMany: true,
         },
         mapper: GroupScheduleEntry.fromMap,
@@ -190,7 +190,7 @@ class GroupService implements GroupServicePort {
 
   List<List<GroupScheduleEntry>> _generateGroupScheduleByDays(
       List<GroupScheduleEntry> data) {
-    final List<List<GroupScheduleEntry>> result = [[], [], [], [], [], [],[]];
+    final List<List<GroupScheduleEntry>> result = [[], [], [], [], [], [], []];
 
     for (GroupScheduleEntry element in data) {
       result[element.dayId.value].add(element);
@@ -202,16 +202,19 @@ class GroupService implements GroupServicePort {
   @override
   Future<UpdateGroupScheduleEntryResponse> updateScheduleEntry(
       UpdateScheduleEntryOptions options) async {
-    final dbOptions =
-        UpdateEntityOptions(entity: options.updated.toMap(updatedMode:true), metadata: {
-      OptionsMetadata.rootCollection: DatabaseCollection.groupSchedules.name,
-      OptionsMetadata.lastId: null,
-    }, filters: {
-      GroupsScheduleTable.groupId.name: options.old.groupId.value,
-      GroupsScheduleTable.dayId.name: options.old.dayId.value,
-            GroupsScheduleTable.startMinuteId.name: options.old.startMinuteId.value,
-
-    });
+    final dbOptions = UpdateEntityOptions(
+        entity: options.updated.toMap(updatedMode: true),
+        metadata: {
+          OptionsMetadata.rootCollection:
+              DatabaseCollection.groupSchedules.name,
+          OptionsMetadata.lastId: null,
+        },
+        filters: {
+          GroupsScheduleTable.groupId.name: options.old.groupId.value,
+          GroupsScheduleTable.dayId.name: options.old.dayId.value,
+          GroupsScheduleTable.startMinuteId.name:
+              options.old.startMinuteId.value,
+        });
 
     await _databaseService.update(dbOptions);
 
