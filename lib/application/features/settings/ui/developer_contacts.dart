@@ -19,7 +19,7 @@ class DeveloperContacts extends StatelessWidget {
         padding: const EdgeInsets.all(AppMeasures.paddingsSmall),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               AppMetadata.developerName,
@@ -32,20 +32,16 @@ class DeveloperContacts extends StatelessWidget {
             const SizedBox(
               height: AppMeasures.paddingsSmall,
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _LogoLink(
-                    label: AppMetadata.iconsLabel,
-                    iconPath: AppResources.githubIcon),
-                _LogoLink(
-                    label: AppMetadata.iconsLabel,
-                    iconPath: AppResources.facebookIcon),
-                _LogoLink(
-                    label: AppMetadata.developerPhone,
-                    iconPath: AppResources.phoneIcon),
-              ],
-            )
+            const _LogoLink(
+                label: AppMetadata.iconsLabel,
+                
+                iconPath: AppResources.githubIcon),
+            const _LogoLink(
+                label: AppMetadata.iconsLabel,
+                iconPath: AppResources.facebookIcon),
+            const _LogoLink(
+                label: AppMetadata.developerPhone,
+                iconPath: AppResources.phoneIcon),
           ],
         ),
       ),
@@ -56,6 +52,7 @@ class DeveloperContacts extends StatelessWidget {
 class _LogoLink extends StatelessWidget {
   final String label;
   final String iconPath;
+  final double size = 30;
 
   const _LogoLink({
     Key? key,
@@ -67,10 +64,11 @@ class _LogoLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FaultToleratedImage(imageUrl: iconPath),
+        FaultToleratedImage(imageUrl: iconPath,width: size,height: size,),
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall,
+          textDirection: TextDirection.ltr,
         )
       ],
     );

@@ -13,6 +13,12 @@ class LoginView extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final controller = LoginController();
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final textStyle =
+        theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.primary);
+
+    const borderLineStyle = UnderlineInputBorder(
+    );
 
     return Scaffold(
       body: BackgroundPattern(
@@ -29,13 +35,17 @@ class LoginView extends StatelessWidget {
                 key: LoginController.key,
                 child: Column(children: [
                   TextFormField(
+                    style: textStyle,
                     decoration: InputDecoration(
-                        hintText: localizations.loginUsernameLabel),
+                        hintText: localizations.loginUsernameLabel,
+                        enabledBorder: borderLineStyle),
                     onChanged: (value) => controller.identifier = value,
                   ),
                   const SizedBox(height: AppMeasures.space),
                   TextFormField(
+                      style: textStyle,
                       decoration: InputDecoration(
+                          enabledBorder: borderLineStyle,
                           hintText: localizations.loginPasswordLabel),
                       obscureText: true,
                       onChanged: (value) => controller.password = value),

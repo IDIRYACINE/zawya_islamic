@@ -59,35 +59,44 @@ class DisplayLanguageSelector extends StatelessWidget {
 
   final ValueNotifier<Locale> selectedLanguage;
 
-  DropdownMenuItem<Locale> localeDropdownAdapter(Locale locale) {
+  DropdownMenuItem<Locale> localeDropdownAdapter(
+      Locale locale, TextStyle textStyle) {
     return DropdownMenuItem<Locale>(
       value: locale,
-      child: Text(locale.languageCode),
+      child: Text(
+        locale.languageCode,
+        style: textStyle,
+      ),
     );
   }
 
-  List<DropdownMenuItem<Locale>>? buildDropdown(List<Locale> languages) {
+  List<DropdownMenuItem<Locale>>? buildDropdown(
+      List<Locale> languages, TextStyle textStyle) {
     List<DropdownMenuItem<Locale>>? items = [];
     for (Locale lang in languages) {
-      items.add(localeDropdownAdapter(lang));
+      items.add(localeDropdownAdapter(lang, textStyle));
     }
     return items;
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textStyle =
+        theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.primary);
+
     return Row(
       children: [
         Text(
           AppLocalizations.of(context)!.selectLanguage,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: theme.textTheme.bodyMedium,
         ),
         const SizedBox(
           width: AppMeasures.space,
         ),
         Expanded(
           child: SelectorDropDown<Locale>(
-              items: buildDropdown(AppMetadata.supportedLocales),
+              items: buildDropdown(AppMetadata.supportedLocales, textStyle),
               onSelect: (value) => selectedLanguage.value = value,
               initialSelection: selectedLanguage),
         )

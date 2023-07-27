@@ -23,12 +23,12 @@ abstract class AppThemes {
     ),
     colorScheme: ColorScheme.fromSeed(
         secondaryContainer: accentColor,
-
         seedColor: mainColor,
         brightness: Brightness.light,
         surface: mainColor ,
         onSurface: Colors.white
         ),
+
     useMaterial3: true,
     fontFamily: 'ArabicModern',
   );

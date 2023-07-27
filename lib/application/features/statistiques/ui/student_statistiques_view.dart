@@ -23,7 +23,7 @@ class StudentStatistiquesCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(evaluationAndPresence.student.name.value),
+              Expanded(child: Text(evaluationAndPresence.student.name.value)),
               EvaluationRowWidget(
                   evaluation: evaluationAndPresence.evaluation.evaluation),
             Expanded(child: PresenseMeterWidget(presence: evaluationAndPresence.presence,))
