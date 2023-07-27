@@ -25,8 +25,7 @@ class GroupEditor extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            decoration: InputDecoration(
-                labelText:localizations.nameLabel),
+            decoration: InputDecoration(labelText: localizations.nameLabel),
             initialValue: initialValue,
             validator: (value) => groupNameValidator(value, localizations),
             onChanged: controller.updateName,
@@ -62,6 +61,7 @@ class GroupEditorDialog extends StatelessWidget {
         controller: controller,
         group: group,
       ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         TextButton(
           onPressed: onCancel,

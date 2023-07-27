@@ -5,7 +5,7 @@ import 'package:zawya_islamic/application/features/groups/logic/group_schedule_c
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
-import 'package:zawya_islamic/resources/resources.dart';
+import 'package:zawya_islamic/widgets/buttons.dart';
 
 class GroupScheduleView extends StatefulWidget {
   const GroupScheduleView(
@@ -54,9 +54,7 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
     );
   }
 
-
   Widget _buildItem(GroupScheduleEntry entry) {
-
     return ScheduleEntryWidget(
       entry: entry,
       controller: viewController,
@@ -72,7 +70,8 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
       viewController = widget.viewController ?? ScheduleEntryController();
     }
 
-    final itemBuilder = viewController.canSwipe ? _buildSwipableItem : _buildItem;
+    final itemBuilder =
+        viewController.canSwipe ? _buildSwipableItem : _buildItem;
 
     return DefaultTabController(
       length: 7,
@@ -98,13 +97,12 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
 
           return ListView.builder(
             itemCount: dataSource.length,
-            itemBuilder: (context, index) =>  itemBuilder(dataSource[index]),
+            itemBuilder: (context, index) => itemBuilder(dataSource[index]),
           );
         }),
         floatingActionButton: viewController.displayFloatingActions
-            ? const FloatingActionButton(
+            ? const AddButton(
                 onPressed: displaTimePickerDialog,
-                child: Icon(AppResources.addIcon),
               )
             : null,
       ),

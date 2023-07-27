@@ -4,9 +4,11 @@ import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/measures.dart';
-import 'package:zawya_islamic/resources/resources.dart';
+import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
+import 'package:zawya_islamic/widgets/images.dart';
 
 import '../logic/group_card_controller.dart';
 import '../ports.dart';
@@ -22,22 +24,27 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
 
     return SizedBox(
       height: AppMeasures.cardHeight,
-      child: Card(
-        child: Center(
-          child: ListTile(
-            minVerticalPadding: 0,
-            onTap: () => controllerPort.onClick(group),
-            leading: Text(group.name.value),
-            trailing: controllerPort.displayOnMoreActions
-                ? OptionsButton(
-                    onClick: () =>
-                        controllerPort.onMoreActions(group, localizations),
-                  )
-                : null,
+      child: InkWell(
+        onTap: () => controllerPort.onClick(group),
+        child: Card(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                AccentIcon(
+                  iconDataAsset: LoadedAppResources.groupsWhite,
+                ),
+                Text(group.name.value),
+                controllerPort.displayFloatingActions?
+                OptionsButton(
+                    onClick: () => controllerPort.onMoreActions(group),
+                  ) : const SizedBox(),
+              ],
+            ),
           ),
         ),
       ),
@@ -142,14 +149,8 @@ class GroupsView extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: controller.displayFloatingActions
-          ? Padding(
-              padding: const EdgeInsets.all(AppMeasures.paddings),
-              child: ElevatedButton(
-                onPressed: controller.onFloatingClick,
-                child: const Icon(AppResources.addIcon),
-              ),
-            )
+       floatingActionButton: controller.displayFloatingActions
+          ? AddButton(onPressed: controller.onFloatingClick,)
           : null,
     );
   }

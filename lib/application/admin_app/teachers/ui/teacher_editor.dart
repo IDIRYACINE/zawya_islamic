@@ -11,7 +11,11 @@ import 'package:zawya_islamic/widgets/buttons.dart';
 import '../logic/teacher_editor_controller.dart';
 
 class TeacherEditor extends StatelessWidget {
-  const TeacherEditor({super.key, this.teacher, required this.controller, required this.groups});
+  const TeacherEditor(
+      {super.key,
+      this.teacher,
+      required this.controller,
+      required this.groups});
 
   final Teacher? teacher;
   final List<Group> groups;
@@ -30,32 +34,26 @@ class TeacherEditor extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            decoration: InputDecoration(
-                labelText: localizations.nameLabel
-                   ),
+            decoration: InputDecoration(labelText: localizations.nameLabel),
             initialValue: initialValue,
             validator: (value) => teacherNameValidator(value, localizations),
             onChanged: controller.updateName,
           ),
-          if(!isEditing)
-           TextFormField(
-            decoration: InputDecoration(
-                labelText: localizations.emailLabel
-                   ),
-            initialValue: initialValue,
-            validator: (value) => emailValidator(value, localizations),
-            onChanged: controller.updateEmail,
-          ),
-          if(!isEditing)
-           TextFormField(
-            decoration: InputDecoration(
-                labelText: localizations.loginPasswordLabel
-                   ),
-            initialValue: initialValue,
-            validator: (value) => passwordValidator(value, localizations),
-            onChanged: controller.updatePassword,
-          ),
-
+          if (!isEditing)
+            TextFormField(
+              decoration: InputDecoration(labelText: localizations.emailLabel),
+              initialValue: initialValue,
+              validator: (value) => emailValidator(value, localizations),
+              onChanged: controller.updateEmail,
+            ),
+          if (!isEditing)
+            TextFormField(
+              decoration:
+                  InputDecoration(labelText: localizations.loginPasswordLabel),
+              initialValue: initialValue,
+              validator: (value) => passwordValidator(value, localizations),
+              onChanged: controller.updatePassword,
+            ),
         ],
       ),
     );
@@ -89,6 +87,7 @@ class TeacherEditorDialog extends StatelessWidget {
         teacher: teacher,
         groups: groups,
       ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         TextButton(
           onPressed: onCancel,

@@ -6,8 +6,10 @@ import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/measures.dart';
-import 'package:zawya_islamic/resources/resources.dart';
+import 'package:zawya_islamic/widgets/buttons.dart';
+import 'package:zawya_islamic/widgets/images.dart';
 
 class StudentCard extends StatelessWidget {
   final Student student;
@@ -20,12 +22,21 @@ class StudentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: AppMeasures.cardHeight,
-      child: Card(
-        child: Center(
-          child: ListTile(
-            minVerticalPadding: 0,
-            onTap: () => controller.onClick(student),
-            leading: Text(student.name.value),
+      child: InkWell(
+        onTap: () => controller.onClick(student),
+        child: Card(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                AccentIcon(
+                  iconDataAsset: LoadedAppResources.studentWhite,
+                ),
+                Text(student.name.value),
+                 const SizedBox(),
+              ],
+            ),
           ),
         ),
       ),
@@ -101,12 +112,8 @@ class StudentsView extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddings),
-        child: ElevatedButton(
-          onPressed: _onAddStudent,
-          child: const Icon(AppResources.addIcon),
-        ),
+      floatingActionButton: AddButton(
+        onPressed: _onAddStudent,
       ),
     );
   }

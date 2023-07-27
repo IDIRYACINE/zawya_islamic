@@ -72,12 +72,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/logo_black.svg.vec
-    - assets/images/logo_white.svg.vec
-    - assets/images/background_pattern.svg.vec
-    - assets/images/background_pattern.png
-    - assets/images/logo_alt.svg.vec
-
+    - assets/images/
     - assets/data/suwar.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

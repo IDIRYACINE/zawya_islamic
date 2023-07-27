@@ -7,6 +7,7 @@ import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/features/layout/logic/ports.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/resources.dart';
 
 import 'helpers.dart';
@@ -20,6 +21,8 @@ class AdminBottomNavigationBar extends StatelessWidget {
   });
 
   final int selectedIndex;
+  final double width = 30;
+  final double height = 30;
 
   void onSelect(int index, AppBloc bloc) {
     bloc.add(NavigateIndexEvent(index));
@@ -35,15 +38,24 @@ class AdminBottomNavigationBar extends StatelessWidget {
       onTap: (index) => onSelect(index, bloc),
       items: [
         BottomNavigationBarItem(
-          icon: const Icon(AppResources.studentIcon),
+          icon: Image(
+              image: LoadedAppResources.studentWhite,
+              width: width,
+              height: height),
           label: localizations.studentsLabel,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(AppResources.teacherIcon),
+          icon: Image(
+              image: LoadedAppResources.teacherWhite,
+              width: width,
+              height: height),
           label: localizations.teachersLabel,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(AppResources.groupIcon),
+          icon: Image(
+              image: LoadedAppResources.groupsWhite,
+              width: width,
+              height: height),
           label: localizations.groupsLabel,
         ),
       ],

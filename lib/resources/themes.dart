@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 
 abstract class AppThemes {
-  static const _mainColor =   Color.fromARGB(255, 1, 11, 44); // ;//0x2A5390;
-  static const _accentColor = Color.fromARGB(0, 70, 194, 203);
+  static const mainColor =   Color.fromARGB(255, 1, 11, 44); // ;//0x2A5390;
+  static const accentColor =  Colors.lightBlueAccent;
 
   static final darkTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
@@ -16,16 +16,17 @@ abstract class AppThemes {
   );
 
   static final lightTheme = ThemeData(
-    dialogBackgroundColor: _mainColor,
+    dialogBackgroundColor: mainColor,
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       unselectedItemColor: Colors.grey,
-      backgroundColor: _mainColor
+      backgroundColor: mainColor
     ),
     colorScheme: ColorScheme.fromSeed(
-        secondary: _accentColor,
-        seedColor: _mainColor,
+        secondaryContainer: accentColor,
+
+        seedColor: mainColor,
         brightness: Brightness.light,
-        surface: _mainColor ,
+        surface: mainColor ,
         onSurface: Colors.white
         ),
     useMaterial3: true,

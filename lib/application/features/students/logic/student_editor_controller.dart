@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
@@ -38,10 +39,12 @@ class StudentEditorController {
     if (isValid) {
       if (student != null) {
         _updateStudent(student);
+        NavigationService.pop();
         return;
       }
 
       _createStudent();
+      NavigationService.pop();
     }
   }
 
@@ -70,6 +73,7 @@ class StudentEditorController {
 
     final student = Student(
       schoolId: schoolId,
+      groupId: group!.id,
       name: Name(studentName),
       id: StudentId(const Uuid().v4()),
       birthDate: BirthDate(birthDate),

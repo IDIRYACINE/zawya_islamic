@@ -58,14 +58,15 @@ class StudentCardController {
         title: title,
         content: content);
 
-    NavigationService.replaceDialog(dialog);
+    NavigationService.displayDialog(dialog);
   }
 
   void _onEdit(Student student) {
+
     final dialog = StudentEditorDialog(
       student: student,
     );
 
-    NavigationService.replaceDialog(dialog);
+    NavigationService.displayDialog(dialog);
   }
 }

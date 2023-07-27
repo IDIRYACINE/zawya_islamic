@@ -36,7 +36,7 @@ class GroupCardController implements GroupCardControllerPort {
   }
 
   @override
-  void onMoreActions(Group group, AppLocalizations localizations) {
+  void onMoreActions(Group group) {
      _onEdit(group);
   }
 

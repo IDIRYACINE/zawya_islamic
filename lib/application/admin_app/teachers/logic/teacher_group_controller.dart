@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
@@ -32,7 +31,7 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
   }
 
   @override
-  void onMoreActions(Group group, AppLocalizations localizations) {}
+  void onMoreActions(Group group) {}
 
   @override
   void onFloatingClick() {

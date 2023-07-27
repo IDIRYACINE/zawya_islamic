@@ -14,12 +14,10 @@ class SchoolEditor extends StatelessWidget {
 
   final SchoolEditorController controller;
 
-
   @override
   Widget build(BuildContext context) {
     final initialValue = school?.name.value ?? controller.schoolName;
     final localizations = AppLocalizations.of(context)!;
-
 
     return Form(
       key: SchoolEditorController.key,
@@ -27,8 +25,7 @@ class SchoolEditor extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            decoration: InputDecoration(
-                labelText: localizations.nameLabel),
+            decoration: InputDecoration(labelText: localizations.nameLabel),
             initialValue: initialValue,
             validator: (value) => schoolNameValidator(value, localizations),
             onChanged: controller.updateName,
@@ -59,12 +56,12 @@ class SchoolEditorDialog extends StatelessWidget {
     final isEditing = school != null;
 
     return AlertDialog(
-      title: Text(
-          isEditing ? localizations.editLabel : localizations.addLabel),
+      title: Text(isEditing ? localizations.editLabel : localizations.addLabel),
       content: SchoolEditor(
         controller: controller,
         school: school,
       ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         TextButton(
           onPressed: onCancel,

@@ -1,4 +1,3 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/login/feature.dart';
@@ -29,7 +28,7 @@ class TeacherGroupsController implements GroupCardControllerPort {
   }
 
   @override
-  void onMoreActions(Group group, AppLocalizations localizations) {
+  void onMoreActions(Group group,  ) {
     throw UnimplementedError();
   }
 

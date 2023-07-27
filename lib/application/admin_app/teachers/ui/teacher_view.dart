@@ -6,9 +6,11 @@ import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/measures.dart';
-import 'package:zawya_islamic/resources/resources.dart';
+import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
+import 'package:zawya_islamic/widgets/images.dart';
 
 import '../logic/teacher_card_controller.dart';
 
@@ -21,16 +23,26 @@ class TeacherCard extends StatelessWidget {
   final TeacherCardController controller;
   @override
   Widget build(BuildContext context) {
+    
     return SizedBox(
       height: AppMeasures.cardHeight,
-      child: Card(
-        child: Center(
-          child: ListTile(
-            minVerticalPadding: 0,
-            onTap: () => controller.onClick(context, teacher),
-            leading: Text(teacher.name.value),
-            trailing: OptionsButton(
-              onClick: () => controller.onMoreActions(teacher),
+      child: InkWell(
+        onTap: () => controller.onClick(context,teacher),
+        child: Card(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                AccentIcon(
+                  iconDataAsset: LoadedAppResources.teacherWhite,
+                ),
+                Text(teacher.name.value),
+               
+                  OptionsButton(
+                    onClick: () => controller.onMoreActions(teacher),
+                  ),
+              ],
             ),
           ),
         ),
@@ -104,13 +116,10 @@ class TeachersView extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddings),
-        child: ElevatedButton(
+      floatingActionButton: AddButton(
           onPressed: _onAddTeacher,
-          child: const Icon(AppResources.addIcon),
         ),
-      ),
+      
     );
   }
 }

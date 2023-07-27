@@ -5,6 +5,12 @@ abstract class AppResources {
   static const logoWhite = 'assets/images/logo_white.svg.vec';
   static const logoAlt = 'assets/images/logo_alt.svg.vec';
   static const backgroundPatterns = 'assets/images/background_pattern.png';
+  static const groupsWhiteIcon = 'assets/images/groups.png';
+  static const teacherWhiteIcon = 'assets/images/teacher.png';
+  static const studentWhiteIcon = 'assets/images/student.png';
+  static const mosqueWhiteIcon = 'assets/images/mosque_white.svg.vec';
+
+
 
   static const mainFontBold = 'assets/fonts/arabicmodern-bold.otf';
 
@@ -24,7 +30,7 @@ abstract class AppResources {
 
   static const groupIcon = Icons.abc;
 
-  static const evaluationIcon = Icons.expand_more;
+  static const evaluationIcon = Icons.edit;
 
   static const presenceIcon = Icons.remove_red_eye_rounded;
 

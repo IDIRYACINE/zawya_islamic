@@ -26,7 +26,6 @@ class StudentEditor extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final groups = BlocProvider.of<GroupsBloc>(context).state.groups;
 
-
     return Form(
       key: StudentEditorController.key,
       child: Column(
@@ -39,11 +38,12 @@ class StudentEditor extends StatelessWidget {
             onChanged: controller.updateName,
           ),
           BirthDateField(
-            onChanged: controller.updateBirthDate,
-            initialValue: controller.birthDate
-          ),
-          GroupSelector(groups: groups, onSelected: controller.updateGroup,
-          
+              onChanged: controller.updateBirthDate,
+              initialValue: controller.birthDate),
+          GroupSelector(
+            groupIdInitial : student?.groupId,
+            groups: groups,
+            onSelected: controller.updateGroup,
           )
         ],
       ),
@@ -62,7 +62,6 @@ class StudentEditorDialog extends StatelessWidget {
 
   void onConfirm(StudentEditorController controller) {
     controller.createOrUpdate(student);
-    NavigationService.pop();
   }
 
   @override
@@ -76,6 +75,7 @@ class StudentEditorDialog extends StatelessWidget {
         controller: controller,
         student: student,
       ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         TextButton(
           onPressed: onCancel,

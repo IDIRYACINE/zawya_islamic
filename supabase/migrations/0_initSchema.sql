@@ -55,7 +55,7 @@ create table if not exists "groupSchedules" (
   "groupId" Text not null,
   "startMinuteId" SMALLINT not null,
   "endMinuteId" SMALLINT not null,
-  constraint groupSchedules_pkey primary key ("dayId","groupId","startTimeInMinutes")
+  constraint groupSchedules_pkey primary key ("dayId", "groupId", "startTimeInMinutes")
 ) tablespace pg_default;
 
 create
@@ -84,9 +84,11 @@ where
 create
 or replace view "schoolStudents" as
 select
-  users.*
+  users.*,
+  "userGroups"."groupId"
 from
   "users"
+  inner join "userGroups" on users."userId" = "userGroups"."userId"
 where
   users."userRole" = 2;
 

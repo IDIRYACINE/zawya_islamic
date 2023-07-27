@@ -138,11 +138,11 @@ class ResetPasswordController {
   }
 
   void updateEmail(String value) {
-    _email = value;
+    _email = value.replaceAll(" ", "");
   }
 
   void updatePassword(String value) {
-    _newPassword = value;
+    _newPassword = value.replaceAll(" ", "");
   }
 
   void updateOtp(String value) {

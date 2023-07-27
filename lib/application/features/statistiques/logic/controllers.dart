@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
@@ -35,7 +34,7 @@ class StatistiquesGroupController implements GroupCardControllerPort {
   void onFloatingClick() {}
 
   @override
-  void onMoreActions(Group group, AppLocalizations localizations) {}
+  void onMoreActions(Group group) {}
   
   @override
   bool get displayFloatingActions => false;

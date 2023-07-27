@@ -9,8 +9,11 @@ import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/ports/school_service_port.dart';
 import 'package:zawya_islamic/infrastructure/exports.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/measures.dart';
-import 'package:zawya_islamic/resources/resources.dart';
+import 'package:zawya_islamic/widgets/buttons.dart';
+import 'package:zawya_islamic/widgets/dialogs.dart';
+import 'package:zawya_islamic/widgets/images.dart';
 
 class SchoolCard extends StatelessWidget {
   final School school;
@@ -21,11 +24,26 @@ class SchoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 75,
+      height: AppMeasures.cardHeight,
       child: InkWell(
         onTap: () => controller.onClick(school),
         child: Card(
-          child: Center(child: Text(school.name.value)),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                AccentIcon(
+                  iconDataBytes: LoadedAppResources.mosqueWhite,
+                ),
+                Text(school.name.value),
+                if (controller.displayOnMoreActions)
+                  OptionsButton(
+                    onClick: () => controller.onMoreActions(school),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -37,10 +55,25 @@ class SchoolsView extends StatelessWidget {
 
   final SchoolCardControllerPort? controllerPort;
 
-  Widget _buildItems(SchoolCardControllerPort controller, School school) {
+  Widget _buildItems(BuildContext context, SchoolCardControllerPort controller,
+      School school) {
     return SchoolCard(
       school: school,
       controller: controller,
+    );
+  }
+
+  Widget _buildSwipableItem(BuildContext context,
+      SchoolCardControllerPort controller, School school) {
+    final key = Key(school.id.value);
+
+    return Dismissible(
+      key: key,
+      confirmDismiss: (direction) => controller.onSwipe(school, context),
+      child: SchoolCard(
+        school: school,
+        controller: controller,
+      ),
     );
   }
 
@@ -75,6 +108,9 @@ class SchoolsView extends StatelessWidget {
 
     _loadSchools(context);
 
+    final builder =
+        controller.displayOnMoreActions ? _buildSwipableItem : _buildItems;
+
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -98,19 +134,13 @@ class SchoolsView extends StatelessWidget {
               separatorBuilder: _seperatorBuilder,
               itemCount: state.schools.length,
               itemBuilder: (context, index) =>
-                  _buildItems(controller, state.schools[index]),
+                  builder(context, controller, state.schools[index]),
             );
           },
         ),
       ),
       floatingActionButton: controller.displayFloatingAction
-          ? Padding(
-              padding: const EdgeInsets.all(AppMeasures.paddings),
-              child: ElevatedButton(
-                onPressed: controller.onFloatingClick,
-                child: const Icon(AppResources.addIcon),
-              ),
-            )
+          ? AddButton(onPressed: controller.onFloatingClick,)
           : null,
     );
   }

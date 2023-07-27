@@ -1,5 +1,8 @@
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:zawya_islamic/resources/measures.dart';
+import 'package:zawya_islamic/resources/resources.dart';
+import 'package:zawya_islamic/resources/themes.dart';
 
 class ButtonPrimary extends StatelessWidget {
   const ButtonPrimary(
@@ -63,4 +66,23 @@ class OptionsButtonData {
   final String title;
 
   OptionsButtonData({required this.callback, required this.title});
+}
+
+class AddButton extends StatelessWidget {
+  const AddButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppMeasures.paddings),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: const Icon(
+          AppResources.addIcon,
+          color: AppThemes.accentColor,
+        ),
+      ),
+    );
+  }
 }

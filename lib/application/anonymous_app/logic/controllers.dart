@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zawya_islamic/application/admin_app/layout/helpers.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
@@ -46,6 +45,12 @@ class AnonymousSchoolCardController implements SchoolCardControllerPort{
   void onMoreActions(School school) {
     throw ("Not authorised");
   }
+  
+  @override
+  Future<bool> onSwipe(School school, context) {
+    throw UnimplementedError();
+  }
+  
 
 }
 
@@ -84,7 +89,7 @@ class AnonymousGroupCardController implements GroupCardControllerPort{
   }
 
   @override
-  void onMoreActions(Group group, AppLocalizations localizations) {
+  void onMoreActions(Group group) {
     throw ("Not authorised");
   }
   

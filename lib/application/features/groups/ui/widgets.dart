@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
+import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
@@ -13,9 +14,11 @@ class GroupSelector extends StatefulWidget {
       {super.key,
       required this.groups,
       required this.onSelected,
-      this.validator});
+      this.validator,
+      this.groupIdInitial});
 
   final List<Group> groups;
+  final GroupId? groupIdInitial;
   final OnGroupSelectedCallback onSelected;
   final FormFieldValidator? validator;
 
@@ -34,11 +37,34 @@ class _GroupSelectorState extends State<GroupSelector> {
     return items;
   }
 
+  Group? _getInitialGroup() {
+    Group? target;
+
+    try {
+      target = widget.groups
+          .singleWhere((element) => element.id.equals(widget.groupIdInitial!));
+    } catch (e) {
+      target = null;
+    }
+
+    return target;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final textStyle =
+        theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.primary);
+
+    final initialValue =
+        widget.groupIdInitial == null ? null : _getInitialGroup();
+
     return DropdownButtonFormField<Group>(
         validator: widget.validator,
         items: buildItems(),
+        value: initialValue,
+        style: textStyle,
         onChanged: widget.onSelected);
   }
 }
