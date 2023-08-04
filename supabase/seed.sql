@@ -1,5 +1,5 @@
 insert into
-    public.userRoles
+    public."userRoles"
 values
     (0, 'admin'),
     (1, 'teacher'),
