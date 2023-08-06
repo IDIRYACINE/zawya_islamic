@@ -67,6 +67,11 @@
     "passwordResetFail" : "Wrong token",
     "otpLabel" : "Password Reset Token",
     "forgotPasswordLabel" : "Forogot Password ?",
-    "resendPasswordReset" : "Resend Token"
+    "resendPasswordReset" : "Resend Token",
+    "emptyScheduleListLabel" : "Empty schedule",
+    "emptyStudentsListLabel" : "No students found",
+    "emptyTeachersListLabel" : "No teachers found",
+    "emptyGroupsListLabel" : "No groups found",
+    "emptySchoolsListLabel" : "No schools found"
 
 }

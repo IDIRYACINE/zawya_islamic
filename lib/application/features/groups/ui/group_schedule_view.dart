@@ -95,6 +95,8 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
         body: BlocBuilder<GroupsBloc, GroupsState>(builder: (context, state) {
           final dataSource = state.daySchedule;
 
+          if(dataSource.isEmpty) return  Center(child: Text(localizations.emptyScheduleListLabel));
+
           return ListView.builder(
             itemCount: dataSource.length,
             itemBuilder: (context, index) => itemBuilder(dataSource[index]),

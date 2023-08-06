@@ -58,11 +58,24 @@ class StudentEditorController {
     final options =
         UpdateStudentOptions(student: updatedStudent, groupId: groupId);
 
-    ServicesProvider.instance().studentService.updateStudent(options).then(
+    final servicesProvider = ServicesProvider.instance();
+
+    servicesProvider.studentService.updateStudent(options).then(
           (value) => bloc.add(
             UpdateStudentEvent(student: updatedStudent),
           ),
         );
+
+    final groupChanged = groupId.equals(student.groupId);
+    if (groupChanged) {
+      final userId = student.id.toUserId();
+
+      servicesProvider.groupService.deleteUserGroup(DeleteUserGroupOptions(
+          userGroup: UserGroup(userId: userId, groupId: student.groupId)));
+          
+      servicesProvider.groupService.registerUserGroup(RegisterUserGroupOptions(
+          userGroup: UserGroup(userId: userId, groupId: groupId)));
+    }
   }
 
   void _createStudent() {

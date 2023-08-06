@@ -76,6 +76,7 @@ class TeacherEditorController {
 
     final servicesProvider = ServicesProvider.instance();
 
+
     servicesProvider.authService
         .registerUser(options: registerUserOption)
         .then((response) {
@@ -93,11 +94,11 @@ class TeacherEditorController {
   }
 
   void updateEmail(String value) {
-    email = value;
+    email = value.replaceAll(" ", "");
   }
 
   void updatePassword(String value) {
-    password = value;
+    password = value.replaceAll(" ", "");
   }
 
   void updateGroup(Group? group) {}

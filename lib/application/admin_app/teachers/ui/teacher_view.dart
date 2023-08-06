@@ -107,6 +107,9 @@ class TeachersView extends StatelessWidget {
         padding: const EdgeInsets.all(AppMeasures.paddings),
         child: BlocBuilder<TeachersBloc, TeachersState>(
           builder: (context, state) {
+             if (state.teachers.isEmpty) {
+              return Center(child: Text(localizations.emptyTeachersListLabel));
+            }
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,
               itemCount: state.teachers.length,

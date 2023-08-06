@@ -39,7 +39,7 @@ class LoginView extends StatelessWidget {
                     decoration: InputDecoration(
                         hintText: localizations.loginUsernameLabel,
                         enabledBorder: borderLineStyle),
-                    onChanged: (value) => controller.identifier = value,
+                    onChanged: controller.updateIdentifier ,
                   ),
                   const SizedBox(height: AppMeasures.space),
                   TextFormField(
@@ -48,7 +48,7 @@ class LoginView extends StatelessWidget {
                           enabledBorder: borderLineStyle,
                           hintText: localizations.loginPasswordLabel),
                       obscureText: true,
-                      onChanged: (value) => controller.password = value),
+                      onChanged: controller.updatePassword),
                 ]),
               ),
               const SizedBox(height: AppMeasures.space),

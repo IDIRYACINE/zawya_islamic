@@ -67,6 +67,12 @@
     "passwordResetFail": "رمز خاطئ",
     "otpLabel": "رمز إعادة التعيين",
     "forgotPasswordLabel" : "نسيت كلمة المرور ؟",
-    "resendPasswordReset" : "اعادة ارسال الرمز"
+    "resendPasswordReset" : "اعادة ارسال الرمز",
+    "emptyScheduleListLabel" : "لا يوجد جدول متاح",
+    "emptyStudentsListLabel" : "لا يوجد طلاب متاحين",
+    "emptyTeachersListLabel" : "لا يوجد معلمين متاحين",
+    "emptyGroupsListLabel" : "لا يوجد مجموعات متاحة",
+    "emptySchoolsListLabel" : "لا يوجد مدارس متاحة"
+
 
 }

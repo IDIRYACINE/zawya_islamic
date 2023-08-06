@@ -79,6 +79,14 @@ class LoginController {
     final dialog = ResetPasswordDialog();
     NavigationService.displayDialog(dialog);
   }
+
+  void updateIdentifier(String value) {
+    identifier = value.replaceAll(" ", "");
+  }
+
+  void updatePassword(String value) {
+    password = value.replaceAll(" ", "");
+  }
 }
 
 class ResetPasswordController {

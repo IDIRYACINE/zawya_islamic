@@ -34,7 +34,7 @@ class StudentCard extends StatelessWidget {
                   iconDataAsset: LoadedAppResources.studentWhite,
                 ),
                 Text(student.name.value),
-                 const SizedBox(),
+                const SizedBox(),
               ],
             ),
           ),
@@ -100,6 +100,11 @@ class StudentsView extends StatelessWidget {
             Expanded(
               child: BlocBuilder<StudentsBloc, StudentsState>(
                 builder: (context, state) {
+                  if (state.students.isEmpty) {
+                    return Center(
+                        child: Text(localizations.emptyStudentsListLabel));
+                  }
+
                   return ListView.separated(
                     separatorBuilder: _seperatorBuilder,
                     itemCount: state.students.length,

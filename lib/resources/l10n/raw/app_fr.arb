@@ -67,6 +67,12 @@
     "passwordResetFail": "Jeton incorrect",
     "otpLabel": "Jeton de réinitialisation de mot de passe",
     "forgotPasswordLabel" :"Oublier votre mot de passe ?",
-    "resendPasswordReset" : "Revoiyer jeton"
+    "resendPasswordReset" : "Revoiyer jeton",
+    "emptyScheduleListLabel" : "Aucun calendrier trouvé",
+    "emptyStudentsListLabel" : "Aucun étudiant trouvé",
+    "emptySchoolsListLabel" : "Aucune école trouvée",
+    "emptyTeachersListLabel" : "Aucun enseignant trouvé",
+    "emptyGroupsListLabel" : "Aucun groupe trouvé"
+
 
 }

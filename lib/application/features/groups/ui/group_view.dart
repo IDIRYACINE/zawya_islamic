@@ -140,6 +140,8 @@ class GroupsView extends StatelessWidget {
           builder: (context, state) {
             final groups = _targetGroups(state);
 
+          if(groups.isEmpty) return  Center(child: Text(localizations.emptyGroupsListLabel));
+
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,
               itemCount: groups.length,
