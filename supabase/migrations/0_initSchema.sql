@@ -31,6 +31,7 @@ create table if not exists "userGroups" (
   "userId" uuid not null,
   "groupId" uuid null,
   constraint userGroups_pkey primary key ("userId", "groupId"),
+  constraint userGroups_groupId_fkey foreign key ("groupId") references groups ("groupId") on delete cascade,
   constraint userGroups_userId_fkey foreign key ("userId") references users ("userId") on delete cascade
 ) tablespace pg_default;
 
@@ -52,10 +53,11 @@ create table if not exists "days" (
 
 create table if not exists "groupSchedules" (
   "dayId" SMALLINT not null,
-  "groupId" Text not null,
+  "groupId" uuid not null,
   "startMinuteId" SMALLINT not null,
   "endMinuteId" SMALLINT not null,
-  constraint groupSchedules_pkey primary key ("dayId", "groupId", "startTimeInMinutes")
+  constraint groupSchedules_pkey primary key ("dayId", "groupId", "startMinuteId"),
+  constraint groupSchedules_groupId_fkey foreign key ("groupId") references groups ("groupId") on delete cascade
 ) tablespace pg_default;
 
 create
@@ -127,7 +129,7 @@ ORDER BY
   "groupSchedules"."startMinuteId";
 
 CREATE
-OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 2 THEN
+OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 2 THEN
 INSERT INTO
   "studentEvaluations" ("userId")
 VALUES
@@ -139,4 +141,17 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
+
+
+CREATE
+OR REPLACE FUNCTION clean_after_teacher_delete() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 2 THEN
+DELETE FROM "auth.users" WHERE "id" = NEW."userId";
+
+END IF;
+
+RETURN NEW;
+
+END;
+
+$$ LANGUAGE plpgsql;

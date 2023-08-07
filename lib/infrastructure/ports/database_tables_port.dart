@@ -32,7 +32,7 @@ enum UserGroupsTable{
 }
 
 enum TeacherTable{
-  teacherId,
+  userId,
   teacherName,
   email,
   password

@@ -14,7 +14,7 @@ class TeacherService implements TeacherServicePort {
     final dbOptions = DeleteEntityOptions(metadata: {
       OptionsMetadata.rootCollection: DatabaseCollection.users.name
     }, entries: {
-      TeacherTable.teacherId.name: options.teacherId.value,
+      TeacherTable.userId.name: options.teacherId.value,
     });
     _databaseService.delete(dbOptions);
 
@@ -87,7 +87,7 @@ class TeacherService implements TeacherServicePort {
           _generateTeacherCollectionCode(options.schoolId.value),
       OptionsMetadata.lastId: options.teacher.id.value,
     }, filters: {
-      TeacherTable.teacherId.name: options.teacher.id.value
+      TeacherTable.userId.name: options.teacher.id.value
     });
 
     await _databaseService.update(dbOptions);

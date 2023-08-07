@@ -49,11 +49,14 @@ class StudentEditorController {
   }
 
   void _updateStudent(Student student) {
+    final groupId = group!.id;
+
     final updatedStudent = student.copyWith(
-        name: Name(studentName), birthDate: BirthDate(birthDate));
+        name: Name(studentName),
+        birthDate: BirthDate(birthDate),
+        groupId: groupId);
 
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
-    final groupId = group!.id;
 
     final options =
         UpdateStudentOptions(student: updatedStudent, groupId: groupId);
@@ -66,15 +69,18 @@ class StudentEditorController {
           ),
         );
 
-    final groupChanged = groupId.equals(student.groupId);
+    final groupChanged = !groupId.equals(student.groupId);
     if (groupChanged) {
       final userId = student.id.toUserId();
 
-      servicesProvider.groupService.deleteUserGroup(DeleteUserGroupOptions(
-          userGroup: UserGroup(userId: userId, groupId: student.groupId)));
-          
-      servicesProvider.groupService.registerUserGroup(RegisterUserGroupOptions(
-          userGroup: UserGroup(userId: userId, groupId: groupId)));
+      servicesProvider.groupService
+          .deleteUserGroup(DeleteUserGroupOptions(
+              userGroup: UserGroup(userId: userId, groupId: student.groupId)))
+          .then((value) => {
+                servicesProvider.groupService.registerUserGroup(
+                    RegisterUserGroupOptions(
+                        userGroup: UserGroup(userId: userId, groupId: groupId)))
+              });
     }
   }
 
@@ -98,17 +104,16 @@ class StudentEditorController {
     final options = RegisterStudentOptions(student: student, groupId: groupId);
 
     final servicesProvider = ServicesProvider.instance();
-    servicesProvider.studentService.registerStudent(options).then(
-          (value) => bloc.add(
-            CreateStudentEvent(student: student),
-          ),
-        );
-
-    servicesProvider.groupService.registerUserGroup(
-      RegisterUserGroupOptions(
-        userGroup: UserGroup(userId: student.id.toUserId(), groupId: groupId),
-      ),
-    );
+    servicesProvider.studentService.registerStudent(options).then((value) {
+      bloc.add(
+        CreateStudentEvent(student: student),
+      );
+      servicesProvider.groupService.registerUserGroup(
+        RegisterUserGroupOptions(
+          userGroup: UserGroup(userId: student.id.toUserId(), groupId: groupId),
+        ),
+      );
+    });
   }
 
   void updateGroup(Group? value) {

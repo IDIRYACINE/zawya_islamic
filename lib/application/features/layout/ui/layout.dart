@@ -9,7 +9,6 @@ class AppLayout extends StatelessWidget {
   final bool displayAppBar;
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-
     return AppBar(
       leading: InkWell(
         onTap: () {
@@ -28,10 +27,13 @@ class AppLayout extends StatelessWidget {
     return BlocBuilder<AppBloc, AppState>(builder: (context, state) {
       final selectedIndex = state.selectedIndex;
 
-      state.appsetupBuilder.dataLoader?.call(context);
+      if (!state.loaded) {
+        state.appsetupBuilder.dataLoader?.call(context);
+      }
 
       return Scaffold(
-        appBar: state.appsetupBuilder.appbarBuilder?.call(context) ?? _buildAppBar(context),
+        appBar: state.appsetupBuilder.appbarBuilder?.call(context) ??
+            _buildAppBar(context),
         body: state.appsetupBuilder.bodyBuilder(selectedIndex),
         bottomNavigationBar: state.appsetupBuilder.bottomNavigationBarBuilder(
           selectedIndex,

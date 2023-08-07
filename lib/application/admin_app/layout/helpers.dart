@@ -31,9 +31,11 @@ void loadStudents(BuildContext context) {
 
   final studentOptions = LoadStudentsOptions(schoolId: schoolId);
   ServicesProvider.instance().studentService.getStudents(studentOptions).then(
-        (res) => studentsBloc.add(
+        (res) {studentsBloc.add(
           LoadStudentsEvent(students: res.data),
-        ),
+        );
+        
+        }
       );
 }
 

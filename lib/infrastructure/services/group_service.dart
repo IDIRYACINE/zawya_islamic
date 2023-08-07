@@ -121,12 +121,16 @@ class GroupService implements GroupServicePort {
   @override
   Future<DeleteUserGroupResponse> deleteUserGroup(
       DeleteUserGroupOptions options) async {
-    final dbOptions = DeleteEntityOptions(metadata: {
-      OptionsMetadata.rootCollection: DatabaseCollection.userGroups
-    }, entries: {
+
+        final entries = {
       UserGroupsTable.groupId.name: options.userGroup.groupId.value,
       UserGroupsTable.userId.name: options.userGroup.userId.value
-    });
+    };
+
+
+    final dbOptions = DeleteEntityOptions(metadata: {
+      OptionsMetadata.rootCollection: DatabaseCollection.userGroups.name
+    }, entries: entries);
 
     _databaseService.delete(dbOptions);
 

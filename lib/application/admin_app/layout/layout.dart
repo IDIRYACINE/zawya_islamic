@@ -75,6 +75,9 @@ class AdminAppSetupOptions extends AppSetupOptions {
     loadGroups(context);
     loadStudents(context);
     loadTeachers(context);
+
+    final bloc = BlocProvider.of<AppBloc>(context);
+    bloc.add(DataLoadedEvent(true));
   }
 
   static Widget buildBottomNavigationBar(int index) {

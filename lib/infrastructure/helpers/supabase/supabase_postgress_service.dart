@@ -20,7 +20,9 @@ class SupabasePostrgessService implements DatabasePort {
     _client
         .from(options.metadata[OptionsMetadata.rootCollection])
         .delete()
-        .match(options.entries);
+        .match(options.entries)
+        .onError((error, stackTrace) => print(error.toString()))
+        ;
     return DatabaseResponse(data: []);
   }
 
@@ -58,7 +60,9 @@ class SupabasePostrgessService implements DatabasePort {
     _client
         .from(options.metadata[OptionsMetadata.rootCollection])
         .update(options.entity)
-        .match(options.filters);
+        .match(options.filters)
+        .onError((error, stackTrace) => print(error.toString()))
+        ;
 
     return DatabaseResponse(data: []);
   }

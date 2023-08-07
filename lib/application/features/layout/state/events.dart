@@ -4,6 +4,11 @@ import '../logic/ports.dart';
 
 abstract class AppEvent {}
 
+class DataLoadedEvent extends AppEvent {
+  final bool loaded;
+  DataLoadedEvent([this.loaded = true]);
+}
+
 class LoginUserEvent extends AppEvent {
   final User user;
 

@@ -10,6 +10,7 @@ import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/images.dart';
+import 'package:zawya_islamic/widgets/typography.dart';
 
 class StudentCard extends StatelessWidget {
   final Student student;
@@ -100,9 +101,10 @@ class StudentsView extends StatelessWidget {
             Expanded(
               child: BlocBuilder<StudentsBloc, StudentsState>(
                 builder: (context, state) {
+
                   if (state.students.isEmpty) {
                     return Center(
-                        child: Text(localizations.emptyStudentsListLabel));
+                        child: OnSurfaceText(localizations.emptyStudentsListLabel));
                   }
 
                   return ListView.separated(

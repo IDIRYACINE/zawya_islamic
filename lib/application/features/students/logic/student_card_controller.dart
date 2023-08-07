@@ -29,7 +29,6 @@ class StudentCardController {
               DeleteStudentOptions(studentId: student.id, groupId: groupId);
           ServicesProvider.instance().studentService.deleteStudent(options);
 
-          NavigationService.pop();
           bloc.add(event);
           NavigationService.pop();
         },
@@ -51,9 +50,7 @@ class StudentCardController {
               DeleteStudentOptions(studentId: student.id, groupId: groupId);
           ServicesProvider.instance().studentService.deleteStudent(options);
 
-          NavigationService.pop();
           bloc.add(event);
-          NavigationService.pop();
         },
         title: title,
         content: content);

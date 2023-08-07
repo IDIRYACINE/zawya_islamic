@@ -10,6 +10,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<SetupAppEvent>(_handleSetupApp);
     on<LoginUserEvent>(_handleLoginUser);
     on<NavigateIndexEvent>(_handleNavigateIndex);
+    on<DataLoadedEvent>(_handleDataLoaded);
   }
 
 
@@ -18,7 +19,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   FutureOr<void> _handleSetupApp(SetupAppEvent event, Emitter<AppState> emit) {
-    emit(state.copyWith(appsetupBuilder: event.appSetupOptions));
+    emit(state.copyWith(appsetupBuilder: event.appSetupOptions,loaded: false));
   }
 
   FutureOr<void> _handleLoginUser(LoginUserEvent event, Emitter<AppState> emit) {
@@ -27,5 +28,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   FutureOr<void> _handleNavigateIndex(NavigateIndexEvent event, Emitter<AppState> emit) {
     emit(state.copyWith(selectedIndex: event.index));
+  }
+
+  FutureOr<void> _handleDataLoaded(DataLoadedEvent event, Emitter<AppState> emit) {
+    emit(state.copyWith(loaded: event.loaded));
   }
 }

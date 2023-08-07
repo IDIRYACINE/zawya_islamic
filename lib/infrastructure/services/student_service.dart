@@ -16,7 +16,7 @@ class StudentService implements StudentServicePort {
     final dbOptions = DeleteEntityOptions(metadata: {
       OptionsMetadata.rootCollection: DatabaseCollection.users.name
     }, entries: {
-      UserGroupsTable.groupId.name: options.groupId.value,
+      UserGroupsTable.userId.name: options.studentId.value,
     });
 
     _databaseService.delete(dbOptions);
@@ -64,8 +64,7 @@ class StudentService implements StudentServicePort {
 
     final dbOptions = ReadEntityOptions(
         metadata: metadata, filters: filters, mapper: Student.fromMap);
-    if (options.schoolId != null) {
-    } else {}
+
     final response = await _databaseService.read<Student>(dbOptions);
 
     return LoadStudentsResponse(data: response.data);
@@ -123,15 +122,19 @@ class StudentService implements StudentServicePort {
   @override
   Future<MarkEvaluationResponse> markMonthlyEvaluation(
       MarkEvaluationOptions options) async {
-    final dbOptions =
-        UpdateEntityOptions(entity: options.evaluation.toMap(), metadata: {
+        final filters =  {
+      StudentEvaluationAndPresenceTable.userId.name:
+          options.evaluation.studentId.value
+    };
+
+    final metadata =  {
       OptionsMetadata.rootCollection:
           DatabaseCollection.studentEvaluations.name,
       OptionsMetadata.lastId: options.evaluation.studentId.value,
-    }, filters: {
-      StudentEvaluationAndPresenceTable.userId.name:
-          options.evaluation.studentId.value
-    });
+    };
+
+    final dbOptions =
+        UpdateEntityOptions(entity: options.evaluation.toMap(), metadata:metadata, filters:filters);
 
     _databaseService.update(dbOptions);
 
@@ -141,9 +144,13 @@ class StudentService implements StudentServicePort {
   @override
   Future<MarkPresenceResponse> markPresenceOrAbsence(
       MarkPresenceOptions options) async {
+        final data = _presenceDataAdapter(options.presences!);
+
     _supabaseApp.supabase.client
         .from(DatabaseCollection.studentEvaluations.name)
-        .upsert(_presenceDataAdapter(options.presences!), onConflict: "userId");
+        .upsert(data, onConflict: "userId")
+        .onError((error, stackTrace) => print(error.toString()))
+        ;
 
     return MarkPresenceResponse(data: null);
   }
