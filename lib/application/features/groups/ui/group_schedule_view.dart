@@ -6,6 +6,7 @@ import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
+import 'package:zawya_islamic/widgets/typography.dart';
 
 class GroupScheduleView extends StatefulWidget {
   const GroupScheduleView(
@@ -95,7 +96,7 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
         body: BlocBuilder<GroupsBloc, GroupsState>(builder: (context, state) {
           final dataSource = state.daySchedule;
 
-          if(dataSource.isEmpty) return  Center(child: Text(localizations.emptyScheduleListLabel));
+          if(dataSource.isEmpty) return  Center(child: OnSurfaceText(localizations.emptyScheduleListLabel));
 
           return ListView.builder(
             itemCount: dataSource.length,

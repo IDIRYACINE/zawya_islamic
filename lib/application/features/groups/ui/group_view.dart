@@ -9,6 +9,7 @@ import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 import 'package:zawya_islamic/widgets/images.dart';
+import 'package:zawya_islamic/widgets/typography.dart';
 
 import '../logic/group_card_controller.dart';
 import '../ports.dart';
@@ -140,7 +141,8 @@ class GroupsView extends StatelessWidget {
           builder: (context, state) {
             final groups = _targetGroups(state);
 
-          if(groups.isEmpty) return  Center(child: Text(localizations.emptyGroupsListLabel));
+
+          if(groups.isEmpty) return  Center(child: OnSurfaceText(localizations.emptyGroupsListLabel) );
 
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,

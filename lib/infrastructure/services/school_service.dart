@@ -11,7 +11,7 @@ class SchoolService implements SchoolServicePort {
   @override
   Future<DeleteSchoolResponse> deleteSchool(DeleteSchoolOptions options) async {
     final dbOptions = DeleteEntityOptions(
-        metadata: {OptionsMetadata.rootCollection: DatabaseCollection.groups},
+        metadata: {OptionsMetadata.rootCollection: DatabaseCollection.groups.name},
         entries: {SchoolTable.schoolId.name: options.schoolId.value});
 
     _databaseService.delete(dbOptions);

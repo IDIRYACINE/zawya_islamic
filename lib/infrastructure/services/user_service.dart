@@ -15,6 +15,7 @@ class UserService implements AuthServicePort {
   @override
   Future<AuthResponse> login(
       {required String identifier, required String password}) async {
+
     app.User? user = await _auth
         .signInWithEmailAndPassword(email: identifier, password: password)
         .then((res) async => await _handleCredentials(res.user))

@@ -14,7 +14,7 @@ class StudentService implements StudentServicePort {
   Future<DeleteStudentResponse> deleteStudent(
       DeleteStudentOptions options) async {
     final dbOptions = DeleteEntityOptions(metadata: {
-      OptionsMetadata.rootCollection: DatabaseCollection.users
+      OptionsMetadata.rootCollection: DatabaseCollection.users.name
     }, entries: {
       UserGroupsTable.groupId.name: options.groupId.value,
     });

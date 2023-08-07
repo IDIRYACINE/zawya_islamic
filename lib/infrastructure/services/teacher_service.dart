@@ -12,7 +12,7 @@ class TeacherService implements TeacherServicePort {
   Future<DeleteTeacherResponse> deleteTeacher(
       DeleteTeacherOptions options) async {
     final dbOptions = DeleteEntityOptions(metadata: {
-      OptionsMetadata.rootCollection: DatabaseCollection.users
+      OptionsMetadata.rootCollection: DatabaseCollection.users.name
     }, entries: {
       TeacherTable.teacherId.name: options.teacherId.value,
     });

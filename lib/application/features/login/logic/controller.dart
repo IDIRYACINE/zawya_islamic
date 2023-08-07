@@ -13,8 +13,8 @@ import '../feature.dart';
 class LoginController {
   static final key = GlobalKey<FormState>();
 
-  String identifier = "idiryacinesp@gmail.com";
-  String password = "idiryacine";
+  String identifier = "";
+  String password = "";
 
   void login(BuildContext context) {
     final authBloc = BlocProvider.of<AppBloc>(context);

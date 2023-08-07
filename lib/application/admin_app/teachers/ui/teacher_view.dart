@@ -11,6 +11,7 @@ import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 import 'package:zawya_islamic/widgets/images.dart';
+import 'package:zawya_islamic/widgets/typography.dart';
 
 import '../logic/teacher_card_controller.dart';
 
@@ -108,7 +109,7 @@ class TeachersView extends StatelessWidget {
         child: BlocBuilder<TeachersBloc, TeachersState>(
           builder: (context, state) {
              if (state.teachers.isEmpty) {
-              return Center(child: Text(localizations.emptyTeachersListLabel));
+              return Center(child: OnSurfaceText(localizations.emptyTeachersListLabel));
             }
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,

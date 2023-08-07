@@ -14,6 +14,7 @@ import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 import 'package:zawya_islamic/widgets/images.dart';
+import 'package:zawya_islamic/widgets/typography.dart';
 
 class SchoolCard extends StatelessWidget {
   final School school;
@@ -132,7 +133,7 @@ class SchoolsView extends StatelessWidget {
         child: BlocBuilder<SchoolsBloc, SchoolState>(
           builder: (context, state) {
             if (state.schools.isEmpty) {
-              return Center(child: Text(localizations.emptySchoolsListLabel));
+              return Center(child: OnSurfaceText(localizations.emptySchoolsListLabel));
             }
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,
