@@ -21,12 +21,10 @@ class Student {
   final Name name;
   final BirthDate birthDate;
   final SchoolId schoolId;
-  final GroupId groupId;
 
   Student(
       {required this.schoolId,
       required this.id,
-      required this.groupId, 
       required this.name,
       required this.birthDate});
   factory Student.fromMap(Map<String, dynamic> json) {
@@ -35,7 +33,6 @@ class Student {
       id: StudentId(json[UserTable.userId.name]),
       name: Name(json[UserTable.userName.name]),
       birthDate: BirthDate.fromString(json[UserTable.birthDate.name]), 
-      groupId: GroupId(json[UserGroupsTable.groupId.name]),
     );
   }
 
@@ -54,12 +51,10 @@ class Student {
     Name? name,
     BirthDate? birthDate,
     SchoolId? schoolId,
-    GroupId? groupId,
   }) {
     return Student(
       schoolId: schoolId ?? this.schoolId,
       id: id ?? this.id,
-      groupId: groupId?? this.groupId,
       name: name ?? this.name,
       birthDate: birthDate ?? this.birthDate,
     );

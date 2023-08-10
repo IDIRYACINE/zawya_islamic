@@ -9,6 +9,7 @@ import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/loaded.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
+import 'package:zawya_islamic/widgets/dialogs.dart';
 import 'package:zawya_islamic/widgets/images.dart';
 import 'package:zawya_islamic/widgets/typography.dart';
 
@@ -24,7 +25,7 @@ class StudentCard extends StatelessWidget {
     return SizedBox(
       height: AppMeasures.cardHeight,
       child: InkWell(
-        onTap: () => controller.onClick(student),
+        onTap: () => controller.onClick(context, student),
         child: Card(
           child: Center(
             child: Row(
@@ -35,7 +36,9 @@ class StudentCard extends StatelessWidget {
                   iconDataAsset: LoadedAppResources.studentWhite,
                 ),
                 Text(student.name.value),
-                const SizedBox(),
+                OptionsButton(
+                  onClick: () => controller.onMoreActions(student),
+                ),
               ],
             ),
           ),
@@ -101,10 +104,10 @@ class StudentsView extends StatelessWidget {
             Expanded(
               child: BlocBuilder<StudentsBloc, StudentsState>(
                 builder: (context, state) {
-
                   if (state.students.isEmpty) {
                     return Center(
-                        child: OnSurfaceText(localizations.emptyStudentsListLabel));
+                        child: OnSurfaceText(
+                            localizations.emptyStudentsListLabel));
                   }
 
                   return ListView.separated(

@@ -75,7 +75,7 @@ class StudentService implements StudentServicePort {
       RegisterStudentOptions options) async {
     final dbOptions = CreateEntityOptions(options.student.toMap(), {
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.groupId.value),
+          _generateStudentGroupCode(options.student.id.value),
       OptionsMetadata.lastId: options.student.id.value,
     });
 
@@ -90,7 +90,7 @@ class StudentService implements StudentServicePort {
     final dbOptions =
         UpdateEntityOptions(entity: options.student.toMap(), metadata: {
       OptionsMetadata.rootCollection:
-          _generateStudentGroupCode(options.groupId.value),
+          _generateStudentGroupCode(options.student.id.value),
       OptionsMetadata.lastId: options.student.id.value,
     }, filters: {
       UserTable.userId.name: options.student.id.value
@@ -122,19 +122,21 @@ class StudentService implements StudentServicePort {
   @override
   Future<MarkEvaluationResponse> markMonthlyEvaluation(
       MarkEvaluationOptions options) async {
-        final filters =  {
+    final filters = {
       StudentEvaluationAndPresenceTable.userId.name:
           options.evaluation.studentId.value
     };
 
-    final metadata =  {
+    final metadata = {
       OptionsMetadata.rootCollection:
           DatabaseCollection.studentEvaluations.name,
       OptionsMetadata.lastId: options.evaluation.studentId.value,
     };
 
-    final dbOptions =
-        UpdateEntityOptions(entity: options.evaluation.toMap(), metadata:metadata, filters:filters);
+    final dbOptions = UpdateEntityOptions(
+        entity: options.evaluation.toMap(),
+        metadata: metadata,
+        filters: filters);
 
     _databaseService.update(dbOptions);
 
@@ -144,13 +146,11 @@ class StudentService implements StudentServicePort {
   @override
   Future<MarkPresenceResponse> markPresenceOrAbsence(
       MarkPresenceOptions options) async {
-        final data = _presenceDataAdapter(options.presences!);
+    final data = _presenceDataAdapter(options.presences!);
 
     _supabaseApp.supabase.client
         .from(DatabaseCollection.studentEvaluations.name)
-        .upsert(data, onConflict: "userId")
-        .onError((error, stackTrace) => print(error.toString()))
-        ;
+        .upsert(data, onConflict: "userId");
 
     return MarkPresenceResponse(data: null);
   }

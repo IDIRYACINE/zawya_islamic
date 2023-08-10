@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
@@ -24,7 +22,6 @@ class StudentEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final groups = BlocProvider.of<GroupsBloc>(context).state.groups;
 
     return Form(
       key: StudentEditorController.key,
@@ -40,11 +37,7 @@ class StudentEditor extends StatelessWidget {
           BirthDateField(
               onChanged: controller.updateBirthDate,
               initialValue: controller.birthDate),
-          GroupSelector(
-            groupIdInitial : student?.groupId,
-            groups: groups,
-            onSelected: controller.updateGroup,
-          )
+         
         ],
       ),
     );

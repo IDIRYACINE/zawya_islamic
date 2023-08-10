@@ -6,6 +6,7 @@ import 'package:zawya_islamic/core/entities/relations.dart';
 import 'types.dart';
 
 typedef TeacherGroupsResponse = GroupServiceResponse<List<Group>>;
+typedef StudentGroupsResponse  = GroupServiceResponse<List<Group>>;
 typedef LoadGroupsResponse = GroupServiceResponse<List<Group>>;
 typedef LoadGroupResponse = GroupServiceResponse<Group>;
 typedef RegisterGroupResponse = GroupServiceResponse<void>;
@@ -65,6 +66,12 @@ class LoadTeacherGroupsOptions extends GroupServiceOptions {
   }
 }
 
+class LoadStudentGroupsOptions extends GroupServiceOptions {
+  final StudentId studentId;
+
+  LoadStudentGroupsOptions({required this.studentId});
+}
+
 class AddScheduleEntryOptions extends GroupServiceOptions {
   final GroupScheduleEntry entry;
 
@@ -117,6 +124,9 @@ abstract class GroupServicePort {
   Future<LoadGroupIdsResponse> loadGroupIds();
   Future<TeacherGroupsResponse> getTeacherGroups(
       LoadTeacherGroupsOptions options);
+  Future<StudentGroupsResponse> getStudentGroups(
+      LoadStudentGroupsOptions options);
+
   Future<LoadGroupResponse> getGroup(LoadGroupOptions options);
   Future<LoadGroupsResponse> loadGroups(LoadGroupsOptions options);
   Future<RegisterGroupResponse> registerGroup(RegisterGroupOptions options);

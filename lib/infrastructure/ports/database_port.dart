@@ -11,7 +11,7 @@ enum OptionsMetadata {
 
 enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules, groupScheduleOrderd }
 
-enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations }
+enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations, studentGroups }
 
 
 extension DatabaseCollectionExtension on DatabaseCollection {

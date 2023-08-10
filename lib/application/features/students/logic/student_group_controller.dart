@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/entities/relations.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
-import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
+import 'package:zawya_islamic/infrastructure/exports.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
-class TeacherAdminGroupController implements GroupCardControllerPort {
+class StudentAdminGroupController implements GroupCardControllerPort {
   final GroupsBloc groupsBloc;
   final UserId userId;
   final AppLocalizations localizations;
 
-  TeacherAdminGroupController(this.groupsBloc, this.userId, this.localizations);
+  StudentAdminGroupController(this.groupsBloc, this.userId, this.localizations);
 
   @override
   bool get displayOnMoreActions => false;
@@ -38,7 +38,7 @@ class TeacherAdminGroupController implements GroupCardControllerPort {
         title: localizations.deleteLabel,
         content: localizations.permanentActionWarning);
 
-    NavigationService.displayDialog(dialog);
+        NavigationService.displayDialog(dialog);
   }
 
   @override

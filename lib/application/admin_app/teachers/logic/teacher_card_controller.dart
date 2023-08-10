@@ -5,6 +5,7 @@ import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/core/ports/teacher_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
@@ -27,8 +28,9 @@ class TeacherCardController {
     final userId = teacher.id.toUserId();
 
     final widget = GroupsView(
-      controllerPort: TeacherAdminGroupController(groupsBloc, userId),
+      controllerPort: TeacherAdminGroupController(groupsBloc, userId,localizations),
       usePrimarySource: false,
+      dataLoader: (context) => loadTeacherGroups(context, teacher.id),
     );
 
     NavigationService.push(widget);
@@ -36,25 +38,6 @@ class TeacherCardController {
 
   void onMoreActions(Teacher teacher) {
     _onEdit(teacher);
-  }
-
-  // ignore: unused_element
-  void _onDelete(String content, String title, Teacher teacher) {
-    final dialog = ConfirmationDialog(
-        onConfirm: () {
-          final event = DeleteTeacherEvent(teacher: teacher);
-          bloc.add(event);
-
-          final options =
-              DeleteTeacherOptions(teacherId: teacher.id, schoolId: schoolId);
-          ServicesProvider.instance().teacherService.deleteTeacher(options);
-
-          NavigationService.pop();
-        },
-        title: title,
-        content: content);
-
-    NavigationService.replaceDialog(dialog);
   }
 
   void _onEdit(Teacher teacher) {
@@ -84,4 +67,15 @@ class TeacherCardController {
 
     return dismiss ?? false;
   }
+}
+
+
+void loadTeacherGroups(BuildContext context, TeacherId teacherId) {
+  final groupsBloc = BlocProvider.of<GroupsBloc>(context);
+
+  final options = LoadTeacherGroupsOptions(teacherId: teacherId);
+
+  ServicesProvider.instance().groupService.getTeacherGroups(options).then(
+      (res) =>
+          groupsBloc.add(LoadGroupsEvent(groups: res.data, isPrimary: false)));
 }

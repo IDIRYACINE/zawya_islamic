@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
-import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:uuid/uuid.dart';
-import 'package:zawya_islamic/core/entities/relations.dart';
-import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/exports.dart';
 
@@ -23,7 +20,6 @@ class StudentEditorController {
 
   late String studentName;
   late DateTime birthDate;
-  Group? group;
 
   void updateName(String value) {
     studentName = value;
@@ -49,17 +45,16 @@ class StudentEditorController {
   }
 
   void _updateStudent(Student student) {
-    final groupId = group!.id;
 
     final updatedStudent = student.copyWith(
         name: Name(studentName),
         birthDate: BirthDate(birthDate),
-        groupId: groupId);
+        );
 
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
 
     final options =
-        UpdateStudentOptions(student: updatedStudent, groupId: groupId);
+        UpdateStudentOptions(student: updatedStudent);
 
     final servicesProvider = ServicesProvider.instance();
 
@@ -69,19 +64,6 @@ class StudentEditorController {
           ),
         );
 
-    final groupChanged = !groupId.equals(student.groupId);
-    if (groupChanged) {
-      final userId = student.id.toUserId();
-
-      servicesProvider.groupService
-          .deleteUserGroup(DeleteUserGroupOptions(
-              userGroup: UserGroup(userId: userId, groupId: student.groupId)))
-          .then((value) => {
-                servicesProvider.groupService.registerUserGroup(
-                    RegisterUserGroupOptions(
-                        userGroup: UserGroup(userId: userId, groupId: groupId)))
-              });
-    }
   }
 
   void _createStudent() {
@@ -92,35 +74,26 @@ class StudentEditorController {
 
     final student = Student(
       schoolId: schoolId,
-      groupId: group!.id,
       name: Name(studentName),
       id: StudentId(const Uuid().v4()),
       birthDate: BirthDate(birthDate),
     );
 
     final bloc = BlocProvider.of<StudentsBloc>(key.currentContext!);
-    final groupId = group!.id;
 
-    final options = RegisterStudentOptions(student: student, groupId: groupId);
+    final options = RegisterStudentOptions(student: student);
 
     final servicesProvider = ServicesProvider.instance();
     servicesProvider.studentService.registerStudent(options).then((value) {
       bloc.add(
         CreateStudentEvent(student: student),
       );
-      servicesProvider.groupService.registerUserGroup(
-        RegisterUserGroupOptions(
-          userGroup: UserGroup(userId: student.id.toUserId(), groupId: groupId),
-        ),
-      );
+      
     });
   }
 
-  void updateGroup(Group? value) {
-    group = value;
-  }
 
   bool _validateData() {
-    return key.currentState!.validate() && (group != null);
+    return key.currentState!.validate() ;
   }
 }

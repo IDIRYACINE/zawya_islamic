@@ -121,12 +121,10 @@ class GroupService implements GroupServicePort {
   @override
   Future<DeleteUserGroupResponse> deleteUserGroup(
       DeleteUserGroupOptions options) async {
-
-        final entries = {
+    final entries = {
       UserGroupsTable.groupId.name: options.userGroup.groupId.value,
       UserGroupsTable.userId.name: options.userGroup.userId.value
     };
-
 
     final dbOptions = DeleteEntityOptions(metadata: {
       OptionsMetadata.rootCollection: DatabaseCollection.userGroups.name
@@ -223,5 +221,21 @@ class GroupService implements GroupServicePort {
     await _databaseService.update(dbOptions);
 
     return UpdateGroupResponse(data: null);
+  }
+
+  @override
+  Future<StudentGroupsResponse> getStudentGroups(
+      LoadStudentGroupsOptions options) async {
+    final dbOptions = ReadEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection: DatabaseViews.studentGroups.name,
+          OptionsMetadata.hasMany: true,
+        },
+        mapper: Group.fromMap,
+        filters: {UserGroupsTable.userId.name: options.studentId.value});
+
+    final response = await _databaseService.read<Group>(dbOptions);
+
+    return LoadGroupsResponse(data: response.data);
   }
 }

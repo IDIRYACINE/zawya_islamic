@@ -155,3 +155,16 @@ RETURN NEW;
 END;
 
 $$ LANGUAGE plpgsql;
+
+
+create
+or replace view "studentGroups" as
+select
+  groups.*,
+  users."userId"
+from
+  "userGroups"
+  inner join users on "userGroups"."userId" = users."userId"
+  inner join groups on "userGroups"."groupId" = groups."groupId"
+where
+  users."userRole" = 2;
