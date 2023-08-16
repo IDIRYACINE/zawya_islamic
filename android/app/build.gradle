@@ -79,7 +79,13 @@ signingConfigs {
    }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            signingConfig signingConfigs.release
+        }
         release {
+            shrinkResources false
+            minifyEnabled false
             signingConfig signingConfigs.release
         }
     }

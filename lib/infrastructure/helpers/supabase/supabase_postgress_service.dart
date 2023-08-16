@@ -1,16 +1,20 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
+import 'package:zawya_islamic/infrastructure/ports/logger_port.dart';
 
 class SupabasePostrgessService implements DatabasePort {
   final SupabaseClient _client;
+  final LoggerServicePort _logger;
 
-  SupabasePostrgessService(this._client);
+  SupabasePostrgessService(this._client, this._logger);
 
   @override
   Future<VoidDatabaseResponse> create(CreateEntityOptions options) async {
     await _client
         .from(options.metadata[OptionsMetadata.rootCollection])
-        .insert(options.entity);
+        .insert(options.entity)
+        .onError((error, stackTrace) => _logger.log("postgress/insert",
+            error: error, stackTrace: stackTrace));
 
     return DatabaseResponse(data: []);
   }
@@ -20,7 +24,10 @@ class SupabasePostrgessService implements DatabasePort {
     _client
         .from(options.metadata[OptionsMetadata.rootCollection])
         .delete()
-        .match(options.entries);
+        .match(options.entries)
+        .onError((error, stackTrace) => _logger.log("postgress/delete",
+            error: error, stackTrace: stackTrace));
+
     return DatabaseResponse(data: []);
   }
 
@@ -58,7 +65,9 @@ class SupabasePostrgessService implements DatabasePort {
     _client
         .from(options.metadata[OptionsMetadata.rootCollection])
         .update(options.entity)
-        .match(options.filters);
+        .match(options.filters)
+        .onError((error, stackTrace) => _logger.log("postgress/delete",
+            error: error, stackTrace: stackTrace));
 
     return DatabaseResponse(data: []);
   }

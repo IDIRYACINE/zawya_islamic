@@ -72,6 +72,9 @@
     "emptyStudentsListLabel" : "No students found",
     "emptyTeachersListLabel" : "No teachers found",
     "emptyGroupsListLabel" : "No groups found",
-    "emptySchoolsListLabel" : "No schools found"
+    "emptySchoolsListLabel" : "No schools found",
+    "totalPresence" : "Total Presence",
+    "totalAbsence" : "Total Absence",
+    "closeSessionLabel" : "Close session"
 
 }

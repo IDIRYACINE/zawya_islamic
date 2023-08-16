@@ -43,26 +43,8 @@ class EvaluationFormState extends State<EvaluationForm> {
       return const SizedBox();
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          child: AyatFormField(
-            onChanged: controller.setStartAyat,
-            surat: surat!,
-            isStart: true,
-          ),
-        ),
-        const SizedBox(
-          width: AppMeasures.space,
-        ),
-        Flexible(
-          child: AyatFormField(
-              onChanged: controller.setEndAyat, surat: surat!, isStart: false),
-        ),
-      ],
-    );
+    return AyatFormField(
+        onChanged: controller.setEndAyat, surat: surat!, isStart: false);
   }
 
   Widget buildActionButton(AppLocalizations localizations) {
@@ -72,10 +54,7 @@ class EvaluationFormState extends State<EvaluationForm> {
         onPressed: controller.registerStudentMemorization,
       );
     }
-    return ButtonPrimary(
-      text: localizations.didntMemoreizeAnything,
-      onPressed: controller.registerStudentZeroMemorization,
-    );
+    return const SizedBox();
   }
 
   @override
@@ -95,10 +74,11 @@ class EvaluationFormState extends State<EvaluationForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SuratFormField(
-              onChanged: controller.onSuratNumber,
-              onTap: controller.onSelectSuratFromList,
-              suratNameController: controller.suratNameController, 
-              suratNumberController: controller.suratNumberController,),
+            onChanged: controller.onSuratNumber,
+            onTap: controller.onSelectSuratFromList,
+            suratNameController: controller.suratNameController,
+            suratNumberController: controller.suratNumberController,
+          ),
           const SizedBox(
             height: AppMeasures.space,
           ),
@@ -147,16 +127,13 @@ class SuratFormField extends StatelessWidget {
         Flexible(
           child: TextFormField(
             controller: suratNumberController,
-                  decoration: InputDecoration(
-                      labelText:
-                          "${localizations.number} ${localizations.alSurat}"),
-                  readOnly: useListPopup,
-                  onTap: useListPopup ? onTap : null,
-                  onChanged: useListPopup ? null : onChanged,
-                  validator: (value) =>
-                      suratFormValidator(value, localizations),
-                
-                ),
+            decoration: InputDecoration(
+                labelText: "${localizations.number} ${localizations.alSurat}"),
+            readOnly: useListPopup,
+            onTap: useListPopup ? onTap : null,
+            onChanged: useListPopup ? null : onChanged,
+            validator: (value) => suratFormValidator(value, localizations),
+          ),
         ),
         const SizedBox(
           width: AppMeasures.space,

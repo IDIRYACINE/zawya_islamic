@@ -9,7 +9,7 @@ enum OptionsMetadata {
   lastCollection, order,
 }
 
-enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules, groupScheduleOrderd }
+enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules, groupScheduleOrderd, monthlyPresence }
 
 enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations, studentGroups }
 

@@ -1,3 +1,4 @@
+import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
 
@@ -78,7 +79,6 @@ class StudentEvaluationAndPresence {
   final StudentEvaluation evaluation;
 
   factory StudentEvaluationAndPresence.fromMap(Map<String, dynamic> raw) {
-
     return StudentEvaluationAndPresence(
       presence: StudentPresence.fromMap(raw),
       evaluation: StudentEvaluation.fromMap(raw),
@@ -114,5 +114,33 @@ class StudentEvaluationAndPresence {
       presence: Presence(type: PresenceType.present, modifer: presenceModifier),
       absence: Presence(type: PresenceType.absent, modifer: absenceModifier),
     ));
+  }
+}
+
+class MonthlyPresenceStats {
+  final int totalPresenceCount;
+  final int totalAbsenceCount;
+  final SchoolId schoolId;
+
+  MonthlyPresenceStats({
+    required this.schoolId,
+    required this.totalPresenceCount,
+    required this.totalAbsenceCount,
+  });
+
+  factory MonthlyPresenceStats.empty(){
+    return MonthlyPresenceStats(
+      schoolId: SchoolId(""),
+      totalAbsenceCount: -1,
+      totalPresenceCount: -1,
+    );
+  }
+
+  factory MonthlyPresenceStats.fromMap(Map<String, dynamic> raw) {
+    return MonthlyPresenceStats(
+      schoolId: SchoolId(raw[SchoolTable.schoolId.name]),
+      totalAbsenceCount: raw[StudentEvaluationAndPresenceTable.absence.name],
+      totalPresenceCount: raw[StudentEvaluationAndPresenceTable.presence.name],
+    );
   }
 }

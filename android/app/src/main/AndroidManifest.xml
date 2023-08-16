@@ -1,8 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package ="com.idir.zawya_islamic">
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="زاويتي"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

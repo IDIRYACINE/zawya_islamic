@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import 'package:zawya_islamic/application/features/layout/state/bloc.dart';
+import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/core/entities/session.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
 import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
+import 'package:zawya_islamic/resources/l10n/l10n.dart';
+import 'package:zawya_islamic/widgets/dialogs.dart';
 
 void startSession(BuildContext context) {
   final studentBloc = BlocProvider.of<StudentsBloc>(context);
@@ -18,19 +21,27 @@ void startSession(BuildContext context) {
   studentBloc.add(event);
 }
 
-
 void closeSession(BuildContext context) {
   final studentBloc = BlocProvider.of<StudentsBloc>(context);
+  final localizations = AppLocalizations.of(context)!;
 
-  final event = SetSession(session: null,nullify: true);
-  studentBloc.add(event);
+  final dialog = ConfirmationDialog(
+      onConfirm: () {
+        final event = SetSession(session: null, nullify: true);
+        studentBloc.add(event);
 
+        final presence = studentBloc.state.presenceAndEvaluation
+            .map((e) => e.presence)
+            .toList();
 
-  final presence = studentBloc.state.presenceAndEvaluation.map((e) => e.presence).toList();
+        final options = MarkPresenceOptions(presences: presence);
 
-  final options = MarkPresenceOptions(presences: presence);
+        ServicesProvider.instance()
+            .studentService
+            .markPresenceOrAbsence(options);
+      },
+      title: localizations.closeSessionLabel,
+      content: localizations.permanentActionWarning);
 
-  ServicesProvider.instance().studentService.markPresenceOrAbsence(options);
-
+  NavigationService.displayDialog(dialog);
 }
-

@@ -1,6 +1,7 @@
 
 
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
+import 'package:zawya_islamic/infrastructure/ports/logger_port.dart';
 
 import 'auth_service_port.dart';
 import 'groups_service_port.dart';
@@ -19,4 +20,5 @@ abstract class ServiceProviderPort{
 
   TeacherServicePort get teacherService;
 
+  LoggerServicePort get loggerService;
 }

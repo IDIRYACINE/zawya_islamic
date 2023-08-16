@@ -72,7 +72,10 @@
     "emptyStudentsListLabel" : "لا يوجد طلاب متاحين",
     "emptyTeachersListLabel" : "لا يوجد معلمين متاحين",
     "emptyGroupsListLabel" : "لا يوجد مجموعات متاحة",
-    "emptySchoolsListLabel" : "لا يوجد مدارس متاحة"
+    "emptySchoolsListLabel" : "لا يوجد مدارس متاحة",
+    "totalPresence" : "إجمالي الحضور",
+    "totalAbsence" : "إجمالي الغياب",
+    "closeSessionLabel" : "إغلاق الجلسة" 
 
 
 }

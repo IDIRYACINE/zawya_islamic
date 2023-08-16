@@ -86,11 +86,9 @@ where
 create
 or replace view "schoolStudents" as
 select
-  users.*,
-  "userGroups"."groupId"
+  users.*
 from
   "users"
-  inner join "userGroups" on users."userId" = "userGroups"."userId"
 where
   users."userRole" = 2;
 
@@ -102,6 +100,7 @@ from
   "users"
 where
   users."userRole" = 1;
+
 
 create
 or replace view "groupStudentEvaluations" as
@@ -168,3 +167,19 @@ from
   inner join groups on "userGroups"."groupId" = groups."groupId"
 where
   users."userRole" = 2;
+
+
+
+
+create
+or replace view "monthlyPresence" as
+select
+  count(se."presence") as "presence",
+  count(se."absence") as "absence",
+  u."schoolId"
+FROM
+  "studentEvaluations" se
+  JOIN "users" u ON se."userId" = u."userId"
+WHERE
+  u."userRole" = 2
+Group by u."schoolId";

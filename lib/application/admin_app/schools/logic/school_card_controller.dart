@@ -57,7 +57,7 @@ class SchoolCardController implements SchoolCardControllerPort {
         title: title,
         content: content);
 
-    NavigationService.replaceDialog(dialog);
+    NavigationService.displayDialog(dialog);
   }
 
   void _onEdit(School school) {
@@ -65,7 +65,7 @@ class SchoolCardController implements SchoolCardControllerPort {
       school: school,
     );
 
-    NavigationService.replaceDialog(dialog);
+    NavigationService.displayDialog(dialog);
   }
 
   @override

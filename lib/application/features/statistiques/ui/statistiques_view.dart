@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/admin_app/schools/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/statistiques/logic/controllers.dart';
+import 'package:zawya_islamic/application/features/statistiques/logic/helper.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
@@ -14,14 +16,37 @@ class OverallStatistiquesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final bloc = BlocProvider.of<SchoolsBloc>(context);
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(AppMeasures.paddingsSmall),
-        child: ListTile(
-          leading: Text(localizations.about),
-        ),
-      ),
+    return BlocBuilder<SchoolsBloc,SchoolState>(
+      builder: (context,state) {
+        final schoolId = state.selectedSchool?.id;
+
+        if(invalidSchoolStats(schoolId, state.monthlyPresenceStats?.schoolId)){
+
+          loadMonthlyPresenceStats(bloc,schoolId);
+        }
+
+        final totalPresence = state.monthlyPresenceStats?.totalPresenceCount ?? 0;
+        final totalAbsence = state.monthlyPresenceStats?.totalPresenceCount ?? 0;
+
+        return SizedBox(
+          width:  double.infinity,
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(AppMeasures.paddingsSmall),
+              child: Column(
+                mainAxisSize : MainAxisSize.min,
+                children: [
+                  Text("${localizations.totalPresence}: $totalPresence"),
+                  Text("${localizations.totalAbsence}: $totalAbsence"),
+                  
+                ],
+              )
+            ),
+          ),
+        );
+      }
     );
   }
 }

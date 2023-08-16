@@ -59,17 +59,15 @@ class EvaluationFormController {
   }
 
   void registerStudentMemorization() {
-    final didMemorize = startAyat != null && endAyat != null;
+    final didMemorize =  endAyat != null;
 
     if (!didMemorize) {
       return;
     }
 
-    
-
     Evaluation evaluation = Evaluation(
       surat: surat!,
-      start: Ayat.fromNumber(startAyat!, surat!.ayatCount),
+      start: Ayat.fromNumber(1, surat!.ayatCount),
       end: Ayat.fromNumber(endAyat!, surat!.ayatCount),
     );
 

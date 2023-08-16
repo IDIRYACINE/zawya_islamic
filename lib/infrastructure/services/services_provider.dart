@@ -10,8 +10,10 @@ import 'package:zawya_islamic/infrastructure/helpers/firebase/firebase_auth_help
 import 'package:zawya_islamic/infrastructure/helpers/supabase/supabase_app.dart';
 import 'package:zawya_islamic/infrastructure/helpers/supabase/supabase_auth.dart';
 import 'package:zawya_islamic/infrastructure/helpers/supabase/supabase_postgress_service.dart';
+import 'package:zawya_islamic/infrastructure/ports/logger_port.dart';
 
 import 'group_service.dart';
+import 'logger_service.dart';
 import 'school_service.dart';
 import 'student_service.dart';
 import 'teacher_service.dart';
@@ -45,13 +47,14 @@ class ServicesProvider implements ServiceProviderPort {
         UserService(fireauthService, firestoreService, teacherService);
   }
 
-
   Future<void> _initSupabase() async {
     final app = SupabaseApp();
     await app.init();
 
-    final databaseServiceHelper = SupabasePostrgessService(app.supabase.client);
-    final authServiceHelper = SupabaseAuthHelper (app.supabase.client);
+    loggerService = LoggerService();
+
+    final databaseServiceHelper = SupabasePostrgessService(app.supabase.client,loggerService);
+    final authServiceHelper = SupabaseAuthHelper(app.supabase.client);
 
     groupService = GroupService(databaseServiceHelper);
     schoolService = SchoolService(databaseServiceHelper);
@@ -67,8 +70,8 @@ class ServicesProvider implements ServiceProviderPort {
       return;
     }
 
-   await _initSupabase();
-   await loadSuwarFromAssets();
+    await _initSupabase();
+    await loadSuwarFromAssets();
 
     _isInit = true;
   }
@@ -87,4 +90,7 @@ class ServicesProvider implements ServiceProviderPort {
 
   @override
   late TeacherServicePort teacherService;
+
+  @override
+  late LoggerServicePort loggerService;
 }
