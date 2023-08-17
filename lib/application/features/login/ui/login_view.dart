@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/features/login/feature.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/resources/measures.dart';
 import 'package:zawya_islamic/widgets/app_logo.dart';
 import 'package:zawya_islamic/widgets/customs.dart';
-import '../logic/controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({
@@ -20,6 +21,9 @@ class _LoginViewState extends State<LoginView> {
   late ThemeData theme;
   late TextStyle textStyle;
   late LoginController controller;
+  late AppBloc authBloc;
+
+  bool _isInit = false;
 
   @override
   void initState() {
@@ -30,12 +34,18 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (!_isInit) {
+      _isInit = true;
+      localizations = AppLocalizations.of(context)!;
+      size = MediaQuery.of(context).size;
+      theme = Theme.of(context);
+      textStyle = theme.textTheme.titleMedium!
+          .copyWith(color: theme.colorScheme.primary);
+      authBloc = BlocProvider.of<AppBloc>(context);
+    }
+
     const borderLineStyle = UnderlineInputBorder();
-    localizations = AppLocalizations.of(context)!;
-    size = MediaQuery.of(context).size;
-    theme = Theme.of(context);
-    textStyle =
-        theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.primary);
 
     return Scaffold(
       body: BackgroundPattern(
@@ -70,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               const SizedBox(height: AppMeasures.space),
               MaterialButton(
-                onPressed: () => controller.login(context),
+                onPressed: () => controller.login(authBloc),
                 child: Text(localizations.loginButtonLabel),
               ),
               const Divider(

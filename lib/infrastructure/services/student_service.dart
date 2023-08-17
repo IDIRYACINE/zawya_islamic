@@ -148,7 +148,7 @@ class StudentService implements StudentServicePort {
       MarkPresenceOptions options) async {
     final data = _presenceDataAdapter(options.presences!);
 
-    _supabaseApp.supabase.client
+    await _supabaseApp.supabase.client
         .from(DatabaseCollection.studentEvaluations.name)
         .upsert(data, onConflict: "userId");
 

@@ -13,25 +13,29 @@ import '../feature.dart';
 class LoginController {
   static final key = GlobalKey<FormState>();
 
-  String identifier = "";
-  String password = "";
+  String _identifier = "";
+  String _password = "";
 
-  void login(BuildContext context) {
-    final authBloc = BlocProvider.of<AppBloc>(context);
+  void login(AppBloc authBloc,[bool usingCache = false]) {
 
-    if (key.currentState!.validate()) {
+    final valid = usingCache ? true : key.currentState!.validate();
+
+    if (valid) {
       ServicesProvider.instance()
           .authService
-          .login(identifier: identifier, password: password)
+          .login(identifier: _identifier, password: _password)
           .then((response) => _handleLoginResponse(response, authBloc));
     }
   }
+
+  
 
   void _handleLoginResponse(AuthResponse response, AppBloc bloc) {
     if (response.success && response.user != null) {
       final event = LoginUserEvent(user: response.user!);
       bloc.add(event);
       _navigateToPathBasedOnUser(response.user!);
+      cacheLoginCredentials(_identifier, _password);
       return;
     }
 
@@ -81,11 +85,17 @@ class LoginController {
   }
 
   void updateIdentifier(String value) {
-    identifier = value.replaceAll(" ", "");
+    _identifier = value.replaceAll(" ", "");
   }
 
   void updatePassword(String value) {
-    password = value.replaceAll(" ", "");
+    _password = value.replaceAll(" ", "");
+  }
+
+  void setCredentials(String identifier, String password) {
+    updateIdentifier(identifier);
+    updatePassword(password);
+
   }
 }
 

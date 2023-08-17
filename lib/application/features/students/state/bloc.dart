@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/teacher_app/presence/logic/helpers.dart';
 import 'package:zawya_islamic/core/aggregates/students.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 
@@ -71,8 +72,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
 
   FutureOr<void> _handleMarkStudentPresence(
       MarkStudentPresence event, Emitter<StudentsState> emit) {
-        
- final updatedEvaluation = event.evaluation.copyWith(
+    final updatedEvaluation = event.evaluation.copyWith(
         presence: event.evaluation.presence
             .copyWith(currentSessionPresence: PresenceType.present));
 
@@ -84,8 +84,6 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
 
   FutureOr<void> _handleMarkEvaluation(
       MarkStudentEvaluation event, Emitter<StudentsState> emit) {
-
-
     final updatedEvaluations =
         _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
@@ -103,18 +101,19 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleSession(SetSession event, Emitter<StudentsState> emit) {
-
     List<StudentEvaluationAndPresence>? updatedPresence;
-    if(event.nullify){
-     updatedPresence = _evaluationAggregate.updateAllByPresence();
+    if (event.nullify) {
+      updatedPresence = _evaluationAggregate.updateAllByPresence();
 
+      final presence = updatedPresence.map((e) => e.presence).toList();
+
+      updateMonthlyPresence(presence);
     }
 
     emit(state.copyWith(
-      session: event.session,
-      nullifySession: event.nullify,
-      presenceAndEvaluation: updatedPresence
-      ));
+        session: event.session,
+        nullifySession: event.nullify,
+        presenceAndEvaluation: updatedPresence));
   }
 
   FutureOr<void> _handleLoadPresencesAndEvaluations(

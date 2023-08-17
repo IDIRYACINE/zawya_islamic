@@ -4,9 +4,9 @@ import 'package:uuid/uuid.dart';
 import 'package:zawya_islamic/application/features/layout/state/bloc.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
-import 'package:zawya_islamic/core/entities/session.dart';
+import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/student_service_port.dart';
-import 'package:zawya_islamic/infrastructure/services/services_provider.dart';
+import 'package:zawya_islamic/infrastructure/exports.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/widgets/dialogs.dart';
 
@@ -30,18 +30,16 @@ void closeSession(BuildContext context) {
         final event = SetSession(session: null, nullify: true);
         studentBloc.add(event);
 
-        final presence = studentBloc.state.presenceAndEvaluation
-            .map((e) => e.presence)
-            .toList();
-
-        final options = MarkPresenceOptions(presences: presence);
-
-        ServicesProvider.instance()
-            .studentService
-            .markPresenceOrAbsence(options);
+        NavigationService.pop();
       },
       title: localizations.closeSessionLabel,
       content: localizations.permanentActionWarning);
 
   NavigationService.displayDialog(dialog);
+}
+
+void updateMonthlyPresence(List<StudentPresence> presence) {
+  final options = MarkPresenceOptions(presences: presence);
+
+  ServicesProvider.instance().studentService.markPresenceOrAbsence(options);
 }

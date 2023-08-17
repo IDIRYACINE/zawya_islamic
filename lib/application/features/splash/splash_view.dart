@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zawya_islamic/application/features/navigation/feature.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/features/login/feature.dart';
+import 'package:zawya_islamic/application/features/splash/logic.dart';
 import 'package:zawya_islamic/infrastructure/exports.dart';
 import 'package:zawya_islamic/widgets/app_logo.dart';
 
@@ -10,12 +12,10 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AppBloc>(context);
+
     ServicesProvider.instance().init().then((v) {
-      if (callback == null) {
-        NavigationService.pushNamedReplacement(Routes.loginRoute);
-        return;
-      }
-      callback?.call();
+      navigateToMainApp(callback, authBloc);
     });
 
     return const Scaffold(

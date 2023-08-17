@@ -67,7 +67,6 @@ class StudentPresence {
       StudentEvaluationAndPresenceTable.presence.name: presence.modifer,
       StudentEvaluationAndPresenceTable.absence.name: absence.modifer,
       "userId": studentId.value,
-      // "currentSessionPresence": currentSessionPresence.name
     };
   }
 }
@@ -103,17 +102,22 @@ class StudentEvaluationAndPresence {
     int presenceModifier = presence.presence.modifer;
     int absenceModifier = presence.absence.modifer;
 
-    if (presence.isPresent) {
-      presenceModifier += 1;
-    } else {
-      absenceModifier += 1;
-    }
+   if(presence.isPresent){
+      presenceModifier++;
+   }
 
-    return copyWith(
-        presence: presence.copyWith(
+   if(presence.isAbsent){
+    absenceModifier++;
+   }
+
+   final updatedPresence = presence.copyWith(
       presence: Presence(type: PresenceType.present, modifer: presenceModifier),
       absence: Presence(type: PresenceType.absent, modifer: absenceModifier),
-    ));
+    );
+
+
+    return copyWith(
+        presence: updatedPresence);
   }
 }
 
@@ -128,7 +132,7 @@ class MonthlyPresenceStats {
     required this.totalAbsenceCount,
   });
 
-  factory MonthlyPresenceStats.empty(){
+  factory MonthlyPresenceStats.empty() {
     return MonthlyPresenceStats(
       schoolId: SchoolId(""),
       totalAbsenceCount: -1,

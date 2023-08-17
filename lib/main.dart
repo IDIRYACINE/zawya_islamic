@@ -15,6 +15,7 @@ import 'resources/loaded.dart';
 Future<void> main() async {
   await LoadedAppResources.loadResource();
 
+
   runApp(
     MultiBlocProvider(
       providers: [
