@@ -1,16 +1,22 @@
-# zawya_islamic
+# Zawya Islamic
+App for managing zawya student's . Availlable on both desktop and mobile  .
 
-A new Flutter project.
+![0](https://github.com/IDIRYACINE/zawya_islamic/blob/master/preview/0.jpg?raw=true)
+![1](https://github.com/IDIRYACINE/zawya_islamic/blob/master/preview/1.jpg?raw=true)
+![2](https://github.com/IDIRYACINE/zawya_islamic/blob/master/preview/2.jpg?raw=true)
+![3](https://github.com/IDIRYACINE/zawya_islamic/blob/master/preview/3.jpg?raw=true)
+![4](https://github.com/IDIRYACINE/zawya_islamic/blob/master/preview/4.jpg?raw=true)
+![5](https://github.com/IDIRYACINE/zawya_islamic/blob/master/preview/5.jpg?raw=true)
+
 
 ## Getting Started
+    - This Projects used firebase intially but eventually migrated to supabase
+    - Edit lib/secret.template.dart with your own credentials and rename to secret.dart
+    - Run : flutter run or flutter build 
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+    - Schedule Management
+    - Tracking presence and memorisation of quran for each student
+    - User Accounts School Head / Teachers
+    - Managing Different Schools
+    - Assiging Students to schools and groups

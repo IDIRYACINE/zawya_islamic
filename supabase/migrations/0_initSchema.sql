@@ -144,7 +144,7 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE
-OR REPLACE FUNCTION clean_after_teacher_delete() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 2 THEN
+OR REPLACE FUNCTION clean_after_teacher_delete() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 0 or NEW."userRole" = 1 THEN
 DELETE FROM "auth.users" WHERE "id" = NEW."userId";
 
 END IF;
