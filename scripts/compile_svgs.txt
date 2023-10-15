@@ -1,3 +1,0 @@
-dart run vector_graphics_compiler -i assets/images/teacher.svg -o assets/images/teacher.svg.vec
-dart run vector_graphics_compiler -i assets/images/groups.svg -o assets/images/groups.svg.vec
-dart run vector_graphics_compiler -i assets/images/student.svg -o assets/images/student.svg.vec
