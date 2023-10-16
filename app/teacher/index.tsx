@@ -10,7 +10,6 @@ export default function Teacher() {
             </SignedIn>
             <SignedOut>
                 <Text>Teacher</Text>
-
             </SignedOut>
         </View>
     )
