@@ -22,8 +22,6 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
-convex/_generated
-
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -36,7 +34,6 @@ convex/_generated
 /build/
 
 /node_modules
-.expo
 
 
 # Symbolication related
@@ -53,5 +50,3 @@ app.*.map.json
 
 google-services.json
 lib/secret.dart
-
-.env.local
