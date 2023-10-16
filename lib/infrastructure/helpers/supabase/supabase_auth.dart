@@ -34,21 +34,40 @@ class SupabaseAuthHelper implements AuthPort {
             name: Name(""),
             role: UserRoles.admin));
   }
-  
+
   @override
   Future<void> sendPasswordReset({required String email}) async {
     _client.auth.resetPasswordForEmail(email);
   }
-  
+
   @override
-  Future<User?> setNewPassword({required String otp,required String email, required String newPassword}) async {
-    final auth =_client.auth;
+  Future<User?> setNewPassword(
+      {required String otp,
+      required String email,
+      required String newPassword}) async {
+    final auth = _client.auth;
 
-    final res = await auth.verifyOTP(token: otp, type: supabase.OtpType.email,email:email)
-    .onError((error, stackTrace) => supabase.AuthResponse());
+    final res = await auth
+        .verifyOTP(token: otp, type: supabase.OtpType.email, email: email)
+        .onError((error, stackTrace) => supabase.AuthResponse());
 
-    final user = res.user == null ? null : User(id: UserId(res.user!.id),name: Name(""), role: UserRoles.anonymous,);
-    
-    return  user;
+    _updatePassowrd(newPassword, res);
+
+    final user = res.user == null
+        ? null
+        : User(
+            id: UserId(res.user!.id),
+            name: Name(""),
+            role: UserRoles.anonymous,
+          );
+
+    return user;
+  }
+
+  supabase.AuthResponse _updatePassowrd(
+      String newPassword, supabase.AuthResponse response) {
+    final auth = _client.auth;
+    auth.updateUser(supabase.UserAttributes(password: newPassword));
+    return response;
   }
 }

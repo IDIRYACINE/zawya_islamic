@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class AppMetadata {
-  static const String appName = "Dive Club";
+  static const String appName = "Zawya Islamic";
 
   static const String developerName = "Idir Yacine";
   static const String developerEmail = "idiryacinesp@gmail.com";

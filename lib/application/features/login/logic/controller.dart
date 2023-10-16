@@ -16,8 +16,7 @@ class LoginController {
   String _identifier = "";
   String _password = "";
 
-  void login(AppBloc authBloc,[bool usingCache = false]) {
-
+  void login(AppBloc authBloc, [bool usingCache = false]) {
     final valid = usingCache ? true : key.currentState!.validate();
 
     if (valid) {
@@ -27,8 +26,6 @@ class LoginController {
           .then((response) => _handleLoginResponse(response, authBloc));
     }
   }
-
-  
 
   void _handleLoginResponse(AuthResponse response, AppBloc bloc) {
     if (response.success && response.user != null) {
@@ -95,7 +92,6 @@ class LoginController {
   void setCredentials(String identifier, String password) {
     updateIdentifier(identifier);
     updatePassword(password);
-
   }
 }
 
@@ -136,6 +132,7 @@ class ResetPasswordController {
     final dialog = InfoDialog(
       message: message,
     );
+    NavigationService.pop();
     NavigationService.displayDialog(dialog);
   }
 
