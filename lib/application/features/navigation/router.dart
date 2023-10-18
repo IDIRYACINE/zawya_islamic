@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/anonymous_app/ui/anonymous_schools_view.dart';
 import 'package:zawya_islamic/application/features/group_schedule/export.dart';
+import 'package:zawya_islamic/application/features/group_schedule/ui/group_schedule_students_view.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
@@ -40,7 +41,9 @@ abstract class AppRouter {
             settings: settings, view: const AnonymousSchoolsView());
 
       case Routes.loginRoute:
-        return getPageRoute(settings: settings, view: const BackgroundPattern(child:  LoginView()));
+        return getPageRoute(
+            settings: settings,
+            view: const BackgroundPattern(child: LoginView()));
 
       case Routes.teacherAppRoute:
         return getPageRoute(
@@ -58,6 +61,15 @@ abstract class AppRouter {
 
       case Routes.statistiquesRoute:
         return getPageRoute(settings: settings, view: const StatistiquesView());
+
+      case Routes.groupStudentsScheduleRoute:
+        final arguments =
+            settings.arguments as GroupStudentScheduleViewRouteArguments?;
+        return getPageRoute(
+            settings: settings,
+            view: GroupScheduleStudentsView(
+              group: arguments!.group!,
+            ));
 
       case Routes.groupScheduleRoute:
         final arguments =
