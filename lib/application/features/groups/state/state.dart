@@ -22,11 +22,20 @@ class GroupsState {
       selectedDayIndex: 0,
       groups: [],
       secondaryGroups: [],
-      groupScheduleEntry: [[],[],[],[],[],[],[]],
+      groupScheduleEntry: [[], [], [], [], [], [], []],
     );
   }
 
-  List<GroupScheduleEntry> get daySchedule => groupScheduleEntry[selectedDayIndex];
+  List<GroupScheduleEntry> get daySchedule =>
+      groupScheduleEntry[selectedDayIndex];
+
+  List<GroupScheduleEntry> get weekSchedule {
+    List<GroupScheduleEntry> weekSchedule = [];
+    for (var daySchedule in groupScheduleEntry) {
+      weekSchedule.addAll(daySchedule);
+    }
+    return weekSchedule;
+  }
 
   GroupsState copyWith(
       {List<Group>? groups,

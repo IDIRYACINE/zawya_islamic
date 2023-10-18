@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/groups/logic/group_schedule_controllers.dart';
+import 'package:zawya_islamic/application/features/group_schedule/logic/group_schedule_controllers.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
-import 'package:zawya_islamic/resources/measures.dart';
+import 'package:zawya_islamic/utility/day_translator.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
 import 'package:zawya_islamic/widgets/typography.dart';
 
-class GroupScheduleView extends StatefulWidget {
-  const GroupScheduleView(
+import 'widgets.dart';
+
+class GroupScheduleViewV2 extends StatefulWidget {
+  const GroupScheduleViewV2(
       {super.key, this.localizations, this.viewController, this.bloc});
 
   final AppLocalizations? localizations;
@@ -17,15 +19,16 @@ class GroupScheduleView extends StatefulWidget {
   final GroupsBloc? bloc;
 
   @override
-  State<GroupScheduleView> createState() => _GroupScheduleViewState();
+  State<GroupScheduleViewV2> createState() => _GroupScheduleViewV2State();
 }
 
-class _GroupScheduleViewState extends State<GroupScheduleView>
+class _GroupScheduleViewV2State extends State<GroupScheduleViewV2>
     with SingleTickerProviderStateMixin {
   late AppLocalizations localizations;
   late GroupScheduleEditorController editorController;
   late GroupScheduleEntryControllerPort viewController;
   late GroupsBloc bloc;
+  late DayIdTranslator dayIdTranslator;
 
   late TabController tabController;
 
@@ -51,6 +54,7 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
       child: ScheduleEntryWidget(
         entry: entry,
         controller: viewController,
+        dayIdTranslator: dayIdTranslator,
       ),
     );
   }
@@ -59,6 +63,7 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
     return ScheduleEntryWidget(
       entry: entry,
       controller: viewController,
+      dayIdTranslator: dayIdTranslator,
     );
   }
 
@@ -69,6 +74,7 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
       bloc = widget.bloc ?? BlocProvider.of<GroupsBloc>(context);
       editorController = GroupScheduleEditorController(bloc);
       viewController = widget.viewController ?? ScheduleEntryController();
+      dayIdTranslator = DayIdTranslator(localizations);
     }
 
     final itemBuilder =
@@ -78,25 +84,16 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
       length: 7,
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: TabBar(
-            onTap: updateDayIndex,
-            isScrollable: true,
-            tabs: [
-              Tab(text: localizations.saturday),
-              Tab(text: localizations.sunday),
-              Tab(text: localizations.monday),
-              Tab(text: localizations.tuesday),
-              Tab(text: localizations.wednesday),
-              Tab(text: localizations.thursday),
-              Tab(text: localizations.friday),
-            ],
-          ),
+          automaticallyImplyLeading: true,
+          title: Text(localizations.groupScheduleLabel),
         ),
         body: BlocBuilder<GroupsBloc, GroupsState>(builder: (context, state) {
-          final dataSource = state.daySchedule;
+          final dataSource = state.weekSchedule;
 
-          if(dataSource.isEmpty) return  Center(child: OnSurfaceText(localizations.emptyScheduleListLabel));
+          if (dataSource.isEmpty) {
+            return Center(
+                child: OnSurfaceText(localizations.emptyScheduleListLabel));
+          }
 
           return ListView.builder(
             itemCount: dataSource.length,
@@ -108,33 +105,6 @@ class _GroupScheduleViewState extends State<GroupScheduleView>
                 onPressed: displaTimePickerDialog,
               )
             : null,
-      ),
-    );
-  }
-}
-
-class ScheduleEntryWidget extends StatelessWidget {
-  final GroupScheduleEntry entry;
-  final GroupScheduleEntryControllerPort controller;
-
-  const ScheduleEntryWidget(
-      {super.key, required this.entry, required this.controller});
-
-  String _formatedTime() {
-    return "${entry.startMinuteId.toDisplayFormat()} - ${entry.endMinuteId.toDisplayFormat()}";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => controller.onTap(entry),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(AppMeasures.paddings),
-          child: Text(
-            _formatedTime(),
-          ),
-        ),
       ),
     );
   }

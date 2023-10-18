@@ -75,6 +75,7 @@
     "emptySchoolsListLabel" : "No schools found",
     "totalPresence" : "Total Presence",
     "totalAbsence" : "Total Absence",
-    "closeSessionLabel" : "Close session"
+    "closeSessionLabel" : "Close session",
+    "groupScheduleLabel" : "Group Schedule"
 
 }

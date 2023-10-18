@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zawya_islamic/application/features/group_schedule/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/groups/ui/group_schedule_editor.dart';
 import 'package:zawya_islamic/application/features/navigation/navigation_service.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
@@ -118,8 +118,13 @@ class GroupScheduleEditorController {
           dayIndex: dayIndex, old: scheduleEntry!, entry: updatedEntry),
     );
   }
-}
 
+  void onDaySelected(Day? day) {
+    if (day == null) return;
+
+    bloc.add(SelectDayIndexEvent(dayIndex: day.id.value));
+  }
+}
 
 Future<void> displaTimePickerDialog() async {
   const dialog = GroupScheduleEditorDialog();
@@ -127,20 +132,17 @@ Future<void> displaTimePickerDialog() async {
   NavigationService.displayDialog(dialog);
 }
 
- class ScheduleEntryController implements GroupScheduleEntryControllerPort{
-
-
+class ScheduleEntryController implements GroupScheduleEntryControllerPort {
   @override
-   void onTap(GroupScheduleEntry entry) {
+  void onTap(GroupScheduleEntry entry) {
     final dialog = GroupScheduleEditorDialog(
       groupEntry: entry,
     );
     NavigationService.displayDialog(dialog);
   }
 
-    @override
-   Future<bool> onSwipe(
-      GroupScheduleEntry entry, BuildContext context) async {
+  @override
+  Future<bool> onSwipe(GroupScheduleEntry entry, BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
 
     final bloc = BlocProvider.of<GroupsBloc>(context);
@@ -166,11 +168,10 @@ Future<void> displaTimePickerDialog() async {
 
     return dismiss ?? false;
   }
-  
+
   @override
   bool get displayFloatingActions => true;
-  
+
   @override
   bool get canSwipe => true;
-  
 }

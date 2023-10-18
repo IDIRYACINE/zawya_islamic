@@ -13,6 +13,13 @@ class DayId {
   }
 }
 
+class Day {
+  final DayId id;
+  final String name;
+
+  Day({required this.id, required this.name});
+}
+
 class DayMinuteId {
   final int value;
 

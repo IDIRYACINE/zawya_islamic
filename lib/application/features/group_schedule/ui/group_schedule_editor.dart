@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/groups/logic/group_schedule_controllers.dart';
+import 'package:zawya_islamic/application/features/group_schedule/logic/group_schedule_controllers.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
 import 'package:zawya_islamic/resources/l10n/l10n.dart';
 import 'package:zawya_islamic/utility/validators.dart';
 import 'package:zawya_islamic/widgets/buttons.dart';
+
+import 'widgets.dart';
 
 class GroupScheduleEditor extends StatelessWidget {
   const GroupScheduleEditor({super.key, required this.controller});
@@ -22,8 +24,15 @@ class GroupScheduleEditor extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
+          DaySelector(
+            dayIdInitial: DayId(0),
+            onSelected: controller.onDaySelected,
+            validator: (value) => emptyValidator(value.name, localizations),
+          ),
           TextFormField(
-            decoration: InputDecoration(hintText: localizations.start),
+            decoration: InputDecoration(
+              hintText: localizations.start,
+            ),
             readOnly: true,
             controller: controller.startTimeTextController,
             onTap: () => controller.updateStartTime(context),

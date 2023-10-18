@@ -75,7 +75,9 @@
     "emptyGroupsListLabel" : "Aucun groupe trouvé",
     "totalPresence" : "Total présence",
     "totalAbsence" : "Total absence",
-    "closeSessionLabel" : "Fermez la sesssion"
+    "closeSessionLabel" : "Fermez la sesssion",
+    "groupScheduleLabel" : "Calendrier du groupe"
+
 
 
 }

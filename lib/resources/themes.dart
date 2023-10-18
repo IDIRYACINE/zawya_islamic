@@ -33,7 +33,6 @@ abstract class AppThemes {
     dialogBackgroundColor: mainColor,
             primarySwatch: Colors.red,
 
-    
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         unselectedItemColor: Colors.grey, backgroundColor: mainColor),
     colorScheme: lightColorScheme,

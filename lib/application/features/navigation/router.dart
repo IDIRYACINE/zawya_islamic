@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/anonymous_app/ui/anonymous_schools_view.dart';
+import 'package:zawya_islamic/application/features/group_schedule/export.dart';
 import 'package:zawya_islamic/application/features/groups/export.dart';
-import 'package:zawya_islamic/application/features/groups/ui/group_schedule_view.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
@@ -64,7 +64,7 @@ abstract class AppRouter {
             settings.arguments as GroupScheduleViewRouteArguments?;
         return getPageRoute(
             settings: settings,
-            view: GroupScheduleView(
+            view: GroupScheduleViewV2(
               viewController: arguments?.viewController,
             ));
 
