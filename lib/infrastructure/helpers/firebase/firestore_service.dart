@@ -71,7 +71,6 @@ class FirestoreService implements DatabasePort {
 
   @override
   Future<DatabaseResponse<T>> searchText<T>(SearchTextEntityOptions options) {
-    // TODO: implement searchText
     throw UnimplementedError();
   }
 }

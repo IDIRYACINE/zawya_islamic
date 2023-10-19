@@ -18,6 +18,7 @@ class GroupScheduleEditorController {
   final TextEditingController startTimeTextController = TextEditingController();
 
   final TextEditingController endTimeTextController = TextEditingController();
+  final TextEditingController roomTextController = TextEditingController();
 
   final GroupsBloc bloc;
   GroupScheduleEntry? scheduleEntry;
@@ -30,6 +31,7 @@ class GroupScheduleEditorController {
 
       endTimeTextController.text = entry.endMinuteId.toDisplayFormat();
       startTimeTextController.text = entry.startMinuteId.toDisplayFormat();
+      roomTextController.text = entry.room.value;
     }
   }
 
@@ -83,12 +85,15 @@ class GroupScheduleEditorController {
     final groupId = bloc.state.selectedGroup!.id;
 
     final dayIndex = bloc.state.selectedDayIndex;
+    final roomName = roomTextController.text;
+    if (roomName.isEmpty) return;
 
     final entry = GroupScheduleEntry(
       startMinuteId: DayMinuteId.fromTimeOfDay(startTime!),
       endMinuteId: DayMinuteId.fromTimeOfDay(endTime!),
       groupId: groupId,
       dayId: DayId(dayIndex),
+      room: Room(roomName),
     );
 
     bloc.add(
@@ -104,10 +109,14 @@ class GroupScheduleEditorController {
 
   void _updateEntry() {
     final dayIndex = bloc.state.selectedDayIndex;
+    final roomName = roomTextController.text;
+    if (roomName.isEmpty) return;
 
     final updatedEntry = scheduleEntry!.copyWith(
-        startMinuteId: DayMinuteId.fromTimeOfDay(startTime!),
-        endMinuteId: DayMinuteId.fromTimeOfDay(endTime!));
+      startMinuteId: DayMinuteId.fromTimeOfDay(startTime!),
+      endMinuteId: DayMinuteId.fromTimeOfDay(endTime!),
+      room: Room(roomName),
+    );
 
     final options =
         UpdateScheduleEntryOptions(updated: updatedEntry, old: scheduleEntry!);

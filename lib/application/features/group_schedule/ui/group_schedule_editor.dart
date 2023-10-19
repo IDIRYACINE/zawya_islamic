@@ -30,6 +30,12 @@ class GroupScheduleEditor extends StatelessWidget {
             validator: (value) => emptyValidator(value.name, localizations),
           ),
           TextFormField(
+            decoration: InputDecoration(hintText: localizations.roomLabel),
+            controller: controller.roomTextController,
+            readOnly: true,
+            validator: (value) => emptyValidator(value, localizations),
+          ),
+          TextFormField(
             decoration: InputDecoration(
               hintText: localizations.start,
             ),

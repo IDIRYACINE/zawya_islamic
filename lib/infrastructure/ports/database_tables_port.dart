@@ -1,8 +1,6 @@
-enum RpcFunctions{
-  updateStudentsPresence
-}
+enum RpcFunctions { updateStudentsPresence }
 
-extension RpcFunctionsExtension on RpcFunctions{
+extension RpcFunctionsExtension on RpcFunctions {
   String get functionName {
     switch (this) {
       case RpcFunctions.updateStudentsPresence:
@@ -14,62 +12,26 @@ extension RpcFunctionsExtension on RpcFunctions{
   }
 }
 
-enum GroupsTable {
-  groupId,
-  groupName,
-  schoolId
-}
+enum GroupsTable { groupId, groupName, schoolId }
 
-enum SchoolTable{
-  schoolId,
-  schoolName
-}
+enum SchoolTable { schoolId, schoolName }
 
+enum UserGroupsTable { userId, groupId }
 
-enum UserGroupsTable{
-  userId,
-  groupId
-}
+enum TeacherTable { userId, teacherName, email, password }
 
-enum TeacherTable{
-  userId,
-  teacherName,
-  email,
-  password
-}
-
-
-enum SessionTable{
+enum SessionTable {
   sessionId,
   date,
 }
 
-enum PresenceTable{
-  presenceId,
-  studentId,
-  presence,
-  sessionId
-}
+enum PresenceTable { presenceId, studentId, presence, sessionId }
 
-enum EvaluationTable{
-  studentId,
-  groupId,
-  surat,
-  ayat,
-  schoolId
-}
+enum EvaluationTable { studentId, groupId, surat, ayat, schoolId }
 
+enum UserTable { userId, userName, userRole, birthDate, schoolId }
 
-enum UserTable{
-  userId,
-  userName,
-  userRole,
-  birthDate, 
-  schoolId
-
-}
-
-enum StudentEvaluationAndPresenceTable{
+enum StudentEvaluationAndPresenceTable {
   userId,
   presence,
   absence,
@@ -77,15 +39,6 @@ enum StudentEvaluationAndPresenceTable{
   evaluationSurat
 }
 
-enum DaysTable{
-  dayId ,
-  dayName
-}
+enum DaysTable { dayId, dayName }
 
-
-enum GroupsScheduleTable{
-  groupId,
-  dayId,
-  startMinuteId,
-  endMinuteId
-}
+enum GroupsScheduleTable { groupId, dayId, startMinuteId, endMinuteId, room }

@@ -79,7 +79,9 @@
     "groupScheduleLabel" : "Calendrier du groupe",
     "searchLabel": "Rechercher",
     "searchStudentHint": "Nom de l'étudiant",
-    "searchStudentLabel" : "Rechercher un étudiant"
+    "searchStudentLabel" : "Rechercher un étudiant",
+    "roomLabel" : "Chambre"
+
 
 
 

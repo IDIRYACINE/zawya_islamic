@@ -61,10 +61,9 @@ class FirebaseDatabaseService implements DatabasePort {
     _firebaseDatabase.ref().child(path).child(id).update(options.entity);
     return DatabaseResponse(data: []);
   }
-  
+
   @override
   Future<DatabaseResponse<T>> searchText<T>(SearchTextEntityOptions options) {
-    // TODO: implement searchText
     throw UnimplementedError();
   }
 }

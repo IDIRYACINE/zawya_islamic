@@ -79,7 +79,8 @@
     "groupScheduleLabel": "Group Schedule",
     "searchLabel": "Search",
     "searchStudentHint": "Student Name",
-    "searchStudentLabel" : "Search Student"
+    "searchStudentLabel" : "Search Student",
+    "roomLabel" : "Room"
 
 
 }

@@ -50,16 +50,24 @@ class DayMinuteId {
   }
 }
 
+class Room {
+  final String value;
+
+  Room(this.value);
+}
+
 class GroupScheduleEntry {
   final GroupId groupId;
   final DayId dayId;
   final DayMinuteId startMinuteId;
   final DayMinuteId endMinuteId;
+  final Room room;
 
   GroupScheduleEntry(
       {required this.startMinuteId,
       required this.endMinuteId,
       required this.dayId,
+      required this.room,
       required this.groupId}) {
     if (startMinuteId.value > endMinuteId.value) {
       throw ("startMinuteId < endMinuteId  : ${startMinuteId.value} > ${endMinuteId.value}");
@@ -72,6 +80,7 @@ class GroupScheduleEntry {
       endMinuteId: DayMinuteId(raw[GroupsScheduleTable.endMinuteId.name]),
       groupId: GroupId(raw[GroupsScheduleTable.groupId.name]),
       startMinuteId: DayMinuteId(raw[GroupsScheduleTable.startMinuteId.name]),
+      room: Room(raw[GroupsScheduleTable.room.name]),
     );
   }
 
@@ -82,12 +91,13 @@ class GroupScheduleEntry {
   }
 
   GroupScheduleEntry copyWith(
-      {DayMinuteId? startMinuteId, DayMinuteId? endMinuteId}) {
+      {DayMinuteId? startMinuteId, DayMinuteId? endMinuteId, Room? room}) {
     return GroupScheduleEntry(
         dayId: dayId,
         groupId: groupId,
         startMinuteId: startMinuteId ?? this.startMinuteId,
-        endMinuteId: endMinuteId ?? this.endMinuteId);
+        endMinuteId: endMinuteId ?? this.endMinuteId,
+        room: room ?? this.room);
   }
 
   @override
@@ -118,6 +128,7 @@ class GroupScheduleEntry {
       startMinuteId: DayMinuteId(
         raw[GroupsScheduleTable.startMinuteId.name],
       ),
+      room: raw[GroupsScheduleTable.room.name],
     );
   }
 }

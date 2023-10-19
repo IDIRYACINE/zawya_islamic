@@ -56,6 +56,7 @@ create table if not exists "groupSchedules" (
   "groupId" uuid not null,
   "startMinuteId" SMALLINT not null,
   "endMinuteId" SMALLINT not null,
+  "room" Text not null,
   constraint groupSchedules_pkey primary key ("dayId", "groupId", "startMinuteId"),
   constraint groupSchedules_groupId_fkey foreign key ("groupId") references groups ("groupId") on delete cascade
 ) tablespace pg_default;
@@ -101,7 +102,6 @@ from
 where
   users."userRole" = 1;
 
-
 create
 or replace view "groupStudentEvaluations" as
 SELECT
@@ -117,18 +117,17 @@ FROM
 WHERE
   u."userRole" = 2;
 
-
 create
 or replace view "groupScheduleOrderd" as
 select
   "groupSchedules".*
 from
   "groupSchedules"
-ORDER BY 
+ORDER BY
   "groupSchedules"."startMinuteId";
 
 CREATE
-OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 2 THEN
+OR REPLACE FUNCTION create_student_evaluation() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 2 THEN
 INSERT INTO
   "studentEvaluations" ("userId")
 VALUES
@@ -140,12 +139,15 @@ RETURN NEW;
 
 END;
 
-$$ LANGUAGE plpgsql;
-
+$ $ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE FUNCTION clean_after_teacher_delete() RETURNS TRIGGER AS $$ BEGIN IF NEW."userRole" = 0 or NEW."userRole" = 1 THEN
-DELETE FROM "auth.users" WHERE "id" = NEW."userId";
+OR REPLACE FUNCTION clean_after_teacher_delete() RETURNS TRIGGER AS $ $ BEGIN IF NEW."userRole" = 0
+or NEW."userRole" = 1 THEN
+DELETE FROM
+  "auth.users"
+WHERE
+  "id" = NEW."userId";
 
 END IF;
 
@@ -153,8 +155,7 @@ RETURN NEW;
 
 END;
 
-$$ LANGUAGE plpgsql;
-
+$ $ LANGUAGE plpgsql;
 
 create
 or replace view "studentGroups" as
@@ -168,9 +169,6 @@ from
 where
   users."userRole" = 2;
 
-
-
-
 create
 or replace view "monthlyPresence" as
 select
@@ -182,4 +180,5 @@ FROM
   JOIN "users" u ON se."userId" = u."userId"
 WHERE
   u."userRole" = 2
-Group by u."schoolId";
+Group by
+  u."schoolId";

@@ -79,6 +79,8 @@
     "groupScheduleLabel": "توقيت المجموعة",
     "searchLabel": "بحث",
     "searchStudentHint": "اسم الطالب",
-    "searchStudentLabel" : "بحث عن طالب"
+    "searchStudentLabel" : "بحث عن طالب",
+    "roomLabel" : "الغرفة"
+
 
 }
