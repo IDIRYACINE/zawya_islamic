@@ -25,7 +25,6 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: AppMeasures.cardHeight,
       child: InkWell(
@@ -40,10 +39,11 @@ class GroupCard extends StatelessWidget {
                   iconDataAsset: LoadedAppResources.groupsWhite,
                 ),
                 Text(group.name.value),
-                controllerPort.displayFloatingActions?
-                OptionsButton(
-                    onClick: () => controllerPort.onMoreActions(group),
-                  ) : const SizedBox(),
+                controllerPort.displayOnMoreActions
+                    ? OptionsButton(
+                        onClick: () => controllerPort.onMoreActions(group),
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -141,8 +141,9 @@ class GroupsView extends StatelessWidget {
           builder: (context, state) {
             final groups = _targetGroups(state);
 
-
-          if(groups.isEmpty) return  Center(child: OnSurfaceText(localizations.emptyGroupsListLabel) );
+            if (groups.isEmpty)
+              return Center(
+                  child: OnSurfaceText(localizations.emptyGroupsListLabel));
 
             return ListView.separated(
               separatorBuilder: _seperatorBuilder,
@@ -153,8 +154,10 @@ class GroupsView extends StatelessWidget {
           },
         ),
       ),
-       floatingActionButton: controller.displayFloatingActions
-          ? AddButton(onPressed: controller.onFloatingClick,)
+      floatingActionButton: controller.displayFloatingActions
+          ? AddButton(
+              onPressed: controller.onFloatingClick,
+            )
           : null,
     );
   }

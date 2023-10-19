@@ -56,6 +56,7 @@ enum EvaluationTable{
   groupId,
   surat,
   ayat,
+  schoolId
 }
 
 

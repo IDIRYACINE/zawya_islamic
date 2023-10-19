@@ -27,7 +27,7 @@ class SettingsView extends StatelessWidget {
             children: [
               SettingCard(
                 sectionTitle: localizations.general,
-                rowData: [
+                rowsData: [
                   SettingRowData(
                     title: localizations.displayLanguage,
                     onClick: () {
@@ -40,6 +40,12 @@ class SettingsView extends StatelessWidget {
                       controller.displayStatistiques(context);
                     },
                   ),
+                  SettingRowData(
+                    title: localizations.searchStudentLabel,
+                    onClick: () {
+                      controller.displaySearchStudent(context);
+                    },
+                  ),
                 ],
               ),
               const SizedBox(
@@ -47,7 +53,7 @@ class SettingsView extends StatelessWidget {
               ),
               SettingCard(
                 sectionTitle: localizations.about,
-                rowData: [
+                rowsData: [
                   SettingRowData(
                     title: localizations.developerContact,
                     onClick: () {

@@ -76,5 +76,9 @@
     "totalPresence": "إجمالي الحضور",
     "totalAbsence": "إجمالي الغياب",
     "closeSessionLabel": "إغلاق الجلسة",
-    "groupScheduleLabel": "توقيت المجموعة"
+    "groupScheduleLabel": "توقيت المجموعة",
+    "searchLabel": "بحث",
+    "searchStudentHint": "اسم الطالب",
+    "searchStudentLabel" : "بحث عن طالب"
+
 }

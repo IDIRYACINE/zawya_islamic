@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:zawya_islamic/application/features/navigation/feature.dart';
 
@@ -33,4 +32,7 @@ class SettingsController {
     NavigationService.pushNamed(Routes.statistiquesRoute);
   }
 
+  void displaySearchStudent(BuildContext context) {
+    NavigationService.pushNamed(Routes.searchStudentRoute);
+  }
 }

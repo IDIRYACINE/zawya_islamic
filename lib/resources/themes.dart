@@ -31,8 +31,8 @@ abstract class AppThemes {
 
   static final lightTheme = ThemeData(
     dialogBackgroundColor: mainColor,
-            primarySwatch: Colors.red,
-
+    primarySwatch: Colors.red,
+    hintColor: Colors.grey,
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         unselectedItemColor: Colors.grey, backgroundColor: mainColor),
     colorScheme: lightColorScheme,

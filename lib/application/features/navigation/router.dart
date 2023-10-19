@@ -8,6 +8,7 @@ import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
+import 'package:zawya_islamic/application/features/search/ui/search_student_view.dart';
 import 'package:zawya_islamic/application/features/settings/feature.dart';
 import 'package:zawya_islamic/application/features/splash/feature.dart';
 import 'package:zawya_islamic/application/features/statistiques/export.dart';
@@ -79,6 +80,12 @@ abstract class AppRouter {
             view: GroupScheduleViewV2(
               viewController: arguments?.viewController,
             ));
+
+      case Routes.searchStudentRoute:
+        return getPageRoute(
+          settings: settings,
+          view: const SearchStudentView(),
+        );
 
       default:
         return getPageRoute(

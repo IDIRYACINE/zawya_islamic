@@ -76,7 +76,12 @@
     "totalPresence" : "Total présence",
     "totalAbsence" : "Total absence",
     "closeSessionLabel" : "Fermez la sesssion",
-    "groupScheduleLabel" : "Calendrier du groupe"
+    "groupScheduleLabel" : "Calendrier du groupe",
+    "searchLabel": "Rechercher",
+    "searchStudentHint": "Nom de l'étudiant",
+    "searchStudentLabel" : "Rechercher un étudiant"
+
+
 
 
 

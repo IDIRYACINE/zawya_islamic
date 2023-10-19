@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SettingCard extends StatelessWidget {
   const SettingCard(
       {Key? key,
-      required this.rowData,
+      required this.rowsData,
       required this.sectionTitle,
       this.displayDivider = false,
       this.crossAxisAlignment = CrossAxisAlignment.start,
@@ -14,7 +14,7 @@ class SettingCard extends StatelessWidget {
       this.sectionTitleSpace = AppMeasures.space})
       : super(key: key);
 
-  final List<SettingRowData> rowData;
+  final List<SettingRowData> rowsData;
   final String sectionTitle;
   final bool displayDivider;
   final double? width;
@@ -27,9 +27,8 @@ class SettingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final titleStyle = theme.textTheme.headlineSmall!.copyWith(
-      color: Colors.grey
-    );
+    final titleStyle =
+        theme.textTheme.headlineSmall!.copyWith(color: Colors.grey);
 
     return SizedBox(
       width: width ?? AppMeasures.settingsCardsWidth,
@@ -42,12 +41,11 @@ class SettingCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(cardPaddings),
           child: Column(crossAxisAlignment: crossAxisAlignment, children: [
-            Text(sectionTitle,
-                style: titleStyle),
+            Text(sectionTitle, style: titleStyle),
             SizedBox(
               height: sectionTitleSpace,
             ),
-            for (SettingRowData rowData in rowData)
+            for (SettingRowData rowData in rowsData)
               SettingsRowStateless(
                 rowData: rowData,
               ),
@@ -94,7 +92,6 @@ class SettingsRowStateless extends StatelessWidget {
                 if (rowData.title != null)
                   Text(
                     rowData.title!,
-                    
                   ),
                 if (rowData.subtitle != null)
                   Text(rowData.subtitle!, style: theme.textTheme.bodyMedium!),

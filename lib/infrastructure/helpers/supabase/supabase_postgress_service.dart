@@ -71,4 +71,25 @@ class SupabasePostrgessService implements DatabasePort {
 
     return DatabaseResponse(data: []);
   }
+
+  @override
+  Future<DatabaseResponse<T>> searchText<T>(
+      SearchTextEntityOptions options) async {
+    final parsedData = <T>[];
+    final column = options.metadata[OptionsMetadata.searchColumn];
+    final query = options.metadata[OptionsMetadata.searchQuery];
+    List<dynamic> rawData;
+
+    rawData = (await _client
+        .from(options.metadata[OptionsMetadata.rootCollection])
+        .select('*')
+        .match(options.filters!)
+        .textSearch(column, query, config: "arabic"));
+
+    final List<T> data = rawData.map((e) => options.mapper(e) as T).toList();
+
+    parsedData.addAll(data);
+
+    return DatabaseResponse(data: parsedData);
+  }
 }

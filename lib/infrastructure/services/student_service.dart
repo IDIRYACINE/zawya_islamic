@@ -168,4 +168,23 @@ class StudentService implements StudentServicePort {
 
     return result;
   }
+
+  @override
+  Future<SearchStudentResponse> searchStudent(
+      SearchStudentOptions options) async {
+    final dbOptions = SearchTextEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection:
+              DatabaseViews.groupStudentEvaluations.name,
+          OptionsMetadata.searchColumn: UserTable.userName.name,
+          OptionsMetadata.searchQuery: options.studentName,
+        },
+        mapper: StudentEvaluationAndPresence.fromMap,
+        filters: {EvaluationTable.schoolId.name: options.schoolId.value});
+
+    final response =
+        await _databaseService.searchText<StudentEvaluationAndPresence>(dbOptions);
+
+    return StudentServiceResponse(data: response.data);
+  }
 }

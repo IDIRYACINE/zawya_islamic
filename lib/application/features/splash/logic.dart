@@ -5,7 +5,7 @@ typedef VoidCallback = void Function();
 
 Future<void> navigateToMainApp(VoidCallback? callback,AppBloc authBloc) async {
   if (callback == null) {
-    final credentails = await loginFromCache();
+    final credentails =  null ;// await loginFromCache();
 
     if (credentails != null) {
       final loginController = LoginController();

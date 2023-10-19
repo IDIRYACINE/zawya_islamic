@@ -6,13 +6,29 @@ enum OptionsMetadata {
   hasMany,
   fullPath,
   firstId,
-  lastCollection, order,
+  lastCollection,
+  order, searchColumn, searchQuery,
 }
 
-enum DatabaseCollection { groups, users, userGroups, schools, userRoles, studentEvaluations, groupSchedules, groupScheduleOrderd, monthlyPresence }
+enum DatabaseCollection {
+  groups,
+  users,
+  userGroups,
+  schools,
+  userRoles,
+  studentEvaluations,
+  groupSchedules,
+  groupScheduleOrderd,
+  monthlyPresence
+}
 
-enum DatabaseViews { groupStudents, teacherGroups, schoolStudents, groupStudentEvaluations, studentGroups }
-
+enum DatabaseViews {
+  groupStudents,
+  teacherGroups,
+  schoolStudents,
+  groupStudentEvaluations,
+  studentGroups
+}
 
 extension DatabaseCollectionExtension on DatabaseCollection {
   String get code {
@@ -32,7 +48,6 @@ class DatabaseEntry {
 
   DatabaseEntry(this.key, this.value);
 }
-
 
 abstract class DatabaseHandlerOptions {}
 
@@ -59,14 +74,21 @@ class DeleteEntityOptions extends DatabaseHandlerOptions {
   DeleteEntityOptions({required this.metadata, required this.entries});
 }
 
-
-
 class ReadEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
   final EntityMapper mapper;
   final Map<String, dynamic>? filters;
 
   ReadEntityOptions(
+      {required this.metadata, required this.mapper, this.filters});
+}
+
+class SearchTextEntityOptions extends DatabaseHandlerOptions {
+  final Map<OptionsMetadata, dynamic> metadata;
+  final EntityMapper mapper;
+  final Map<String, dynamic>? filters;
+
+  SearchTextEntityOptions(
       {required this.metadata, required this.mapper, this.filters});
 }
 
@@ -85,4 +107,5 @@ abstract class DatabasePort {
   Future<VoidDatabaseResponse> update(UpdateEntityOptions options);
   Future<VoidDatabaseResponse> delete(DeleteEntityOptions options);
   Future<DatabaseResponse<T>> read<T>(ReadEntityOptions options);
+  Future<DatabaseResponse<T>> searchText<T>(SearchTextEntityOptions options);
 }

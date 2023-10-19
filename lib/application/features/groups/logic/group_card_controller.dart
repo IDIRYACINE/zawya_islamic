@@ -20,10 +20,23 @@ class GroupCardController implements GroupCardControllerPort {
 
   @override
   void onClick(Group group) {
-    groupsBloc.add(SelectGroupEvent(group: group));
-    final options = GroupStudentScheduleViewRouteArguments(group: group);
+    // groupsBloc.add(SelectGroupEvent(group: group));
+    // final options = GroupStudentScheduleViewRouteArguments(group: group);
 
-    NavigationService.pushNamed(Routes.groupStudentsScheduleRoute, arguments:options);
+    // NavigationService.pushNamed(Routes.groupStudentsScheduleRoute, arguments:options);
+    final options = LoadGroupScheduleOptions(groupId: group.id);
+    ServicesProvider.instance()
+        .groupService
+        .loadGroupSchedule(options)
+        .then((res) {
+      groupsBloc.add(
+        SetWeekDaySchedulesEvent(schedules: res.data),
+      );
+    });
+
+    groupsBloc.add(SelectGroupEvent(group: group));
+
+    NavigationService.pushNamed(Routes.groupScheduleRoute);
   }
 
   @override

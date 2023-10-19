@@ -6,6 +6,8 @@ typedef LoadStudentResponse = StudentServiceResponse<Student>;
 typedef RegisterStudentResponse = StudentServiceResponse<void>;
 typedef UpdateStudentResponse = StudentServiceResponse<void>;
 typedef DeleteStudentResponse = StudentServiceResponse<void>;
+typedef SearchStudentResponse
+    = StudentServiceResponse<List<StudentEvaluationAndPresence>>;
 
 typedef GroupPresenceAndEvaluationResponse
     = StudentServiceResponse<List<StudentEvaluationAndPresence>>;
@@ -59,7 +61,9 @@ class LoadStudentOptions extends StudentServiceOptions {
 class RegisterStudentOptions extends StudentServiceOptions {
   final Student student;
 
-  RegisterStudentOptions({required this.student,});
+  RegisterStudentOptions({
+    required this.student,
+  });
 }
 
 class UpdateStudentOptions extends StudentServiceOptions {
@@ -112,6 +116,13 @@ class MarkEvaluationOptions extends StudentServiceOptions {
       {required this.evaluation, this.schoolId, this.groupId});
 }
 
+class SearchStudentOptions extends StudentServiceOptions {
+  final String studentName;
+  final SchoolId schoolId;
+
+  SearchStudentOptions({required this.studentName, required this.schoolId});
+}
+
 abstract class StudentServicePort {
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options);
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options);
@@ -125,4 +136,6 @@ abstract class StudentServicePort {
       MarkPresenceOptions options);
   Future<MarkEvaluationResponse> markMonthlyEvaluation(
       MarkEvaluationOptions options);
+
+  Future<SearchStudentResponse> searchStudent(SearchStudentOptions options);
 }
