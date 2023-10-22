@@ -35,6 +35,7 @@ class ScheduleEntryWidget extends StatelessWidget {
                 Text(
                   _formatedTime(),
                 ),
+                Text(entry.room.value),
               ],
             )),
       ),

@@ -14,6 +14,8 @@ class StudentStatistiquesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final displayTitle =
+        "${evaluationAndPresence.student.name.value} - ${evaluationAndPresence.student.birthDate.toPostgressDate()}";
     return SizedBox(
       height: 150,
       child: Card(
@@ -23,10 +25,13 @@ class StudentStatistiquesCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(child: Text(evaluationAndPresence.student.name.value)),
+              Expanded(child: Text(displayTitle)),
               EvaluationRowWidget(
                   evaluation: evaluationAndPresence.evaluation.evaluation),
-            Expanded(child: PresenseMeterWidget(presence: evaluationAndPresence.presence,))
+              Expanded(
+                  child: PresenseMeterWidget(
+                presence: evaluationAndPresence.presence,
+              ))
             ],
           ),
         ),
