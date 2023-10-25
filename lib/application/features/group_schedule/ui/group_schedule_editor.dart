@@ -31,8 +31,8 @@ class GroupScheduleEditor extends StatelessWidget {
           ),
           TextFormField(
             decoration: InputDecoration(hintText: localizations.roomLabel),
-            controller: controller.roomTextController,
-            readOnly: false,
+            onChanged: controller.updateRoom,
+            initialValue: controller.roomTextController.text,
             validator: (value) => emptyValidator(value, localizations),
           ),
           TextFormField(
@@ -71,16 +71,29 @@ class GroupScheduleEditor extends StatelessWidget {
   }
 }
 
-class GroupScheduleEditorDialog extends StatelessWidget {
+class GroupScheduleEditorDialog extends StatefulWidget {
   const GroupScheduleEditorDialog({super.key, this.groupEntry});
   final GroupScheduleEntry? groupEntry;
 
   @override
+  State<GroupScheduleEditorDialog> createState() =>
+      _GroupScheduleEditorDialogState();
+}
+
+class _GroupScheduleEditorDialogState extends State<GroupScheduleEditorDialog> {
+  late GroupScheduleEditorController controller;
+
+  @override
+  void initState() {
+    final bloc = BlocProvider.of<GroupsBloc>(context);
+    controller = GroupScheduleEditorController(bloc);
+    controller.init(widget.groupEntry);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final bloc = BlocProvider.of<GroupsBloc>(context);
-    final controller = GroupScheduleEditorController(bloc);
-    controller.init(groupEntry);
 
     return AlertDialog(
       content: SizedBox(

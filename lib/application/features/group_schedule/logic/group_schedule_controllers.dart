@@ -86,6 +86,7 @@ class GroupScheduleEditorController {
 
     final dayIndex = bloc.state.selectedDayIndex;
     final roomName = roomTextController.text;
+
     if (roomName.isEmpty) return;
 
     final entry = GroupScheduleEntry(
@@ -132,6 +133,11 @@ class GroupScheduleEditorController {
     if (day == null) return;
 
     bloc.add(SelectDayIndexEvent(dayIndex: day.id.value));
+  }
+
+  void updateRoom(String? value) {
+    if (value == null || value.isEmpty) return;
+    roomTextController.text = value;
   }
 }
 

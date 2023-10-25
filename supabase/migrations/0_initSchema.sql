@@ -124,6 +124,7 @@ select
 from
   "groupSchedules"
 ORDER BY
+  "groupSchedules"."dayId",
   "groupSchedules"."startMinuteId";
 
 CREATE

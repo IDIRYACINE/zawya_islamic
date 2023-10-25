@@ -110,6 +110,7 @@ class GroupScheduleEntry {
       return {
         GroupsScheduleTable.endMinuteId.name: endMinuteId.value,
         GroupsScheduleTable.startMinuteId.name: startMinuteId.value,
+        GroupsScheduleTable.room.name: room.value,
       };
     }
     return {
@@ -117,6 +118,7 @@ class GroupScheduleEntry {
       GroupsScheduleTable.dayId.name: dayId.value,
       GroupsScheduleTable.endMinuteId.name: endMinuteId.value,
       GroupsScheduleTable.startMinuteId.name: startMinuteId.value,
+      GroupsScheduleTable.room.name: room.value,
     };
   }
 
@@ -128,7 +130,7 @@ class GroupScheduleEntry {
       startMinuteId: DayMinuteId(
         raw[GroupsScheduleTable.startMinuteId.name],
       ),
-      room: raw[GroupsScheduleTable.room.name],
+      room: Room(raw[GroupsScheduleTable.room.name]),
     );
   }
 }
