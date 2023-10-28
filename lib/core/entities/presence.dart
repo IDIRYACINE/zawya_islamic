@@ -102,41 +102,41 @@ class StudentEvaluationAndPresence {
     int presenceModifier = presence.presence.modifer;
     int absenceModifier = presence.absence.modifer;
 
-   if(presence.isPresent){
+    if (presence.isPresent) {
       presenceModifier++;
-   }
+    }
 
-   if(presence.isAbsent){
-    absenceModifier++;
-   }
+    if (presence.isAbsent) {
+      absenceModifier++;
+    }
 
-   final updatedPresence = presence.copyWith(
+    final updatedPresence = presence.copyWith(
       presence: Presence(type: PresenceType.present, modifer: presenceModifier),
       absence: Presence(type: PresenceType.absent, modifer: absenceModifier),
     );
 
-
-    return copyWith(
-        presence: updatedPresence);
+    return copyWith(presence: updatedPresence);
   }
 }
 
 class MonthlyPresenceStats {
   final int totalPresenceCount;
   final int totalAbsenceCount;
+  final int totalDisciplinedCount;
+  final int totalChaoticCount;
   final SchoolId schoolId;
 
   MonthlyPresenceStats({
     required this.schoolId,
-    required this.totalPresenceCount,
-    required this.totalAbsenceCount,
+    this.totalPresenceCount = 0,
+    this.totalAbsenceCount = 0,
+    this.totalDisciplinedCount = 0,
+    this.totalChaoticCount = 0,
   });
 
   factory MonthlyPresenceStats.empty() {
     return MonthlyPresenceStats(
       schoolId: SchoolId(""),
-      totalAbsenceCount: -1,
-      totalPresenceCount: -1,
     );
   }
 
@@ -145,6 +145,9 @@ class MonthlyPresenceStats {
       schoolId: SchoolId(raw[SchoolTable.schoolId.name]),
       totalAbsenceCount: raw[StudentEvaluationAndPresenceTable.absence.name],
       totalPresenceCount: raw[StudentEvaluationAndPresenceTable.presence.name],
+      totalDisciplinedCount:
+          raw[StudentEvaluationAndPresenceTable.discipline.name],
+      totalChaoticCount: raw[StudentEvaluationAndPresenceTable.chaotic.name],
     );
   }
 }

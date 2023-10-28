@@ -29,6 +29,8 @@ class OverallStatistiquesCard extends StatelessWidget {
 
         final totalPresence = state.monthlyPresenceStats?.totalPresenceCount ?? 0;
         final totalAbsence = state.monthlyPresenceStats?.totalPresenceCount ?? 0;
+        final totalDisciplined = state.monthlyPresenceStats?.totalDisciplinedCount ?? 0;
+        final totalChaotic = state.monthlyPresenceStats?.totalChaoticCount ?? 0;
 
         return SizedBox(
           width:  double.infinity,
@@ -40,6 +42,8 @@ class OverallStatistiquesCard extends StatelessWidget {
                 children: [
                   Text("${localizations.totalPresence}: $totalPresence"),
                   Text("${localizations.totalAbsence}: $totalAbsence"),
+                  Text("${localizations.totalDisciplined}: $totalDisciplined"),
+                  Text("${localizations.totalChaotic}: $totalChaotic"),
                   
                 ],
               )

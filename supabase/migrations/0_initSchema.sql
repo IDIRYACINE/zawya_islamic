@@ -173,16 +173,15 @@ where
 create
 or replace view "monthlyPresence" as
 select
-  count(se."presence") as "presence",
-  count(se."absence") as "absence",
-  u."schoolId"
+  sum("presence") as "presence",
+  sum("absence") as "absence",
+  sum("chaotic") as "chaotic",
+  sum("discipline") as "discipline",
+  "schoolId"
 FROM
-  "studentEvaluations" se
-  JOIN "users" u ON se."userId" = u."userId"
-WHERE
-  u."userRole" = 2
+  "groupAttendanceStatistics" 
 Group by
-  u."schoolId";
+  "schoolId";
 
 CREATE MATERIALIZED VIEW groupAttendanceStatistics AS
 SELECT

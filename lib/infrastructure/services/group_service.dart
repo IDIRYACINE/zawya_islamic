@@ -239,14 +239,14 @@ class GroupService implements GroupServicePort {
 
     return LoadGroupsResponse(data: response.data);
   }
-  
+
   @override
   Future<SearchGroupResponse> searchGroup(SearchGroupOptions options) async {
-   final dbOptions = SearchTextEntityOptions(
+    final dbOptions = SearchTextEntityOptions(
         metadata: {
           OptionsMetadata.rootCollection:
               DatabaseViews.groupAttendanceStatistics.name,
-          OptionsMetadata.searchColumn: UserTable.userName.name,
+          OptionsMetadata.searchColumn: GroupsStatistiquesTable.groupName.name,
           OptionsMetadata.searchQuery: options.groupName,
         },
         mapper: GroupStatistiques.fromMap,

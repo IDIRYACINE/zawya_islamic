@@ -14,7 +14,14 @@ extension RpcFunctionsExtension on RpcFunctions {
 
 enum GroupsTable { groupId, groupName, schoolId }
 
-enum GroupsStatistiquesTable { groupId, discipline,chaotic, presence, absence,groupName }
+enum GroupsStatistiquesTable {
+  groupId,
+  discipline,
+  chaotic,
+  presence,
+  absence,
+  groupName
+}
 
 enum SchoolTable { schoolId, schoolName }
 
@@ -38,7 +45,9 @@ enum StudentEvaluationAndPresenceTable {
   presence,
   absence,
   evaluationAyat,
-  evaluationSurat
+  evaluationSurat,
+  discipline,
+  chaotic
 }
 
 enum DaysTable { dayId, dayName }
