@@ -17,7 +17,7 @@ void startSession(BuildContext context) {
   final session =
       Session(id: SessionId(const Uuid().v4()), teacherId: teacherId);
 
-  final event = SetSession(session: session);
+  final event = SetSessionEvent(session: session);
   studentBloc.add(event);
 }
 
@@ -27,7 +27,7 @@ void closeSession(BuildContext context) {
 
   final dialog = ConfirmationDialog(
       onConfirm: () {
-        final event = SetSession(session: null, nullify: true);
+        final event = SetSessionEvent(session: null, nullify: true);
         studentBloc.add(event);
 
         NavigationService.pop();

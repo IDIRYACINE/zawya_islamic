@@ -8,6 +8,7 @@ import 'package:zawya_islamic/application/features/groups/export.dart';
 import 'package:zawya_islamic/application/features/layout/ui/layout.dart';
 import 'package:zawya_islamic/application/admin_app/schools/ui/schools_view.dart';
 import 'package:zawya_islamic/application/features/login/ui/login_view.dart';
+import 'package:zawya_islamic/application/features/search/ui/search_group_view.dart';
 import 'package:zawya_islamic/application/features/search/ui/search_student_view.dart';
 import 'package:zawya_islamic/application/features/settings/feature.dart';
 import 'package:zawya_islamic/application/features/splash/feature.dart';
@@ -85,6 +86,12 @@ abstract class AppRouter {
         return getPageRoute(
           settings: settings,
           view: const SearchStudentView(),
+        );
+
+      case Routes.searchGroupRoute:
+        return getPageRoute(
+          settings: settings,
+          view: const SearchGroupView(),
         );
 
       default:

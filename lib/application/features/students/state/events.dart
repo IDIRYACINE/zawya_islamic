@@ -8,65 +8,61 @@ class CreateStudentEvent extends StudentEvent {
   CreateStudentEvent({required this.student});
 }
 
-
-class UpdateStudentEvent extends StudentEvent{
+class UpdateStudentEvent extends StudentEvent {
   final Student student;
   UpdateStudentEvent({required this.student});
 }
 
-class DeleteStudentEvent extends StudentEvent{
+class DeleteStudentEvent extends StudentEvent {
   final Student student;
 
   DeleteStudentEvent({required this.student});
 }
 
-class LoadStudentsEvent extends StudentEvent{
+class LoadStudentsEvent extends StudentEvent {
   final List<Student> students;
   LoadStudentsEvent({required this.students});
 }
 
-
-class SetGroupEvent extends StudentEvent{
+class SetGroupEvent extends StudentEvent {
   final Group group;
-  
+
   SetGroupEvent({required this.group});
 }
 
-class LoadPresencesAndEvaluations extends StudentEvent{
+class LoadPresencesAndEvaluationsEvent extends StudentEvent {
   final List<StudentEvaluationAndPresence> evaluations;
 
-  LoadPresencesAndEvaluations({required this.evaluations});
+  LoadPresencesAndEvaluationsEvent({required this.evaluations});
 }
 
-
-class MarkStudentPresence extends StudentEvent{
+class MarkStudentPresenceEvent extends StudentEvent {
   final StudentEvaluationAndPresence evaluation;
 
-  MarkStudentPresence({required this.evaluation});
+  MarkStudentPresenceEvent({required this.evaluation});
 }
 
-class MarkStudentAbsence extends StudentEvent{
+class MarkStudentAbsenceEvent extends StudentEvent {
   final StudentEvaluationAndPresence evaluation;
 
-  MarkStudentAbsence({required this.evaluation});
+  MarkStudentAbsenceEvent({required this.evaluation});
 }
 
-class UnMarkStudentEvaluation extends StudentEvent{
+class UnMarkStudentEvaluationEvent extends StudentEvent {
   final StudentEvaluationAndPresence evaluation;
 
-  UnMarkStudentEvaluation({required this.evaluation});
+  UnMarkStudentEvaluationEvent({required this.evaluation});
 }
 
-class MarkStudentEvaluation extends StudentEvent{
+class MarkStudentEvaluationEvent extends StudentEvent {
   final StudentEvaluationAndPresence evaluation;
 
-  MarkStudentEvaluation({required this.evaluation});
+  MarkStudentEvaluationEvent({required this.evaluation});
 }
 
-
-class SetSession extends StudentEvent{
+class SetSessionEvent extends StudentEvent {
   final Session? session;
   final bool nullify;
 
-  SetSession({ this.session,this.nullify =false});
+  SetSessionEvent({this.session, this.nullify = false});
 }

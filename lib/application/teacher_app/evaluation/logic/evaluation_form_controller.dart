@@ -59,7 +59,7 @@ class EvaluationFormController {
   }
 
   void registerStudentMemorization() {
-    final didMemorize =  endAyat != null;
+    final didMemorize = endAyat != null;
 
     if (!didMemorize) {
       return;
@@ -75,7 +75,7 @@ class EvaluationFormController {
         studentId: studentEvaluationAndPresence.student.id,
         evaluation: evaluation);
 
-    final event = MarkStudentEvaluation(
+    final event = MarkStudentEvaluationEvent(
         evaluation: studentEvaluationAndPresence.copyWith(
             evaluation: newStudentEvaluation));
 
@@ -101,7 +101,7 @@ class EvaluationFormController {
 
     studentEvaluationAndPresence.copyWith(evaluation: newStudentEvaluation);
     final event =
-        MarkStudentEvaluation(evaluation: studentEvaluationAndPresence);
+        MarkStudentEvaluationEvent(evaluation: studentEvaluationAndPresence);
 
     studentBloc.add(event);
     NavigationService.pop();

@@ -19,12 +19,12 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     on<DeleteStudentEvent>(_handleDeleteStudent);
     on<LoadStudentsEvent>(_handleLoadStudents);
     on<SetGroupEvent>(_handleSetGroup);
-    on<MarkStudentAbsence>(_handleMarkStudentAbsence);
-    on<MarkStudentPresence>(_handleMarkStudentPresence);
-    on<MarkStudentEvaluation>(_handleMarkEvaluation);
-    on<UnMarkStudentEvaluation>(_handleUnMarkEvaluation);
-    on<SetSession>(_handleSession);
-    on<LoadPresencesAndEvaluations>(_handleLoadPresencesAndEvaluations);
+    on<MarkStudentAbsenceEvent>(_handleMarkStudentAbsence);
+    on<MarkStudentPresenceEvent>(_handleMarkStudentPresence);
+    on<MarkStudentEvaluationEvent>(_handleMarkEvaluation);
+    on<UnMarkStudentEvaluationEvent>(_handleUnMarkEvaluation);
+    on<SetSessionEvent>(_handleSession);
+    on<LoadPresencesAndEvaluationsEvent>(_handleLoadPresencesAndEvaluations);
   }
 
   FutureOr<void> _handleCreateStudent(
@@ -57,7 +57,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleMarkStudentAbsence(
-      MarkStudentAbsence event, Emitter<StudentsState> emit) {
+      MarkStudentAbsenceEvent event, Emitter<StudentsState> emit) {
     final updatedEvaluation = event.evaluation.copyWith(
         presence: event.evaluation.presence
             .copyWith(currentSessionPresence: PresenceType.absent));
@@ -71,7 +71,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleMarkStudentPresence(
-      MarkStudentPresence event, Emitter<StudentsState> emit) {
+      MarkStudentPresenceEvent event, Emitter<StudentsState> emit) {
     final updatedEvaluation = event.evaluation.copyWith(
         presence: event.evaluation.presence
             .copyWith(currentSessionPresence: PresenceType.present));
@@ -83,7 +83,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleMarkEvaluation(
-      MarkStudentEvaluation event, Emitter<StudentsState> emit) {
+      MarkStudentEvaluationEvent event, Emitter<StudentsState> emit) {
     final updatedEvaluations =
         _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
@@ -91,7 +91,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleUnMarkEvaluation(
-      UnMarkStudentEvaluation event, Emitter<StudentsState> emit) {
+      UnMarkStudentEvaluationEvent event, Emitter<StudentsState> emit) {
     final updatedEvaluations =
         _evaluationAggregate.updateStudentEvaluation(event.evaluation);
 
@@ -100,7 +100,8 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
     ));
   }
 
-  FutureOr<void> _handleSession(SetSession event, Emitter<StudentsState> emit) {
+  FutureOr<void> _handleSession(
+      SetSessionEvent event, Emitter<StudentsState> emit) {
     List<StudentEvaluationAndPresence>? updatedPresence;
     if (event.nullify) {
       updatedPresence = _evaluationAggregate.updateAllByPresence();
@@ -117,7 +118,7 @@ class StudentsBloc extends Bloc<StudentEvent, StudentsState> {
   }
 
   FutureOr<void> _handleLoadPresencesAndEvaluations(
-      LoadPresencesAndEvaluations event, Emitter<StudentsState> emit) {
+      LoadPresencesAndEvaluationsEvent event, Emitter<StudentsState> emit) {
     _evaluationAggregate.setStudentEvaluations(event.evaluations);
 
     emit(state.copyWith(presenceAndEvaluation: event.evaluations));

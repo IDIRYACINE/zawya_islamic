@@ -185,6 +185,6 @@ class StudentService implements StudentServicePort {
     final response =
         await _databaseService.searchText<StudentEvaluationAndPresence>(dbOptions);
 
-    return StudentServiceResponse(data: response.data);
+    return SearchStudentResponse(data: response.data);
   }
 }

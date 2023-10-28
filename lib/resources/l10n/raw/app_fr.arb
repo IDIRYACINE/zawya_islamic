@@ -66,25 +66,23 @@
     "passwordResetSuccess": "Réinitialisation du mot de passe réussie",
     "passwordResetFail": "Jeton incorrect",
     "otpLabel": "Jeton de réinitialisation de mot de passe",
-    "forgotPasswordLabel" :"Oublier votre mot de passe ?",
-    "resendPasswordReset" : "Revoiyer jeton",
-    "emptyScheduleListLabel" : "Aucun calendrier trouvé",
-    "emptyStudentsListLabel" : "Aucun étudiant trouvé",
-    "emptySchoolsListLabel" : "Aucune école trouvée",
-    "emptyTeachersListLabel" : "Aucun enseignant trouvé",
-    "emptyGroupsListLabel" : "Aucun groupe trouvé",
-    "totalPresence" : "Total présence",
-    "totalAbsence" : "Total absence",
-    "closeSessionLabel" : "Fermez la sesssion",
-    "groupScheduleLabel" : "Calendrier du groupe",
+    "forgotPasswordLabel": "Oublier votre mot de passe ?",
+    "resendPasswordReset": "Revoiyer jeton",
+    "emptyScheduleListLabel": "Aucun calendrier trouvé",
+    "emptyStudentsListLabel": "Aucun étudiant trouvé",
+    "emptySchoolsListLabel": "Aucune école trouvée",
+    "emptyTeachersListLabel": "Aucun enseignant trouvé",
+    "emptyGroupsListLabel": "Aucun groupe trouvé",
+    "totalPresence": "Total présence",
+    "totalAbsence": "Total absence",
+    "closeSessionLabel": "Fermez la sesssion",
+    "groupScheduleLabel": "Calendrier du groupe",
     "searchLabel": "Rechercher",
     "searchStudentHint": "Nom de l'étudiant",
-    "searchStudentLabel" : "Rechercher un étudiant",
-    "roomLabel" : "Chambre"
-
-
-
-
-
-
+    "searchStudentLabel": "Rechercher un étudiant",
+    "roomLabel": "Chambre",
+    "searchGroupHint": "Nom du groupe",
+    "searchGroupLabel": "Rechercher un groupe",
+    "totalDisciplined": "Total discipliné",
+    "totalChaotic": "Total non discipliné"
 }

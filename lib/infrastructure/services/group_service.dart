@@ -1,5 +1,6 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/group_statistiques.dart';
 import 'package:zawya_islamic/core/ports/groups_service_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_port.dart';
 import 'package:zawya_islamic/infrastructure/ports/database_tables_port.dart';
@@ -237,5 +238,23 @@ class GroupService implements GroupServicePort {
     final response = await _databaseService.read<Group>(dbOptions);
 
     return LoadGroupsResponse(data: response.data);
+  }
+  
+  @override
+  Future<SearchGroupResponse> searchGroup(SearchGroupOptions options) async {
+   final dbOptions = SearchTextEntityOptions(
+        metadata: {
+          OptionsMetadata.rootCollection:
+              DatabaseViews.groupAttendanceStatistics.name,
+          OptionsMetadata.searchColumn: UserTable.userName.name,
+          OptionsMetadata.searchQuery: options.groupName,
+        },
+        mapper: GroupStatistiques.fromMap,
+        filters: {EvaluationTable.schoolId.name: options.schoolId.value});
+
+    final response =
+        await _databaseService.searchText<GroupStatistiques>(dbOptions);
+
+    return SearchGroupResponse(data: response.data);
   }
 }

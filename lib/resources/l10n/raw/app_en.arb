@@ -80,7 +80,11 @@
     "searchLabel": "Search",
     "searchStudentHint": "Student Name",
     "searchStudentLabel" : "Search Student",
-    "roomLabel" : "Room"
+    "roomLabel" : "Room",
+    "searchGroupHint": "Group name",
+    "searchGroupLabel": "Search for group",
+    "totalDisciplined": "Total disciplined",
+    "totalChaotic": "Total undisciplined"
 
 
 }

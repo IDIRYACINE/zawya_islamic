@@ -23,7 +23,7 @@ class StatistiquesGroupController implements GroupCardControllerPort {
         .loadGroupPresenceAndEvaluations(options)
         .then(
           (res) => _studentBloc.add(
-            LoadPresencesAndEvaluations(evaluations: res.data),
+            LoadPresencesAndEvaluationsEvent(evaluations: res.data),
           ),
         );
 
@@ -35,7 +35,7 @@ class StatistiquesGroupController implements GroupCardControllerPort {
 
   @override
   void onMoreActions(Group group) {}
-  
+
   @override
   bool get displayFloatingActions => false;
 
@@ -43,5 +43,4 @@ class StatistiquesGroupController implements GroupCardControllerPort {
   Future<bool> onSwipe(Group group, BuildContext context) {
     throw UnimplementedError();
   }
-  
 }

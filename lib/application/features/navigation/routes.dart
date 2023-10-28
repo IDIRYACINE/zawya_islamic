@@ -12,6 +12,7 @@ abstract class Routes {
   static const teacherDashboardRoute = "/teacher/dashbaord";
   static const groupStudentsScheduleRoute = "/group/studentsOrschedule";
   static const searchStudentRoute = "/search/student";
+  static const searchGroupRoute = "/search/group";
 
   static const splashRoute = "/splash";
 

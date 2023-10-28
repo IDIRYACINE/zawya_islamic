@@ -123,6 +123,7 @@ class SearchStudentOptions extends StudentServiceOptions {
   SearchStudentOptions({required this.studentName, required this.schoolId});
 }
 
+
 abstract class StudentServicePort {
   Future<LoadStudentResponse> getStudent(LoadStudentOptions options);
   Future<LoadStudentsResponse> getStudents(LoadStudentsOptions options);

@@ -79,8 +79,10 @@
     "groupScheduleLabel": "توقيت المجموعة",
     "searchLabel": "بحث",
     "searchStudentHint": "اسم الطالب",
-    "searchStudentLabel" : "بحث عن طالب",
-    "roomLabel" : "الغرفة"
-
-
+    "searchStudentLabel": "بحث عن طالب",
+    "roomLabel": "الغرفة",
+    "searchGroupHint": "اسم المجموعة",
+    "searchGroupLabel": "بحث عن المجموعة",
+    "totalDisciplined": "إجمالي المنضبطين",
+    "totalChaotic": "إجمالي الغير منضبطين"
 }

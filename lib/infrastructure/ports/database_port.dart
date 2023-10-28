@@ -7,7 +7,9 @@ enum OptionsMetadata {
   fullPath,
   firstId,
   lastCollection,
-  order, searchColumn, searchQuery,
+  order,
+  searchColumn,
+  searchQuery,
 }
 
 enum DatabaseCollection {
@@ -27,7 +29,8 @@ enum DatabaseViews {
   teacherGroups,
   schoolStudents,
   groupStudentEvaluations,
-  studentGroups
+  studentGroups,
+  groupAttendanceStatistics
 }
 
 extension DatabaseCollectionExtension on DatabaseCollection {

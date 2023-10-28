@@ -10,12 +10,12 @@ class PresenceCardController {
     final isPresent = student.presence.isPresent;
 
     if (isPresent) {
-      final event = MarkStudentAbsence(evaluation: student);
+      final event = MarkStudentAbsenceEvent(evaluation: student);
       studentBloc.add(event);
       return;
     }
 
-    final event = MarkStudentPresence(evaluation: student);
+    final event = MarkStudentPresenceEvent(evaluation: student);
     studentBloc.add(event);
   }
 }

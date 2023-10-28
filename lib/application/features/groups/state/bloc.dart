@@ -23,6 +23,7 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
     on<UpdateDayScheduleEntryEvent>(_handleUpdateScheduleEntry);
     on<SelectGroupEvent>(_handleSelectGroup);
     on<SelectDayIndexEvent>(_handleSelectDayIndex);
+    on<LoadGroupSearchEvent>(_handleLoadGroupSearch);
   }
 
   FutureOr<void> _handleCreateGroup(
@@ -91,7 +92,6 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
 
   FutureOr<void> _handleAddScheduleEntry(
       AddDayScheduleEntryEvent event, Emitter<GroupsState> emit) {
-        
     final updatedSchedules = _scheduleAggregate.addEntry(
         entry: event.entry, dayIndex: state.selectedDayIndex);
 
@@ -124,7 +124,13 @@ class GroupsBloc extends Bloc<GroupEvent, GroupsState> {
         selectedGroup: event.group, nullifySelectedGroup: event.group == null));
   }
 
-  FutureOr<void> _handleSelectDayIndex(SelectDayIndexEvent event, Emitter<GroupsState> emit) {
+  FutureOr<void> _handleSelectDayIndex(
+      SelectDayIndexEvent event, Emitter<GroupsState> emit) {
     emit(state.copyWith(selectedDayIndex: event.dayIndex));
+  }
+
+  FutureOr<void> _handleLoadGroupSearch(
+      LoadGroupSearchEvent event, Emitter<GroupsState> emit) {
+    emit(state.copyWith(search: event.groups));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/group_statistiques.dart';
 import 'package:zawya_islamic/core/ports/types.dart';
 
 abstract class GroupEvent {}
@@ -28,6 +29,16 @@ class LoadGroupsEvent extends GroupEvent {
   final List<Group> groups;
   final bool isPrimary;
   LoadGroupsEvent({this.isPrimary = true, required this.groups});
+}
+
+class LoadGroupStatistiquesEvent extends GroupEvent {
+  final List<GroupStatistiques> statistiques;
+  LoadGroupStatistiquesEvent({required this.statistiques});
+}
+
+class LoadGroupSearchEvent extends GroupEvent {
+  final List<GroupStatistiques> groups;
+  LoadGroupSearchEvent({required this.groups});
 }
 
 class SetSchoolEvent extends GroupEvent {

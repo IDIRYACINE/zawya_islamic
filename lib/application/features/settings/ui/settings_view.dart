@@ -46,6 +46,12 @@ class SettingsView extends StatelessWidget {
                       controller.displaySearchStudent(context);
                     },
                   ),
+                  SettingRowData(
+                    title: localizations.searchGroupLabel,
+                    onClick: () {
+                      controller.displaySearchGroup(context);
+                    },
+                  ),
                 ],
               ),
               const SizedBox(

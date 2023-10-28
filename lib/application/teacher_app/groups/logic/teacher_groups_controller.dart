@@ -28,7 +28,9 @@ class TeacherGroupsController implements GroupCardControllerPort {
   }
 
   @override
-  void onMoreActions(Group group,  ) {
+  void onMoreActions(
+    Group group,
+  ) {
     throw UnimplementedError();
   }
 
@@ -36,16 +38,15 @@ class TeacherGroupsController implements GroupCardControllerPort {
   void onFloatingClick() {}
 
   void _loadGroupStudentsPresenceAndEvluation(Group group) {
-
     final options = LoadGroupPresenceAndEvaluationOptions(groupId: group.id);
 
-    
     ServicesProvider.instance()
         .studentService
         .loadGroupPresenceAndEvaluations(options)
-        .then((res) => studentsBloc.add(LoadPresencesAndEvaluations(evaluations: res.data)));
+        .then((res) => studentsBloc
+            .add(LoadPresencesAndEvaluationsEvent(evaluations: res.data)));
   }
-  
+
   @override
   bool get displayFloatingActions => false;
 

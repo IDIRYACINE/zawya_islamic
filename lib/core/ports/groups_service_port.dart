@@ -1,12 +1,13 @@
 import 'package:zawya_islamic/core/aggregates/group.dart';
 import 'package:zawya_islamic/core/aggregates/school.dart';
 import 'package:zawya_islamic/core/entities/export.dart';
+import 'package:zawya_islamic/core/entities/group_statistiques.dart';
 import 'package:zawya_islamic/core/entities/relations.dart';
 
 import 'types.dart';
 
 typedef TeacherGroupsResponse = GroupServiceResponse<List<Group>>;
-typedef StudentGroupsResponse  = GroupServiceResponse<List<Group>>;
+typedef StudentGroupsResponse = GroupServiceResponse<List<Group>>;
 typedef LoadGroupsResponse = GroupServiceResponse<List<Group>>;
 typedef LoadGroupResponse = GroupServiceResponse<Group>;
 typedef RegisterGroupResponse = GroupServiceResponse<void>;
@@ -19,6 +20,7 @@ typedef DeleteScheduleEntryResponse = GroupServiceResponse<void>;
 typedef LoadGroupIdsResponse = GroupServiceResponse<List<GroupId>>;
 typedef LoadGroupScheduleResponse = GroupServiceResponse<WeekDaySchedules>;
 typedef UpdateGroupScheduleEntryResponse = GroupServiceResponse<void>;
+typedef SearchGroupResponse = GroupServiceResponse<List<GroupStatistiques>>;
 
 class GroupServiceResponse<T> {
   final String? message;
@@ -120,6 +122,13 @@ class DeleteGroupOptions extends GroupServiceOptions {
   DeleteGroupOptions({required this.schoolId, required this.groupId});
 }
 
+class SearchGroupOptions extends GroupServiceOptions {
+  final String groupName;
+  final SchoolId schoolId;
+
+  SearchGroupOptions({required this.groupName, required this.schoolId});
+}
+
 abstract class GroupServicePort {
   Future<LoadGroupIdsResponse> loadGroupIds();
   Future<TeacherGroupsResponse> getTeacherGroups(
@@ -148,4 +157,6 @@ abstract class GroupServicePort {
 
   Future<UpdateGroupScheduleEntryResponse> updateScheduleEntry(
       UpdateScheduleEntryOptions options);
+
+  Future<SearchGroupResponse> searchGroup(SearchGroupOptions options);
 }

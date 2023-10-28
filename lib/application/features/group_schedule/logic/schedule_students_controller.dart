@@ -42,7 +42,7 @@ class GroupStudentsScheduleController {
         .loadGroupPresenceAndEvaluations(options)
         .then(
           (res) => _studentBloc.add(
-            LoadPresencesAndEvaluations(evaluations: res.data),
+            LoadPresencesAndEvaluationsEvent(evaluations: res.data),
           ),
         );
 

@@ -35,4 +35,8 @@ class SettingsController {
   void displaySearchStudent(BuildContext context) {
     NavigationService.pushNamed(Routes.searchStudentRoute);
   }
+
+  void displaySearchGroup(BuildContext context) {
+    NavigationService.pushNamed(Routes.searchGroupRoute);
+  }
 }

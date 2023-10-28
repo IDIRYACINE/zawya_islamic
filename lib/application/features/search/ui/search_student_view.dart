@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zawya_islamic/application/features/search/logic/search_controller.dart';
+import 'package:zawya_islamic/application/features/search/logic/search_student_controller.dart';
 import 'package:zawya_islamic/application/features/statistiques/ui/student_statistiques_view.dart';
 import 'package:zawya_islamic/application/features/students/export.dart';
 import 'package:zawya_islamic/core/entities/export.dart';

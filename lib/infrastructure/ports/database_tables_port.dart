@@ -14,6 +14,8 @@ extension RpcFunctionsExtension on RpcFunctions {
 
 enum GroupsTable { groupId, groupName, schoolId }
 
+enum GroupsStatistiquesTable { groupId, discipline,chaotic, presence, absence,groupName }
+
 enum SchoolTable { schoolId, schoolName }
 
 enum UserGroupsTable { userId, groupId }

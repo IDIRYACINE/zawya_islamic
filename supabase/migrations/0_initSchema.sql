@@ -183,3 +183,35 @@ WHERE
   u."userRole" = 2
 Group by
   u."schoolId";
+
+CREATE MATERIALIZED VIEW groupAttendanceStatistics AS
+SELECT
+  g."groupId",
+  g."groupName",
+  g."schoolId",
+  COUNT(
+    CASE
+      WHEN se.presence = 0 THEN 1
+    END
+  ) AS absence,
+  COUNT(
+    CASE
+      WHEN se.presence > 0 THEN 1
+    END
+  ) AS presence,
+  COUNT(
+    CASE
+      WHEN se.presence > se.absence THEN 1
+    END
+  ) AS discipline,
+  COUNT(
+    CASE
+      WHEN se.presence <= se.absence THEN 1
+    END
+  ) AS chaotic
+FROM
+  "studentEvaluations" se
+  JOIN "userGroups" ug ON se."userId" = ug."userId"
+  JOIN "groups" g ON ug."groupId" = g."groupId"
+GROUP BY
+  g."groupId";

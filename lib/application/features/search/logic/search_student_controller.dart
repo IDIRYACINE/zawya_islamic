@@ -38,7 +38,7 @@ class StudentSearchController {
         .studentService
         .searchStudent(searchOptions)
         .then((res) {
-      final event = LoadPresencesAndEvaluations(evaluations: res.data);
+      final event = LoadPresencesAndEvaluationsEvent(evaluations: res.data);
       _studentsBloc.add(event);
     });
   }
