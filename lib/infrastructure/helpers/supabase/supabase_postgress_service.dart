@@ -77,21 +77,10 @@ class SupabasePostrgessService implements DatabasePort {
       SearchTextEntityOptions options) async {
     final parsedData = <T>[];
     final column = options.metadata[OptionsMetadata.searchColumn];
-    String rawQuery = options.metadata[OptionsMetadata.searchQuery];
+    String query = options.metadata[OptionsMetadata.searchQuery];
 
-    final pattern = RegExp(r"\w+");
-    List<String> keywords = rawQuery.split(pattern);
 
-    String query = "";
-
-    for (String element in keywords) {
-      if (element.isEmpty) continue;
-
-      query += "'$element'";
-      if (element != keywords.last) {
-        query += " | ";
-      }
-    }
+    query = query.split(" ").join("|");
 
     List<dynamic> rawData;
 
@@ -104,6 +93,7 @@ class SupabasePostrgessService implements DatabasePort {
     final List<T> data = rawData.map((e) => options.mapper(e) as T).toList();
 
     parsedData.addAll(data);
+
 
     return DatabaseResponse(data: parsedData);
   }
