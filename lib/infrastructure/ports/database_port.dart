@@ -12,6 +12,8 @@ enum OptionsMetadata {
   searchQuery,
 }
 
+enum SearchLanguage { arabic, english }
+
 enum DatabaseCollection {
   groups,
   users,
@@ -90,9 +92,13 @@ class SearchTextEntityOptions extends DatabaseHandlerOptions {
   final Map<OptionsMetadata, dynamic> metadata;
   final EntityMapper mapper;
   final Map<String, dynamic>? filters;
+  final SearchLanguage language;
 
   SearchTextEntityOptions(
-      {required this.metadata, required this.mapper, this.filters});
+      {required this.metadata,
+      required this.mapper,
+      this.language = SearchLanguage.arabic,
+      this.filters});
 }
 
 class DatabaseResponse<T> {

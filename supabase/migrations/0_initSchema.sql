@@ -183,7 +183,7 @@ FROM
 Group by
   "schoolId";
 
-CREATE MATERIALIZED VIEW groupAttendanceStatistics AS
+CREATE MATERIALIZED VIEW "groupAttendanceStatistics" AS
 SELECT
   g."groupId",
   g."groupName",
