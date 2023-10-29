@@ -22,10 +22,10 @@ class GroupStatistiques {
   factory GroupStatistiques.fromMap(Map<String, dynamic> json) {
     return GroupStatistiques(
       group: Group.fromMap(json),
-      presence: Stat(json[GroupsStatistiquesTable.presence]),
-      absence: Stat(json[GroupsStatistiquesTable.absence]),
-      discipline: Stat(json[GroupsStatistiquesTable.discipline]),
-      chaotic: Stat(json[GroupsStatistiquesTable.chaotic]),
+      presence: Stat(json[GroupsStatistiquesTable.presence.name]),
+      absence: Stat(json[GroupsStatistiquesTable.absence.name]),
+      discipline: Stat(json[GroupsStatistiquesTable.discipline.name]),
+      chaotic: Stat(json[GroupsStatistiquesTable.chaotic.name]),
     );
   }
 
